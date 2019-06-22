@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Amadeus.Web.Models;
+using Jasarsoft.AmadeusDev.Web.Models;
 
-namespace Amadeus.Web.Controllers
+namespace Jasarsoft.AmadeusDev.Web.Controllers
 {
     public class HomeController : Controller
     {

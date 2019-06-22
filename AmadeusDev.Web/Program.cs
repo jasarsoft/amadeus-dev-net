@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Amadeus.Web
+namespace Jasarsoft.AmadeusDev.Web
 {
     public class Program
     {

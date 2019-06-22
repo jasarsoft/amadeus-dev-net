@@ -11,4 +11,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\AmadeusDev.Data\AmadeusDev.Data.csproj" />
+    <ProjectReference Include="..\AmadeusDev.Repo\AmadeusDev.Repo.csproj" />
+    <ProjectReference Include="..\AmadeusDev.Service\AmadeusDev.Service.csproj" />
+  </ItemGroup>
+
 </Project>

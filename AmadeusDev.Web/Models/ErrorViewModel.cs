@@ -1,6 +1,6 @@
 using System;
 
-namespace Amadeus.Web.Models
+namespace Jasarsoft.AmadeusDev.Web.Models
 {
     public class ErrorViewModel
     {
