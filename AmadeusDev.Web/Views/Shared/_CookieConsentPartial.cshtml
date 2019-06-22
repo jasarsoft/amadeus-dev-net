@@ -8,11 +8,13 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        Use this space to summarize your privacy and cookie use policy. <a asp-area="" asp-controller="Home" asp-action="Privacy">Learn More</a>.
-        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
-        </button>
+    <div id="cookieConsent" data-notify="container" class="alert alert-brand m-alert animated fadeIn" role="alert" data-notify-position="bottom-right" style="display: inline-block; margin: 0px auto; position: fixed; transition: all 0.5s ease-in-out 0s; z-index: 10000; bottom: 30px; right: 30px; animation-iteration-count: 1;">
+        <button type="button" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString" aria-hidden="true" class="close" data-notify="dismiss" style="position: absolute; right: 10px; top: 5px; z-index: 100002;"></button>
+        <span data-notify="icon" class="icon fa fa-info-circle"></span>
+        <span data-notify="title">Cookie</span>
+        <span data-notify="message">
+            Use this space to summarize your privacy and cookie use policy. <a asp-area="" asp-controller="Home" asp-action="Privacy" class="m--font-metal">Learn More</a>.
+        </span>
     </div>
     <script>
         (function () {
