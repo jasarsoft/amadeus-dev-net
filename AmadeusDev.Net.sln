@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amadeus.Web", "Amadeus.Web\Amadeus.Web.csproj", "{92D78964-68DF-4DD3-92FC-11D32C114153}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmadeusDev.Web", "AmadeusDev.Web\AmadeusDev.Web.csproj", "{92D78964-68DF-4DD3-92FC-11D32C114153}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AmadeusDev.Service", "AmadeusDev.Service\AmadeusDev.Service.csproj", "{6A851AE7-7854-4BD8-B3D5-C7F8CC186B99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmadeusDev.Core", "AmadeusDev.Core\AmadeusDev.Core.csproj", "{B8BB435C-E1E8-4383-8F52-67DB52F7C823}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{92D78964-68DF-4DD3-92FC-11D32C114153}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92D78964-68DF-4DD3-92FC-11D32C114153}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92D78964-68DF-4DD3-92FC-11D32C114153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A851AE7-7854-4BD8-B3D5-C7F8CC186B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A851AE7-7854-4BD8-B3D5-C7F8CC186B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A851AE7-7854-4BD8-B3D5-C7F8CC186B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A851AE7-7854-4BD8-B3D5-C7F8CC186B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BB435C-E1E8-4383-8F52-67DB52F7C823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BB435C-E1E8-4383-8F52-67DB52F7C823}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BB435C-E1E8-4383-8F52-67DB52F7C823}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BB435C-E1E8-4383-8F52-67DB52F7C823}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
