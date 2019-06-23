@@ -16,8 +16,4 @@
     <ProjectReference Include="..\AmadeusDev.Repo\AmadeusDev.Repo.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
-
 </Project>
