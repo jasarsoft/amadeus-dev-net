@@ -1,8 +1,189 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="m-portlet m-portlet--bordered m-portlet--rounded m-portlet--unair m-portlet--head-sm">
+    <div class="m-portlet__head m--padding-15">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    Flight Low-Fare Search
+                </h3>
+            </div>
+        </div>        
+    </div>
+    <div class="m-portlet__body m--padding-20">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 m-portlet__body--no-padding">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h5>
+                            <i class="la la-search"></i>
+                            Search
+                        </h5>
+                        <hr />
+                    </div>
+                </div>
+                <div class="row m--margin-bottom-20">
+                    <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                        <label>Polazak</label>
+                        <input type="text" class="form-control m-input" placeholder="Polazni aerodrom" data-col-index="1" id="person-firstname-search" />
+                    </div>
+                    <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                        <label>Odrediste</label>
+                        <input type="text" class="form-control m-input" placeholder="Odredisni aerodrom" data-col-index="2" id="person-lastname-search" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button class="btn btn-brand m-btn m-btn--icon pull-right" id="m_search">
+                            <span>
+                                <i class="la la-search"></i>
+                                <span>Search</span>
+                            </span>
+                        </button>
+                        <div class="col-md-3 pull-right">
+                            <button class="btn btn-secondary m-btn m-btn--icon pull-right" id="m_reset">
+                                <span>
+                                    <i class="la la-close"></i>
+                                    <span>Reset</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="col-md-12 col-lg-12 m-portlet__body--no-padding">
+                <table id="datatable" class="table m-table m-table--head-separator-primary  table-hover no-footer dtr-inline" aria-controls="m_table_1">
+                    <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-left">Polazak</th>
+                            <th class="text-left">Odlazak</th>
+                            <th class="text-left">Datum</th>
+                            <th class="text-left">Presjednje</th>
+                            <th class="text-left">Putnici</th>
+                            <th class="text-center">Valuta</th>
+                            <th class="text-center">Cijena</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    var DataTable = {
+        init: function () {
+            var datatable = $("#datatable").DataTable({
+                processing: true,
+                serverSide: true,
+                pageLength: 15,
+                "bInfo": false,
+                "bLengthChange": false,
+                "bFilter": false,
+                deferRender: true,
+                pagingType: "full_numbers",
+                ajax: {
+                    url: '/Home/GetData',
+                    type: "post",
+                    dataType: "json",
+                    async: true,
+                    data: function (d) {
+                        d.columns[1].search.value = $("#person-firstname-search").val();
+                        d.columns[2].search.value = $("#person-lastname-search").val();
+                    }
+                },
+                order: [[1, "asc"]],
+                columns: [
+                    { 'data': '#' },
+                    { 'data': 'personFirstName' },
+                    { 'data': 'personLastName' },
+                    { 'data': 'personGender' },
+                    { 'data': 'instructorEmail' },
+                    { 'data': 'instructorPhoneNumber' },
+                    { 'data': 'instructorActive' },
+                    { 'data': 'Actions' }
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        title: "#",
+                        orderable: false,
+                        className: "text-center align-middle",
+                        render: function (a, e, t, n) {
+                            return n.row + 1;
+                        }
+                    },
+                    {
+                        targets: 1,
+                        name: "PersonFirstName",
+                        className: "align-middle text-left"
+
+                    },
+                    {
+                        targets: 2,
+                        name: "PersonLastName",
+                        className: "align-middle text-left"
+
+                    },
+                    {
+                        targets: 3,
+                        orderable: false,
+                        name: "PersonGender",
+                        className: "align-middle text-center"
+                    },
+                    {
+                        targets: 4,
+                        orderable: false,
+                        name: "InstructorEmail",
+                        className: 'align-middle text-left'
+                    },
+                    {
+                        targets: 5,
+                        orderable: false,
+                        name: "InstructorPhoneNumber",
+                        orderable: false,
+                        className: 'align-middle text-left'
+                    },
+                    {
+                        targets: 6,
+                        className: "text-center align-middle",
+                        name: "InstructorActive",
+                        render: function (a, e, t, n) {
+                            return '<label class="m-checkbox m-checkbox--solid mt-0"><input class="position-static" type="checkbox" disabled="disabled"' + (a ? 'checked="checked"' : '') + '><span></span></label>';
+                        }
+                    },
+                    {
+                        targets: -1,
+                        name: "Actions",
+                        className: "text-center",
+                        orderable: false,
+                        render: function (d, t, r, m) {
+                            return `
+                                <a href="/Home/Details?id=${r.instructorID}" async: true, data-ajax-modal="true"  data-ajax-modal-destination="modal-lg" class="m-portlet__nav-link btn m-btn m-btn--hover-info m-btn--icon m-btn--icon-only" title="Detalji">
+                                    <i class="la la-info-circle"></i>
+                                </a>
+                                    `
+                        }
+                    }
+                ]
+            });
+            return datatable;
+        }
+    }
+    $(document).ready(function () {
+        DataTable.init();
+        $("#m_search").on('click', function () {
+            $("#datatable").DataTable().ajax.reload();
+        });
+        $("#m_reset").on('click', function () {
+            $("input[type=text]").val('');
+            $("#person-firstname-search").val('').trigger('change');
+            $("#person-lastname-search").val('').trigger('change');
+            $("#m_search").trigger('click');
+        });
+    });
+</script>

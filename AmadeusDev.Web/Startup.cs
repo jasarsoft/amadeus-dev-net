@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Jasarsoft.AmadeusDev.Repo.Context;
 using Jasarsoft.AmadeusDev.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.CookiePolicy;
@@ -9,8 +10,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Jasarsoft.AmadeusDev.Web
 {
@@ -36,9 +41,14 @@ namespace Jasarsoft.AmadeusDev.Web
                 options.ConsentCookie.IsEssential = true;
             });
 
-
+            services.AddDbContext<AmadeusDevContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Development")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddServices();
+            services.AddSession(o =>
+            {
+                o.Cookie.IsEssential = true;
+                o.Cookie.HttpOnly = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +68,8 @@ namespace Jasarsoft.AmadeusDev.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
