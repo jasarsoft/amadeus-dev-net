@@ -1,18 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Entities
 {
     public class Dictionaries
     {
-        //carriers(DictionaryEntry, optional),
-        //currencies(DictionaryEntry, optional),
-        //aircraft(DictionaryEntry, optional),
-        //locations(LocationEntry, optional)
-        public DictionaryEntry carriers { get; set; }
-        public DictionaryEntry currencies { get; set; }
-        public DictionaryEntry aircraft { get; set; }
-        public LocationEntry locations { get; set; }
+        [Key]
+        public int DictionaryId { get; set; }
+
+        [ForeignKey(nameof(Carriers))]
+        public int? CarriersId { get; set; }
+        public virtual DictionaryEntry Carriers { get; set; }
+
+        [ForeignKey(nameof(Currencies))]
+        public int? CurrenciesId { get; set; }
+        public virtual DictionaryEntry Currencies { get; set; }
+
+        [ForeignKey(nameof(Aircraft))]
+        public int? AircraftId { get; set; }
+        public virtual DictionaryEntry Aircraft { get; set; }
+
+        [ForeignKey(nameof(Locations))]
+        public int? LocationsId { get; set; }
+        public virtual LocationEntry Locations { get; set; }
     }
 }

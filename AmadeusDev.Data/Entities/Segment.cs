@@ -1,20 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Entities
 {
     public class Segment
     {
-        //flightSegment(FlightSegment, optional),
-        //pricingDetailPerAdult(PricingDetail, optional),
-        //pricingDetailPerInfant(PricingDetail, optional),
-        //pricingDetailPerChild(PricingDetail, optional),
-        //pricingDetailPerSenior(PricingDetail, optional)
-        public FlightSegment flightSegment { get; set; }
-        public PricingDetail pricingDetailPerAdult { get; set; }
-        public PricingDetail pricingDetailPerInfant { get; set; }
-        public PricingDetail pricingDetailPerChild { get; set; }
-        public PricingDetail pricingDetailPerSenior { get; set; }
+        [Key]
+        public int SegmentId { get; set; }
+
+        [ForeignKey(nameof(FlightSegment))]
+        public int? FlightSegmentId { get; set; }
+        public virtual FlightSegment FlightSegment { get; set; }
+
+        [ForeignKey(nameof(PricingDetailPerAdult))]
+        public int? PricingDetailPerAdultId { get; set; }
+        public virtual PricingDetail PricingDetailPerAdult { get; set; }
+
+        [ForeignKey(nameof(PricingDetailPerInfant))]
+        public int? PricingDetailPerInfantId { get; set; }
+        public virtual PricingDetail PricingDetailPerInfant { get; set; }
+        
+        [ForeignKey(nameof(PricingDetailPerChild))]
+        public int? PricingDetailPerChildId { get; set; }
+        public virtual PricingDetail PricingDetailPerChild { get; set; }
+
+        [ForeignKey(nameof(PricingDetailPerSenior))]
+        public int? PricingDetailPerSeniorId { get; set; }
+        public virtual PricingDetail PricingDetailPerSenior { get; set; }
     }
 }

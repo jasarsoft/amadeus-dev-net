@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Entities
 {
     public class OperatingFlight
     {
-        //carrierCode(string, optional) : providing the airline / carrier code,
-        //number (string, optional): the flight number as assigned by the carrier
-        public string carrierCode { get; set; }
-        public string number { get; set; }
+        [Key]
+        public int OperatingFlightId { get; set; }
+
+        public string CarrierCode { get; set; } //providing the airline / carrier code
+        public string Number { get; set; } //the flight number as assigned by the carrier
     } 
 }

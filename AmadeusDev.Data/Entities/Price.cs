@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Entities
 {
     public class Price
     {
-        //total(string, optional),
-        //totalTaxes(string, optional)  
-        public string total { get; set; }
-        public string totalTaxes { get; set; }
+        [Key]
+        public int PriceId { get; set; }
+
+        public string Total { get; set; }
+        public string TotalTaxes { get; set; }
     }
 }

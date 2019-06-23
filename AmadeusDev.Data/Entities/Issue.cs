@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Entities
 {
     public class Issue
     {
-        //status(integer, optional) : the HTTP status code applicable to this error ,
-        //code(integer, optional) : an application-specific error code ,
-        //title(string, optional) : a short summary of the error ,
-        //detail(string, optional) : explanation of the error,
-        //source (Issue_Source, optional): an object containing references to the source of the error
-        public int status { get; set; }
-        public int code { get; set; }
-        public string title { get; set; }
-        public string detail { get; set; }
-        public Issue_Source source { get; set; }
+        [Key]
+        public int IssueId { get; set; }
+
+        public int? Status { get; set; } //the HTTP status code applicable to this error
+        public int? Code { get; set; } //an application-specific error code
+        public string Title { get; set; } //a short summary of the error
+        public string Detail { get; set; } //explanation of the error
+
+        [ForeignKey(nameof(Source))]
+        public int? SourceId { get; set; }
+        public virtual IssueSource Source { get; set; } //an object containing references to the source of the error
     }
 }
