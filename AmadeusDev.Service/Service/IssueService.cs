@@ -7,7 +7,7 @@ using Jasarsoft.AmadeusDev.Data.Entities;
 using Jasarsoft.AmadeusDev.Repo;
 using Jasarsoft.AmadeusDev.Service.IService;
 
-namespace Jasarosft.AmadeusDev.Service.Service
+namespace Jasarsoft.AmadeusDev.Service.Service
 {
     public class IssueService : IIssueService
     {
