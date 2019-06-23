@@ -7,6 +7,17 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IRepository<TEntity, TPk> where TEntity : class
     {
+        //all
+        bool All(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate);
+        //any
+        bool Any(Expression<Func<TEntity, bool>> predicate);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
+        //count
+        int Count();
+        int Count(Expression<Func<TEntity, bool>> predicate);
+        Task<int> CountAsync();
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
         //select
         IEnumerable<TResult> Select<TResult>(Expression<Func<TEntity, TResult>> predicate);
         //where        
@@ -20,12 +31,8 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
         //first
         TEntity First();
-        TEntity First(Expression<Func<TEntity, bool>> predicate);        
-        //all
-        bool All(Expression<Func<TEntity, bool>> predicate);
-        //any
-        bool Any(Expression<Func<TEntity, bool>> predicate);
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);
+        TEntity First(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> FirstAsync();
         //add
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entity);
@@ -36,13 +43,8 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         void Remove(TPk id);
         void Remove(TEntity entity);        
         void RemoveRange(IEnumerable<TEntity> entities);        
-        //count
-        int Count();
-        int Count(Expression<Func<TEntity, bool>> predicate);
-        Task<int> CountAsync();
-
+        
         //get
-        IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> GetRange(int start, int take);  
     }
 }

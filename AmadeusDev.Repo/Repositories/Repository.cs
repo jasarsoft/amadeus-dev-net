@@ -22,124 +22,160 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             this.entity = context.Set<TEntity>();
         }
 
-        public void Add(TEntity entity)
+        #region All
+        virtual public bool All(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return entity.All(predicate);
         }
 
-        public void AddRange(IEnumerable<TEntity> entity)
+        virtual public async Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await entity.AllAsync(predicate);
+        }
+        #endregion
+
+        #region Any
+        virtual public bool Any(Expression<Func<TEntity, bool>> predicate)
+        {
+            return entity.Any(predicate);
         }
 
-        public bool All(Expression<Func<TEntity, bool>> predicate)
+        virtual public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await entity.AnyAsync(predicate);
+        }
+        #endregion
+
+        #region Add
+        virtual public void Add(TEntity entity)
+        {
+            this.entity.Add(entity);
         }
 
-        public bool Any(Expression<Func<TEntity, bool>> predicate)
+        virtual public void AddRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            this.entity.AddRange(entities);
+        }
+        #endregion
+
+        #region Count
+        virtual public int Count()
+        {
+            return entity.Count();
         }
 
-        public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
+        virtual public async Task<int> CountAsync()
         {
-            throw new NotImplementedException();
+            return await entity.CountAsync();
         }
 
-        public int Count()
+        virtual public int Count(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return entity.Where(predicate).Count();
         }
 
-        public int Count(Expression<Func<TEntity, bool>> predicate)
+        virtual public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await entity.Where(predicate).CountAsync();
+        }
+        #endregion
+
+
+        #region Find
+        virtual public TEntity Find(TPk id)
+        {
+            return entity.Find(id);   
         }
 
-        public Task<int> CountAsync()
+        virtual public TEntity Find(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return entity.Find(predicate);
         }
 
-        public TEntity Find(TPk id)
+        virtual public async Task<TEntity> FindAsync(params object[] param)
         {
-            throw new NotImplementedException();
+            return await entity.FindAsync(param);
+        }
+        #endregion
+
+        #region First
+        virtual public TEntity First()
+        {
+            return entity.First();
         }
 
-        public TEntity Find(Expression<Func<TEntity, bool>> predicate)
+        virtual public TEntity First(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return entity.First(predicate);
         }
 
-        public Task<TEntity> FindAsync(params object[] param)
+        virtual public async Task<TEntity> FirstAsync()
         {
-            throw new NotImplementedException();
+            return await entity.FirstAsync();
+        }
+        #endregion
+       
+        #region Remove
+        virtual public void Remove(TPk id)
+        {
+            TEntity e = entity.Find(id);
+            entity.Remove(e);
         }
 
-        public TEntity First()
+        virtual public void Remove(TEntity entity)
         {
-            throw new NotImplementedException();
+            this.entity.Remove(entity);
         }
 
-        public TEntity First(Expression<Func<TEntity, bool>> predicate)
+        virtual public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            entity.RemoveRange(entities);
+        }
+        #endregion
+
+        #region Update
+        virtual public void Update(TEntity entity)
+        {
+            this.entity.Update(entity);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        virtual public void UpdateRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            entity.UpdateRange(entities);
+        }
+        #endregion
+
+        #region Select
+        virtual public IEnumerable<TResult> Select<TResult>(Expression<Func<TEntity, TResult>> predicate)
+        {
+            return entity.Select(predicate);
+        }
+        #endregion
+
+        #region Where
+        virtual public IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
+        {
+            return entity.Where(predicate);
+        }
+        #endregion
+
+        #region SingeOrDefault
+        virtual public TEntity SingleOrDefault()
+        {
+            return entity.SingleOrDefault();
         }
 
-        public IEnumerable<TEntity> GetRange(int start, int take)
+        virtual public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return entity.SingleOrDefault(predicate);
         }
+        #endregion
 
-        public void Remove(TPk id)
+        #region GetRegion
+        virtual public IEnumerable<TEntity> GetRange(int start, int take)
         {
-            throw new NotImplementedException();
+            return entity.Skip(start).Take(take);
         }
-
-        public void Remove(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TResult> Select<TResult>(Expression<Func<TEntity, TResult>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity SingleOrDefault()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRange(IEnumerable<TEntity> entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
