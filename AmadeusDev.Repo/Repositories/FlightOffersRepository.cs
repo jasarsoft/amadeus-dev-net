@@ -26,9 +26,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                     .ThenInclude(y => y.Aircraft)
 
                 .Include(x => x.Meta)
-                .Include(x => x.Data);
+                .Include(x => x.Data)
+                .Skip(start).Take(take);
 
-            return query.Skip(start).Take(take).Select(x => new FlightDTO
+            return query.Select(x => new FlightDTO
             {
                 Departure = x.DictionariesId.ToString(),
             });
