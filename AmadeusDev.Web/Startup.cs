@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Jasarsoft.AmadeusDev.Repo;
 
 namespace Jasarsoft.AmadeusDev.Web
 {
@@ -43,6 +44,7 @@ namespace Jasarsoft.AmadeusDev.Web
 
             services.AddDbContext<AmadeusDevContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Development")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddRepositories();
             services.AddServices();
             services.AddSession(o =>
             {
