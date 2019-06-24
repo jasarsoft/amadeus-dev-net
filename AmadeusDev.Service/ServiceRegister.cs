@@ -29,6 +29,17 @@ namespace Jasarsoft.AmadeusDev.Service
             services.AddTransient<IPricingDetailService, PricingDetailService>();
             services.AddTransient<ISegmentService, SegmentService>();
             services.AddTransient<IServiceService, ServiceService>();
+
+            services.AddTransient<IAddressService, AddressService>();
+            services.AddTransient<IAnalyticsService, AnalyticsService>();
+            services.AddTransient<ICollectionLinksService, CollectionLinksService>();
+            services.AddTransient<ICollectionMetaService, CollectionMetaService>();
+            services.AddTransient<IDistanceService, DistanceService>();
+            services.AddTransient<IGeoCodeService, GeoCodeService>();
+            services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<ISelfService, SelfService>();
+            services.AddTransient<ISuccessService, SuccessService>();
+            services.AddTransient<ITravelersService, TravelersService>();
         }
     }
 }
