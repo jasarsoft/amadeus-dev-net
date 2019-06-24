@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Jasarsoft.AmadeusDev.Repo.Context;
 using Jasarsoft.AmadeusDev.Repo.IRepositories;
+using static Jasarsoft.AmadeusDev.Repo.Helper.Enumerations;
 
 namespace Jasarsoft.AmadeusDev.Repo.Repositories
 {
@@ -175,6 +176,18 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         virtual public IEnumerable<TEntity> GetRange(int start, int take)
         {
             return entity.Skip(start).Take(take);
+        }
+        #endregion
+
+        #region SortAndRange
+        virtual public IEnumerable<TEntity> SortAndGetRange<TKey>(int start, int take, Expression<Func<TEntity, TKey>> predicate, OrderBy order)
+        {
+            return order == OrderBy.ASC ? entity.OrderBy(predicate).Skip(start).Take(take) : entity.OrderByDescending(predicate).Skip(start).Take(take);
+        }
+
+        virtual public async Task<IEnumerable<TEntity>> SortAndGetRangeAsync<TKey>(int start, int take, Expression<Func<TEntity, TKey>> predicate, OrderBy order)
+        {
+            return order == OrderBy.ASC ? await entity.OrderBy(predicate).Skip(start).Take(take).ToListAsync() : await entity.OrderByDescending(predicate).Skip(start).Take(take).ToListAsync();
         }
         #endregion
     }

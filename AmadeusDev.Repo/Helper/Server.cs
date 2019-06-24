@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace Jasarsoft.AmadeusDev.Repo.Helper
 {
-    public class Server
+    public static class Server
     {
-        public Token GetToken()
+        public static Token GetToken()
         {
             WebRequest request = WebRequest.Create("https://test.api.amadeus.com/v1/security/oauth2/token ");
             request.Method = "POST";
@@ -46,7 +46,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Helper
             return JsonConvert.DeserializeObject<Token>(responseFromServer);
         }
 
-        public string Get(string uri, Token token)
+        public static string Get(string uri, Token token)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
