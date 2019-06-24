@@ -78,6 +78,36 @@ namespace Jasarsoft.AmadeusDev.Repo
         private IServiceRepository serviceRepository;
         public IServiceRepository Services => serviceRepository ?? (serviceRepository = serviceProvider.GetService<IServiceRepository>());
 
+        private IAddressRepository addressRepository;
+        public IAddressRepository Address => addressRepository ?? (addressRepository = serviceProvider.GetService<IAddressRepository>());
+
+        private IAnalyticsRepository analyticsRepository;
+        public IAnalyticsRepository Analytics => analyticsRepository ?? (analyticsRepository = serviceProvider.GetService<IAnalyticsRepository>());
+
+        private ICollectionLinksRepository collectionLinksRepository;
+        public ICollectionLinksRepository CollectionLinks => collectionLinksRepository ?? (collectionLinksRepository = serviceProvider.GetService<ICollectionLinksRepository>());
+
+        private ICollectionMetaRepository collectionMetaRepository;
+        public ICollectionMetaRepository CollectionMeta => collectionMetaRepository ?? (collectionMetaRepository = serviceProvider.GetService<ICollectionMetaRepository>());
+
+        private IDistanceRepository distanceRepository;
+        public IDistanceRepository Distances => distanceRepository ?? (distanceRepository = serviceProvider.GetService<IDistanceRepository>());
+
+        private IGeoCodeRepository geoCodeRepository;
+        public IGeoCodeRepository GeoCodes => geoCodeRepository ?? (geoCodeRepository = serviceProvider.GetService<IGeoCodeRepository>());
+
+        private ILocationRepository locationRepository;
+        public ILocationRepository Locations => locationRepository ?? (locationRepository = serviceProvider.GetService<ILocationRepository>());
+
+        private ISelfRepository selfRepository;
+        public ISelfRepository Selfs => selfRepository ?? (selfRepository = serviceProvider.GetService<ISelfRepository>());
+
+        private ISuccessRepository successRepository;
+        public ISuccessRepository Success => successRepository ?? (successRepository = serviceProvider.GetService<ISuccessRepository>());
+
+        private ITravelersRepository travelersRepository;
+        public ITravelersRepository Travelers => travelersRepository ?? (travelersRepository = serviceProvider.GetService<ITravelersRepository>());
+
         public void Dispose()
         {
             context.Dispose();

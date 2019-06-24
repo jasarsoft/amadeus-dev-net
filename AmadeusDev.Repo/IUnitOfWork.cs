@@ -27,5 +27,16 @@ namespace Jasarsoft.AmadeusDev.Repo
         IPricingDetailRepository PricingDetails { get; }
         ISegmentRepository Segments { get; }
         IServiceRepository Services { get; }
+
+        IAddressRepository Address { get; }
+        IAnalyticsRepository Analytics { get; }
+        ICollectionLinksRepository CollectionLinks { get; }
+        ICollectionMetaRepository CollectionMeta { get; }
+        IDistanceRepository Distances { get; }
+        IGeoCodeRepository GeoCodes { get; }
+        ILocationRepository Locations { get; }
+        ISelfRepository Selfs { get; }
+        ISuccessRepository Success { get; }
+        ITravelersRepository Travelers { get; }
     }
 }

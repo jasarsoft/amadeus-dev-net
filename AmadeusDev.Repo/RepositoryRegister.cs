@@ -30,6 +30,17 @@ namespace Jasarsoft.AmadeusDev.Repo
             service.AddTransient<IPricingDetailRepository, PricingDetailRepository>();
             service.AddTransient<ISegmentRepository, SegmentRepository>();
             service.AddTransient<IServiceRepository, ServiceRepository>();
+
+            service.AddTransient<IAddressRepository, AddressRepository>();
+            service.AddTransient<IAnalyticsRepository, AnalyticsRepository>();
+            service.AddTransient<ICollectionLinksRepository, CollectionLinksRepository>();
+            service.AddTransient<ICollectionMetaRepository, CollectionMetaRepository>();
+            service.AddTransient<IDistanceRepository, DistanceRepository>();
+            service.AddTransient<IGeoCodeRepository, GeoCodeRepository>();
+            service.AddTransient<ILocationRepository, LocationRepository>();
+            service.AddTransient<ISelfRepository, SelfRepository>();
+            service.AddTransient<ISuccessRepository, SuccessRepository>();
+            service.AddTransient<ITravelersRepository, TravelersRepository>();
         }
     }
 }
