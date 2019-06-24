@@ -8,5 +8,6 @@ namespace Jasarsoft.AmadeusDev.Service.IService
 {
     public interface ISuccessService
     {
+        Success ResponseFromServer(string keyword, int limit);
     }
 }
