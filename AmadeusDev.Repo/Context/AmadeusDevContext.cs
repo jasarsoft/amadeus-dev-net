@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using Jasarsoft.AmadeusDev.Data.Entities;
+using Jasarsoft.AmadeusDev.Data.Flights;
+using Jasarsoft.AmadeusDev.Data.Airports;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -34,13 +35,22 @@ namespace Jasarsoft.AmadeusDev.Repo.Context
         public virtual DbSet<Segment> Segments { get; set; }
         public virtual DbSet<Service> Services { get; set; }
 
-
+        public virtual DbSet<Address> Address { get; set; }
+        public virtual DbSet<Analytics> Analytics { get; set; }
+        public virtual DbSet<CollectionLinks> CollectionLinks { get; set; }
+        public virtual DbSet<CollectionMeta> CollectionMeta { get; set; }
+        public virtual DbSet<Distance> Distance { get; set; }
+        public virtual DbSet<GeoCode> GeoCode { get; set; }
+        public virtual DbSet<Location> Location { get; set; }
+        public virtual DbSet<Self> Self { get; set; }
+        public virtual DbSet<Success> Success { get; set; }
+        public virtual DbSet<Travelers> Travelers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-             modelBuilder.Model.GetEntityTypes()
+            modelBuilder.Model.GetEntityTypes()
                 .SelectMany(x => x.GetForeignKeys())
                 .Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade)
                 .ToList()
@@ -48,6 +58,26 @@ namespace Jasarsoft.AmadeusDev.Repo.Context
                     x.DeleteBehavior = DeleteBehavior.Restrict;
                 });
 
+            modelBuilder.Entity<Self>()
+                .Property(e => e.Methods)
+                .HasConversion(
+                    v => String.Join(',', v),
+                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+
+            modelBuilder.Entity<GeoCode>()
+                .Property(p => p.Latitude)
+                .HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<GeoCode>()
+                .Property(p => p.Longitude)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Location>()
+                .Property(p => p.Relevance)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Travelers>()
+                .Property(p => p.Score)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }
