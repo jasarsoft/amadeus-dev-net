@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Entities
+namespace Jasarsoft.AmadeusDev.Data.Flights
 {
+    [Table("FlightStop", Schema = "Flights")]
     public class FlightStop
     {
         [Key]

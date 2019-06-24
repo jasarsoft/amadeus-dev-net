@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Entities
+namespace Jasarsoft.AmadeusDev.Data.Flights
 {
+    [Table("FlightOffers", Schema = "Flights")]
     public class FlightOffers
     {
         [Key]
-        public int FlightOfferid { get; set; }
+        public int FlightOffersId { get; set; }
 
         public ICollection<FlightOffer> Data { get; set; }
 
