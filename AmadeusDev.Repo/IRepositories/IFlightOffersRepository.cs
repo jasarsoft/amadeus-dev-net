@@ -10,6 +10,8 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IFlightOffersRepository : IRepository<FlightOffers, int>
     {
+        void InsertFlights(FlightOffers model);
+
         IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departureSearch, string arrivalSearch);
     }
 }
