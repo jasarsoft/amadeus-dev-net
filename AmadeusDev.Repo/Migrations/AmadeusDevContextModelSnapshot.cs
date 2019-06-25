@@ -292,8 +292,7 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .IsRequired();
+                    b.Property<string>("Code");
 
                     b.HasKey("DictionaryEntryId");
 
@@ -478,8 +477,7 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Key")
-                        .IsRequired();
+                    b.Property<string>("Key");
 
                     b.HasKey("LocationEntryId");
 

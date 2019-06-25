@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmadeusDev.Repo.Migrations
 {
     [DbContext(typeof(AmadeusDevContext))]
-    [Migration("20190625134020_init")]
+    [Migration("20190625190309_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,8 +294,7 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .IsRequired();
+                    b.Property<string>("Code");
 
                     b.HasKey("DictionaryEntryId");
 
@@ -480,8 +479,7 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Key")
-                        .IsRequired();
+                    b.Property<string>("Key");
 
                     b.HasKey("LocationEntryId");
 

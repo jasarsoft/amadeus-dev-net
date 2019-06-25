@@ -147,7 +147,7 @@ namespace AmadeusDev.Repo.Migrations
                 {
                     DictionaryEntryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Code = table.Column<string>(nullable: false)
+                    Code = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -207,7 +207,7 @@ namespace AmadeusDev.Repo.Migrations
                 {
                     LocationEntryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Key = table.Column<string>(nullable: false)
+                    Key = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
