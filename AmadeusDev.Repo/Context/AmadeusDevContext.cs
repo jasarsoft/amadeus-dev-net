@@ -78,6 +78,14 @@ namespace Jasarsoft.AmadeusDev.Repo.Context
             modelBuilder.Entity<Travelers>()
                 .Property(p => p.Score)
                 .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<CollectionMeta>()
+                .Property(x => x.Count)
+                .HasDefaultValue(0);
+
+            modelBuilder.Entity<Self>()
+                .Property(x => x.Count)
+                .HasDefaultValue(0);
         }
     }
 }
