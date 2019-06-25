@@ -11,6 +11,10 @@ namespace Jasarsoft.AmadeusDev.Data.Airports
         [Key]
         public int LocationId { get; set; }
 
+        [ForeignKey(nameof(Success))]
+        public int SuccessId { get; set; }
+        public Success Success { get; set; }
+
         public string Id { get; set; } //id of the ressource
 
         [ForeignKey(nameof(Self))]
