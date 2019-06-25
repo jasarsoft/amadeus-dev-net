@@ -25,7 +25,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
         }
 
         
-        public Success ResponseFromServer(string keyword, int limit)
+        public Success ResponseFromServer(string keyword, int limit = 15)
         {
             string uri = String.Format("https://test.api.amadeus.com/v1/reference-data/locations?subType=AIRPORT,CITY&keyword={0}&page[limit]={1}", keyword.ToLower(), limit.ToString());
 
@@ -36,6 +36,18 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             System.Diagnostics.Debug.WriteLine(get);
 #endif
             return JsonConvert.DeserializeObject<Success>(get);
+        }
+
+        public void Insert(Success model)
+        {
+            if (model == null) throw new ArgumentNullException();
+            unitOfWork.Success.InsertSuccess(model);
+        }
+
+        public async Task<int> InsertAsync(Success model)
+        {
+            if (model == null) throw new ArgumentNullException();
+            return await unitOfWork.Success.InsertSuccessAsync(model);
         }
     }
 }
