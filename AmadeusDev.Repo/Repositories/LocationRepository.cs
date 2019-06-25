@@ -14,6 +14,12 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
     {
         public LocationRepository(AmadeusDevContext context) : base(context) { }
 
+        
+        public IEnumerable<Location> GetLocationsByName(string keyword)
+        {
+            var query = entity.Where(x => x.Name.ToLower().Contains(keyword));
 
+            return query.ToList();
+        }
     }
 }
