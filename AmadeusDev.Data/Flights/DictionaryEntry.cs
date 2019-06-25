@@ -11,7 +11,6 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int DictionaryEntryId { get; set; }
 
-        [Required]
         public string Code { get; set; }  //code (string)
     }
 }
