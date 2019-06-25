@@ -48,6 +48,12 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             unitOfWork.FlightOffers.InsertFlights(model);
         }
 
+        public async Task<int> InsertFlightsAsync(FlightOffers model)
+        {
+            if (model == null) throw new ArgumentNullException();
+            return await unitOfWork.FlightOffers.InsertFlightsAsync(model);
+        }
+
         public IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string departureSearch, string arrivalSearch)
         {
             OrderBy orderBy = (OrderBy)Enum.Parse(typeof(OrderBy), order.ToUpper());

@@ -13,6 +13,7 @@ namespace Jasarsoft.AmadeusDev.Service.IService
 
         int GetNumberOfFlights();
         void InsertFlight(FlightOffers model);
+        Task<int> InsertFlightsAsync(FlightOffers model);
 
         IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string departureSearch, string arrivalSearch);
     }
