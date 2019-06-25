@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmadeusDev.Repo.Migrations
 {
     [DbContext(typeof(AmadeusDevContext))]
-    [Migration("20190624193747_init")]
+    [Migration("20190625134020_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,7 +88,9 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Count");
+                    b.Property<int>("Count")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.Property<int?>("LinksId");
 
@@ -160,7 +162,7 @@ namespace AmadeusDev.Repo.Migrations
 
                     b.Property<string>("SubType");
 
-                    b.Property<int?>("SuccessId");
+                    b.Property<int>("SuccessId");
 
                     b.Property<string>("TimeZoneOffset");
 
@@ -189,7 +191,9 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Count");
+                    b.Property<int>("Count")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(0);
 
                     b.Property<string>("Href");
 
@@ -675,9 +679,10 @@ namespace AmadeusDev.Repo.Migrations
                         .WithMany()
                         .HasForeignKey("SelfId");
 
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Airports.Success")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Airports.Success", "Success")
                         .WithMany("Data")
-                        .HasForeignKey("SuccessId");
+                        .HasForeignKey("SuccessId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Jasarsoft.AmadeusDev.Data.Airports.Success", b =>
@@ -708,7 +713,7 @@ namespace AmadeusDev.Repo.Migrations
 
             modelBuilder.Entity("Jasarsoft.AmadeusDev.Data.Flights.FlightOffer", b =>
                 {
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightOffers")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightOffers", "FlightOffers")
                         .WithMany("Data")
                         .HasForeignKey("FlightOffersId");
                 });
@@ -745,7 +750,7 @@ namespace AmadeusDev.Repo.Migrations
 
             modelBuilder.Entity("Jasarsoft.AmadeusDev.Data.Flights.FlightStop", b =>
                 {
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightSegment")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightSegment", "FlightSegment")
                         .WithMany("Stops")
                         .HasForeignKey("FlightSegmentId");
 
@@ -756,7 +761,7 @@ namespace AmadeusDev.Repo.Migrations
 
             modelBuilder.Entity("Jasarsoft.AmadeusDev.Data.Flights.Issue", b =>
                 {
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightOffers")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightOffers", "FlightOffers")
                         .WithMany("Warnings")
                         .HasForeignKey("FlightOffersId");
 
@@ -778,7 +783,7 @@ namespace AmadeusDev.Repo.Migrations
 
             modelBuilder.Entity("Jasarsoft.AmadeusDev.Data.Flights.OfferItem", b =>
                 {
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightOffer")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.FlightOffer", "FlightOffer")
                         .WithMany("OfferItems")
                         .HasForeignKey("FlightOfferId");
 
@@ -825,14 +830,14 @@ namespace AmadeusDev.Repo.Migrations
                         .WithMany()
                         .HasForeignKey("PricingDetailPerSeniorId");
 
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.Service")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.Service", "Service")
                         .WithMany("Segments")
                         .HasForeignKey("ServiceId");
                 });
 
             modelBuilder.Entity("Jasarsoft.AmadeusDev.Data.Flights.Service", b =>
                 {
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.OfferItem")
+                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.OfferItem", "OfferItem")
                         .WithMany("Services")
                         .HasForeignKey("OfferItemId");
                 });

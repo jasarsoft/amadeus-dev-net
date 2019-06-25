@@ -90,7 +90,7 @@ namespace AmadeusDev.Repo.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Href = table.Column<string>(nullable: true),
                     Methods = table.Column<string>(nullable: true),
-                    Count = table.Column<int>(nullable: false)
+                    Count = table.Column<int>(nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
                 {
@@ -268,7 +268,7 @@ namespace AmadeusDev.Repo.Migrations
                 {
                     MetaId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Count = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false, defaultValue: 0),
                     LinksId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -517,6 +517,7 @@ namespace AmadeusDev.Repo.Migrations
                 {
                     LocationId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SuccessId = table.Column<int>(nullable: false),
                     Id = table.Column<string>(nullable: true),
                     SelfId = table.Column<int>(nullable: true),
                     Type = table.Column<string>(nullable: true),
@@ -529,8 +530,7 @@ namespace AmadeusDev.Repo.Migrations
                     AddressId = table.Column<int>(nullable: true),
                     DistanceId = table.Column<int>(nullable: true),
                     AnalyticsId = table.Column<int>(nullable: true),
-                    Relevance = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    SuccessId = table.Column<int>(nullable: true)
+                    Relevance = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -586,9 +586,9 @@ namespace AmadeusDev.Repo.Migrations
                 {
                     FlightOfferId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FlightOffersId = table.Column<int>(nullable: true),
                     Type = table.Column<string>(nullable: true),
-                    Id = table.Column<string>(nullable: true),
-                    FlightOffersId = table.Column<int>(nullable: true)
+                    Id = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
