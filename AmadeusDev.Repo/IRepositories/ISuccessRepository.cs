@@ -9,6 +9,10 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface ISuccessRepository : IRepository<Success, int>
     {
+        void InsertSuccess(Success model);
+        Task<int> InsertSuccessAsync(Success model);
+
         IEnumerable<Success> SortAndGetRange<TKey>(int start, int take, Expression<Func<Success, TKey>> predicate, OrderBy order);
+        IEnumerable<Success> GetAndSortWithFilters<TKey>(int start, int take, Expression<Func<Success, TKey>> predicate, OrderBy order, string departure, string arrival);
     }
 }
