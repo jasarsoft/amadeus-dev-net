@@ -30,5 +30,9 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [ForeignKey(nameof(PricingDetailPerSenior))]
         public int? PricingDetailPerSeniorId { get; set; }
         public virtual PricingDetail PricingDetailPerSenior { get; set; }
+
+        [ForeignKey(nameof(Service))]
+        public int? ServiceId { get; set; }
+        public virtual Service Service { get; set; }
     }
 }

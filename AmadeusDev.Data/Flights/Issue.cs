@@ -19,5 +19,9 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [ForeignKey(nameof(Source))]
         public int? SourceId { get; set; }
         public virtual IssueSource Source { get; set; } //an object containing references to the source of the error
+
+        [ForeignKey(nameof(FlightOffers))]
+        public int? FlightOffersId { get; set; }
+        public virtual FlightOffers FlightOffers { get; set; }
     }
 }

@@ -11,6 +11,10 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int FlightOfferId { get; set; }
 
+        [ForeignKey(nameof(FlightOffers))]
+        public int? FlightOffersId { get; set; }
+        public virtual FlightOffers FlightOffers { get; set; }
+
         public string Type { get; set; } //the resource name
         public string Id { get; set; } //the resource identifier
 

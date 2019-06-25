@@ -11,6 +11,10 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int ServiceId { get; set; }
 
+        [ForeignKey(nameof(OfferItem))]
+        public int? OfferItemId { get; set; }
+        public virtual OfferItem OfferItem { get; set; }
+
         public ICollection<Segment> Segments { get; set; }
     }
 }
