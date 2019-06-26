@@ -99,7 +99,7 @@
                     data: function (d) {
                         d.columns[1].search.value = $("#departure-search").val();
                         d.columns[2].search.value = $("#arrival-search").val();
-                       // d.columns[3].search.value = $("#date-search").val();
+                        //d.columns[3].search.value = $("#date-search").val();
                     }
                 },
                 order: [[1, "asc"]],
@@ -199,8 +199,9 @@
         });
         $("#m_reset").on('click', function () {
             $("input[type=text]").val('');
-            $("#person-firstname-search").val('').trigger('change');
-            $("#person-lastname-search").val('').trigger('change');
+            $("#departure-search").val('').trigger('change');
+            $("#arrival-search").val('').trigger('change');
+            $("#date-search").val('').trigger('change');
             $("#m_search").trigger('click');
         });
     });
