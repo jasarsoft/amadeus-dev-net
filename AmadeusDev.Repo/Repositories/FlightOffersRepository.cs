@@ -18,20 +18,59 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public FlightOffersRepository(AmadeusDevContext context) : base(context) { }
 
 
-        public IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departureSearch, string arrivalSearch)
+        public override IEnumerable<FlightOffers> SortAndGetRange<TKey>(int start, int take, Expression<Func<FlightOffers, TKey>> predicate, OrderBy order)
         {
+            return order == OrderBy.ASC
+                ? entity.Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Aircraft)
+                        .Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Carriers)
+                        .Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Currencies)
+                        .Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Locations)
+                        .Include(x => x.Meta)
+                            .ThenInclude(d => d.Defaults)
+                        .Include(x => x.Meta)
+                            .ThenInclude(d => d.Links)
+                        .Skip(start).Take(take)
+                        .AsNoTracking()
+                        .OrderBy(predicate)
+                : entity.Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Aircraft)
+                        .Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Carriers)
+                        .Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Currencies)
+                        .Include(x => x.Dictionaries)
+                            .ThenInclude(d => d.Locations)
+                        .Include(x => x.Meta)
+                            .ThenInclude(d => d.Defaults)
+                        .Include(x => x.Meta)
+                            .ThenInclude(d => d.Links)
+                        .Skip(start).Take(take)
+                        .AsNoTracking()
+                        .OrderByDescending(predicate);
+        }
+
+        public IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departure, string arrival, string date)
+        {
+
             var query = context.FlightOffers
-                .Include(x => x.Data)
-
                 .Include(x => x.Dictionaries)
-                    .ThenInclude(y => y.Aircraft)
-
+                    .ThenInclude(d => d.Aircraft)
+                .Include(x => x.Dictionaries)
+                    .ThenInclude(d => d.Carriers)
+                .Include(x => x.Dictionaries)
+                    .ThenInclude(d => d.Currencies)
+                .Include(x => x.Dictionaries)
+                    .ThenInclude(d => d.Locations)
                 .Include(x => x.Meta)
-                .Include(x => x.Data)
-                .Skip(start).Take(take);
-
-            //if (!String.IsNullOrEmpty(departureSearch))
-            //    query = query.Where()
+                    .ThenInclude(d => d.Defaults)
+                .Include(x => x.Meta)
+                    .ThenInclude(d => d.Links)                
+                .Skip(start).Take(take)                
+                .AsQueryable();
 
             return query.Select(x => new FlightDTO
             {

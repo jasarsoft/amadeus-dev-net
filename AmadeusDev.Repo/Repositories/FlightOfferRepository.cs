@@ -14,6 +14,11 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
     {
         public FlightOfferRepository(AmadeusDevContext context) : base(context) { }
 
+        public IEnumerable<FlightOffer> GetByFlightOffersId(int flightOfferId)
+        {
+            var query = entity.Where(x => x.FlightOffersId == flightOfferId);
 
+            return query.ToList();
+        }
     }
 }

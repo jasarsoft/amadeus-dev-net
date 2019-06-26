@@ -36,26 +36,35 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
         public IEnumerable<Success> GetAndSortWithFilters<TKey>(int start, int take, Expression<Func<Success, TKey>> predicate, OrderBy order, string departure, string arrival)
         {
-            IQueryable<Success> query;
+            var query = entity.Include(x => x.Meta)
+                .ThenInclude(r => r.Links)
+                .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
+                    .ThenInclude(e => e.Address)
+                .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
+                    .ThenInclude(e => e.Analytics)
+                .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
+                    .ThenInclude(a => a.Distance)
+                .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
+                    .ThenInclude(a => a.GeoCode)
+                .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
+                    .ThenInclude(s => s.Self)
+                .Skip(start)
+                .Take(take)
+                .AsQueryable();
 
-            if (!String.IsNullOrEmpty(departure))
-            {
-                query = entity.Include(x => x.Meta)
-                              .ThenInclude(r => r.Links)
-                              .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId && q.Name.ToLower().Contains(departure.ToLower())))
-                              .Skip(start)
-                              .Take(take)
-                              .AsQueryable();
-            }
-            else
-            {
-                query = entity.Include(x => x.Meta)
-                              .ThenInclude(r => r.Links)
-                              .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
-                              .Skip(start)
-                              .Take(take)
-                              .AsQueryable();
-            }
+            //if (!String.IsNullOrEmpty(departure))
+            //{
+            //    query = query.Where(a => a.Data.AsEnumerable().Where(e => e.Name == "aa"))
+            //}
+            //else
+            //{
+            //    query = entity.Include(x => x.Meta)
+            //                  .ThenInclude(r => r.Links)
+            //                  .Include(d => d.Data.Where(q => q.SuccessId == d.SuccessId))
+            //                  .Skip(start)
+            //                  .Take(take)
+            //                  .AsQueryable();
+            //}
 
 
 

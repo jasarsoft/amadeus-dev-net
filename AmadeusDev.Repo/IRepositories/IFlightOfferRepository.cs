@@ -8,5 +8,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IFlightOfferRepository : IRepository<FlightOffer, int>
     {
+        IEnumerable<FlightOffer> GetByFlightOffersId(int flightOfferId);
     }
 }
