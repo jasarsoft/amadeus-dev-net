@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Jasarsoft.AmadeusDev.Data.Flights;
+using Jasarsoft.AmadeusDev.Repo.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,5 +18,13 @@ namespace Jasarsoft.AmadeusDev.Web.Models
         public int Passanger { get; set; } // broj putnika 
         public string Currency { get; set; } // valuta
         public double Price { get; set; } // ukupna cijena 
+
+        //public static implicit operator FlightVM(FlightDTO model)
+        //{
+        //    return new FlightVM
+        //    {
+                
+        //    };
+        //}
     }
 }

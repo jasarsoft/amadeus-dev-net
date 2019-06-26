@@ -28,11 +28,15 @@
                 <div class="row m--margin-bottom-20">
                     <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                         <label>Polazak</label>
-                        <input type="text" class="form-control m-input" placeholder="Polazni aerodrom" data-col-index="1" id="person-firstname-search" />
+                        <input type="text" class="form-control m-input" placeholder="Polazni aerodrom" data-col-index="1" id="departure-search" />
                     </div>
                     <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                         <label>Odrediste</label>
-                        <input type="text" class="form-control m-input" placeholder="Odredisni aerodrom" data-col-index="2" id="person-lastname-search" />
+                        <input type="text" class="form-control m-input" placeholder="Odredisni aerodrom" data-col-index="2" id="arrival-search" />
+                    </div>
+                    <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                        <label>Datum</label>
+                        <input type="text" class="form-control m-input" placeholder="Datum polaska" data-col-index="3" id="date-search" />
                     </div>
                 </div>
                 <div class="row">
@@ -65,8 +69,9 @@
                             <th class="text-left">Datum</th>
                             <th class="text-left">Presjednje</th>
                             <th class="text-left">Putnici</th>
-                            <th class="text-center">Valuta</th>
-                            <th class="text-center">Cijena</th>
+                            <th class="text-left">Valuta</th>
+                            <th class="text-left">Cijena</th>
+                            <th class="text-center">Akcija</th>
                         </tr>
                     </thead>
                 </table>
@@ -87,25 +92,29 @@
                 deferRender: true,
                 pagingType: "full_numbers",
                 ajax: {
-                    url: '/Home/GetData',
+                    url: '/Home/GetFlights',
                     type: "post",
                     dataType: "json",
                     async: true,
                     data: function (d) {
-                        d.columns[1].search.value = $("#person-firstname-search").val();
-                        d.columns[2].search.value = $("#person-lastname-search").val();
+                        d.columns[1].search.value = $("#departure-search").val();
+                        d.columns[2].search.value = $("#arrival-search").val();
+                       // d.columns[3].search.value = $("#date-search").val();
                     }
                 },
                 order: [[1, "asc"]],
                 columns: [
                     { 'data': '#' },
-                    { 'data': 'personFirstName' },
-                    { 'data': 'personLastName' },
-                    { 'data': 'personGender' },
-                    { 'data': 'instructorEmail' },
-                    { 'data': 'instructorPhoneNumber' },
-                    { 'data': 'instructorActive' },
-                    { 'data': 'Actions' }
+                    { 'data': 'departure' },
+                    //{ 'data': 'arrival' },
+                    //{ 'data': 'departureTime' },
+                    //{ 'data': 'arrivalTime' },
+                    //{ 'data': 'departureTransfer' },
+                    //{ 'data': 'arrivalTransfer' },
+                    //{ 'data': 'passanger' },
+                    //{ 'data': 'currency' },
+                    //{ 'data': 'price' },
+                    { 'data': 'actions' }
                 ],
                 columnDefs: [
                     {
@@ -119,43 +128,52 @@
                     },
                     {
                         targets: 1,
-                        name: "PersonFirstName",
+                        name: "Departure",
                         className: "align-middle text-left"
 
                     },
-                    {
-                        targets: 2,
-                        name: "PersonLastName",
-                        className: "align-middle text-left"
+                    //{
+                    //    targets: 2,
+                    //    name: "Arrival",
+                    //    className: "align-middle text-left"
 
-                    },
-                    {
-                        targets: 3,
-                        orderable: false,
-                        name: "PersonGender",
-                        className: "align-middle text-center"
-                    },
-                    {
-                        targets: 4,
-                        orderable: false,
-                        name: "InstructorEmail",
-                        className: 'align-middle text-left'
-                    },
-                    {
-                        targets: 5,
-                        orderable: false,
-                        name: "InstructorPhoneNumber",
-                        orderable: false,
-                        className: 'align-middle text-left'
-                    },
-                    {
-                        targets: 6,
-                        className: "text-center align-middle",
-                        name: "InstructorActive",
-                        render: function (a, e, t, n) {
-                            return '<label class="m-checkbox m-checkbox--solid mt-0"><input class="position-static" type="checkbox" disabled="disabled"' + (a ? 'checked="checked"' : '') + '><span></span></label>';
-                        }
-                    },
+                    //},
+                    //{
+                    //    targets: 3,
+                    //    name: "DepartureTime",
+                    //    className: "align-middle text-left"
+
+                    //},
+                    //{
+                    //    targets: 4,
+                    //    name: "DepartureTransfer",
+                    //    className: "align-middle text-left"
+
+                    //},
+                    //{
+                    //    targets: 5,
+                    //    name: "ArrivalTransfer",
+                    //    className: "align-middle text-left"
+
+                    //},
+                    //{
+                    //    targets: 6,
+                    //    name: "Passanger",
+                    //    className: "align-middle text-left"
+
+                    //},
+                    //{
+                    //    targets: 7,
+                    //    name: "Currency",
+                    //    className: "align-middle text-left"
+
+                    //},
+                    //{
+                    //    targets: 8,
+                    //    name: "Price",
+                    //    className: "align-middle text-left"
+
+                    //},
                     {
                         targets: -1,
                         name: "Actions",

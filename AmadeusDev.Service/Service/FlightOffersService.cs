@@ -54,11 +54,40 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             return await unitOfWork.FlightOffers.InsertFlightsAsync(model);
         }
 
-        public IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string departureSearch, string arrivalSearch)
+        public IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string departure, string arrival, string date)
         {
+            List<FlightDTO> flights = new List<FlightDTO>();
             OrderBy orderBy = (OrderBy)Enum.Parse(typeof(OrderBy), order.ToUpper());
 
-            return unitOfWork.FlightOffers.GetFlights(start, take, orderBy, column, departureSearch, arrivalSearch);
+            var flightOffers = unitOfWork.FlightOffers.SortAndGetRange(start, take, x => x.FlightOffersId, orderBy);
+
+            foreach (var item in flightOffers)
+            {
+                var flightOffer = unitOfWork.FlightOffer.GetByFlightOffersId(item.FlightOffersId);
+                foreach (var fo in flightOffer)
+                {
+                    var offerItem = unitOfWork.OfferItems.GetByFlightOfferId(fo.FlightOfferId);
+                    foreach (var oi in offerItem)
+                    {
+                        var service = unitOfWork.Services.GetByOfferItemId(oi.OfferItemId);
+                        foreach (var s in service)
+                        {
+                            var segments = unitOfWork.Segments.GetByServiceId(s.ServiceId);
+                            foreach (var seg in segments)
+                            {
+                                flights.Add(new FlightDTO
+                                {
+                                    //Arrival = 
+                                });
+                            }
+                           
+                        }
+                    }
+                }
+            }
+
+
+            return unitOfWork.FlightOffers.GetFlights(start, take, orderBy, column, departure, arrival, date);
         }
     }
 }
