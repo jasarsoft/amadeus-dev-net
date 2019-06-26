@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using static Jasarsoft.AmadeusDev.Repo.Helper.Enumerations;
 
 namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
@@ -45,6 +46,9 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         void RemoveRange(IEnumerable<TEntity> entities);        
         
         //get
-        IEnumerable<TEntity> GetRange(int start, int take);  
+        IEnumerable<TEntity> GetRange(int start, int take);
+        //sort and range
+        IEnumerable<TEntity> SortAndGetRange<TKey>(int start, int take, Expression<Func<TEntity, TKey>> predicate, OrderBy order);
+        Task<IEnumerable<TEntity>> SortAndGetRangeAsync<TKey>(int start, int take, Expression<Func<TEntity, TKey>> predicate, OrderBy order);
     }
 }
