@@ -11,6 +11,7 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int LocationEntryId { get; set; }
 
-        public string Key { get; set; } //key (string)
+        public string subType { get; set; }
+        public string detailedName { get; set; }
     }
 }

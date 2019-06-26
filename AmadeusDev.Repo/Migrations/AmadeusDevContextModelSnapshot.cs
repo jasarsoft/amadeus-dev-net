@@ -477,7 +477,9 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Key");
+                    b.Property<string>("detailedName");
+
+                    b.Property<string>("subType");
 
                     b.HasKey("LocationEntryId");
 

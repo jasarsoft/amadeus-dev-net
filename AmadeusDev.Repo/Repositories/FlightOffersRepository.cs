@@ -147,7 +147,8 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         LocationEntry locations = new LocationEntry();
                         if (model.Dictionaries.Locations != null)
                         {
-                            locations.Key = model.Dictionaries.Locations.Key;
+                            locations.subType = model.Dictionaries.Locations.subType;
+                            locations.detailedName = model.Dictionaries.Locations.detailedName;
 
                             context.LocationEntries.Add(locations);
                             dictionaries.LocationsId = locations.LocationEntryId;
@@ -436,7 +437,8 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         LocationEntry locations = new LocationEntry();
                         if (model.Dictionaries.Locations != null)
                         {
-                            locations.Key = model.Dictionaries.Locations.Key;
+                            locations.subType = model.Dictionaries.Locations.subType;
+                            locations.detailedName = model.Dictionaries.Locations.detailedName;
 
                             await context.LocationEntries.AddAsync(locations);
                             dictionaries.LocationsId = locations.LocationEntryId;

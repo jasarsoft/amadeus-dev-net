@@ -207,7 +207,8 @@ namespace AmadeusDev.Repo.Migrations
                 {
                     LocationEntryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Key = table.Column<string>(nullable: true)
+                    subType = table.Column<string>(nullable: true),
+                    detailedName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
