@@ -18,53 +18,44 @@ namespace Jasarsoft.AmadeusDev.Repo
             this.serviceProvider = serviceProvider;
         }
 
-        private IAircraftEquipmentRepository aircraftEquipmentsRepository;
-        public IAircraftEquipmentRepository AircraftEquipments => aircraftEquipmentsRepository ?? (aircraftEquipmentsRepository = serviceProvider.GetService<IAircraftEquipmentRepository>());
+        private IAircraftRepository aircraftRepository;
+        public IAircraftRepository Aircrafts=> aircraftRepository ?? (aircraftRepository = serviceProvider.GetService<IAircraftRepository>());
 
-        private IDefaultsRepository defaultsRepository;
-        public IDefaultsRepository Defaults => defaultsRepository ?? (defaultsRepository = serviceProvider.GetService<IDefaultsRepository>());
+        private IDictionaryAircraftRepository dictionaryAirfraftRepository;
+        public IDictionaryAircraftRepository DictionaryAircrafts => dictionaryAirfraftRepository ?? (dictionaryAirfraftRepository = serviceProvider.GetService<IDictionaryAircraftRepository>());
 
-        private IDictionariesRepository dictionariesRepository;
-        public IDictionariesRepository Dictionaries => dictionariesRepository ?? (dictionariesRepository = serviceProvider.GetService<IDictionariesRepository>());
+        private IDictionaryCarrierRepository dictionaryCarrierRepository;
+        public IDictionaryCarrierRepository DictionaryCarriers => dictionaryCarrierRepository ?? (dictionaryCarrierRepository = serviceProvider.GetService<IDictionaryCarrierRepository>());
 
-        private IDictionaryEntryRepository dictionaryEntryRepository;
-        public IDictionaryEntryRepository DictionaryEntries => dictionaryEntryRepository ?? (dictionaryEntryRepository = serviceProvider.GetService<IDictionaryEntryRepository>());
+        private IDictionaryCurrencyRepository dictionaryCurrencyRepository;
+        public IDictionaryCurrencyRepository DictionaryCurrencies => dictionaryCurrencyRepository ?? (dictionaryCurrencyRepository = serviceProvider.GetService<IDictionaryCurrencyRepository>());
+
+        private IDictionaryLocationRepository dictionaryLocationRepository;
+        public IDictionaryLocationRepository DictionaryLocations => dictionaryLocationRepository ?? (dictionaryLocationRepository = serviceProvider.GetService<IDictionaryLocationRepository>());
+
+        private IDictionaryRepository dictionaryRepository;
+        public IDictionaryRepository Dictionaries => dictionaryRepository ?? (dictionaryRepository = serviceProvider.GetService<IDictionaryRepository>());
 
         private IFlightEndPointRepository flightEndPointRepository;
         public IFlightEndPointRepository FlightEndPoints => flightEndPointRepository ?? (flightEndPointRepository = serviceProvider.GetService<IFlightEndPointRepository>());
 
         private IFlightOfferRepository flightOfferRepository;
-        public IFlightOfferRepository FlightOffer => flightOfferRepository ?? (flightOfferRepository = serviceProvider.GetService<IFlightOfferRepository>());
+        public IFlightOfferRepository FlightOffers => flightOfferRepository ?? (flightOfferRepository = serviceProvider.GetService<IFlightOfferRepository>());
 
-        private IFlightOffersRepository flightOffersRepository;
-        public IFlightOffersRepository FlightOffers => flightOffersRepository ?? (flightOffersRepository = serviceProvider.GetService<IFlightOffersRepository>());
+        private IFlightRepository flightRepository;
+        public IFlightRepository Flights=> flightRepository ?? (flightRepository = serviceProvider.GetService<IFlightRepository>());
 
         private IFlightSegmentRepository flightSegmentRepository;
         public IFlightSegmentRepository FlightSegments => flightSegmentRepository ?? (flightSegmentRepository = serviceProvider.GetService<IFlightSegmentRepository>());
 
         private IFlightStopRepository flightStopRepository;
-        public IFlightStopRepository FlightStops => flightStopRepository ?? (flightStopRepository = serviceProvider.GetService<IFlightStopRepository>());
-
-        private IIssueRepository issueRepository;
-        public IIssueRepository Issues => issueRepository ?? (issueRepository = serviceProvider.GetService<IIssueRepository>());
-
-        private IIssueSourceRepository issueSourceRepository;
-        public IIssueSourceRepository IssueSources => issueSourceRepository ?? (issueSourceRepository = serviceProvider.GetService<IIssueSourceRepository>());
-
-        private ILinksRepository linksRepository;
-        public ILinksRepository Links => linksRepository ?? (linksRepository = serviceProvider.GetService<ILinksRepository>());
-
-        private ILocationEntryRepository locationEntryRepository;
-        public ILocationEntryRepository LocationEntries => locationEntryRepository ?? (locationEntryRepository = serviceProvider.GetService<ILocationEntryRepository>());
-
-        private IMetaRepository metaRepository;
-        public IMetaRepository Metas => metaRepository ?? (metaRepository = serviceProvider.GetService<IMetaRepository>());
+        public IFlightStopRepository FlightStops => flightStopRepository ?? (flightStopRepository = serviceProvider.GetService<IFlightStopRepository>());        
 
         private IOfferItemRepository offerItemRepository;
         public IOfferItemRepository OfferItems => offerItemRepository ?? (offerItemRepository = serviceProvider.GetService<IOfferItemRepository>());
 
-        private IOperatingFlightRepository operatingFlightRepository;
-        public IOperatingFlightRepository OperatingFlights => operatingFlightRepository ?? (operatingFlightRepository = serviceProvider.GetService<IOperatingFlightRepository>());
+        private IOperationRepository operationRepository;
+        public IOperationRepository Operations => operationRepository ?? (operationRepository = serviceProvider.GetService<IOperationRepository>());
 
         private IPriceRepository priceRepository;
         public IPriceRepository Prices => priceRepository ?? (priceRepository = serviceProvider.GetService<IPriceRepository>());
@@ -78,35 +69,16 @@ namespace Jasarsoft.AmadeusDev.Repo
         private IServiceRepository serviceRepository;
         public IServiceRepository Services => serviceRepository ?? (serviceRepository = serviceProvider.GetService<IServiceRepository>());
 
+
         private IAddressRepository addressRepository;
-        public IAddressRepository Address => addressRepository ?? (addressRepository = serviceProvider.GetService<IAddressRepository>());
-
-        private IAnalyticsRepository analyticsRepository;
-        public IAnalyticsRepository Analytics => analyticsRepository ?? (analyticsRepository = serviceProvider.GetService<IAnalyticsRepository>());
-
-        private ICollectionLinksRepository collectionLinksRepository;
-        public ICollectionLinksRepository CollectionLinks => collectionLinksRepository ?? (collectionLinksRepository = serviceProvider.GetService<ICollectionLinksRepository>());
-
-        private ICollectionMetaRepository collectionMetaRepository;
-        public ICollectionMetaRepository CollectionMeta => collectionMetaRepository ?? (collectionMetaRepository = serviceProvider.GetService<ICollectionMetaRepository>());
+        public IAddressRepository Addresses => addressRepository ?? (addressRepository = serviceProvider.GetService<IAddressRepository>());
 
         private IDistanceRepository distanceRepository;
         public IDistanceRepository Distances => distanceRepository ?? (distanceRepository = serviceProvider.GetService<IDistanceRepository>());
-
-        private IGeoCodeRepository geoCodeRepository;
-        public IGeoCodeRepository GeoCodes => geoCodeRepository ?? (geoCodeRepository = serviceProvider.GetService<IGeoCodeRepository>());
-
+        
         private ILocationRepository locationRepository;
         public ILocationRepository Locations => locationRepository ?? (locationRepository = serviceProvider.GetService<ILocationRepository>());
 
-        private ISelfRepository selfRepository;
-        public ISelfRepository Selfs => selfRepository ?? (selfRepository = serviceProvider.GetService<ISelfRepository>());
-
-        private ISuccessRepository successRepository;
-        public ISuccessRepository Success => successRepository ?? (successRepository = serviceProvider.GetService<ISuccessRepository>());
-
-        private ITravelersRepository travelersRepository;
-        public ITravelersRepository Travelers => travelersRepository ?? (travelersRepository = serviceProvider.GetService<ITravelersRepository>());
 
         public void Dispose()
         {

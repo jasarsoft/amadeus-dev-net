@@ -7,36 +7,26 @@ namespace Jasarsoft.AmadeusDev.Repo
 {
     public interface IUnitOfWork : IDisposable
     {
-        IAircraftEquipmentRepository AircraftEquipments { get; }
-        IDefaultsRepository Defaults { get; }
-        IDictionariesRepository Dictionaries { get; }
-        IDictionaryEntryRepository DictionaryEntries { get; }
+        IAircraftRepository Aircrafts { get; }
+        IDictionaryAircraftRepository DictionaryAircrafts { get; }
+        IDictionaryCarrierRepository DictionaryCarriers { get; }
+        IDictionaryCurrencyRepository DictionaryCurrencies { get; }
+        IDictionaryLocationRepository DictionaryLocations { get; }
+        IDictionaryRepository Dictionaries { get; }
         IFlightEndPointRepository FlightEndPoints { get; }
-        IFlightOfferRepository FlightOffer { get; }
-        IFlightOffersRepository FlightOffers { get; }
+        IFlightOfferRepository FlightOffers { get; }
+        IFlightRepository Flights { get; }
         IFlightSegmentRepository FlightSegments { get; }
         IFlightStopRepository FlightStops { get; }
-        IIssueRepository Issues { get; }
-        IIssueSourceRepository IssueSources { get; }
-        ILinksRepository Links { get; }
-        ILocationEntryRepository LocationEntries { get; }
-        IMetaRepository Metas { get; }
         IOfferItemRepository OfferItems { get; }
-        IOperatingFlightRepository OperatingFlights { get; }
+        IOperationRepository Operations { get; }
         IPriceRepository Prices { get; }
         IPricingDetailRepository PricingDetails { get; }
         ISegmentRepository Segments { get; }
         IServiceRepository Services { get; }
 
-        IAddressRepository Address { get; }
-        IAnalyticsRepository Analytics { get; }
-        ICollectionLinksRepository CollectionLinks { get; }
-        ICollectionMetaRepository CollectionMeta { get; }
+        IAddressRepository Addresses { get; }
         IDistanceRepository Distances { get; }
-        IGeoCodeRepository GeoCodes { get; }
         ILocationRepository Locations { get; }
-        ISelfRepository Selfs { get; }
-        ISuccessRepository Success { get; }
-        ITravelersRepository Travelers { get; }
     }
 }
