@@ -9,5 +9,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     public interface ILocationRepository : IRepository<Location, int>
     {
         IEnumerable<Location> GetLocationsByName(string keyword);
+
+        void Insert(Models.Airports.Location model);
     }
 }
