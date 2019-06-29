@@ -11,7 +11,7 @@ namespace Jasarsoft.AmadeusDev.Data.Airports
         [Key]
         public int DistanceId { get; set; }
 
-        public int Value { get; set; }
+        public int? Value { get; set; }
         public string Unit { get; set; }
     }
 }
