@@ -11,7 +11,10 @@ namespace Jasarsoft.AmadeusDev.Data.Flight
         [Key]
         public int FlightOperationId { get; set; }
 
-        public string CarrierCode { get; set; } 
-        public string Number { get; set; } 
+        public string Number { get; set; }
+
+        [ForeignKey(nameof(Carrier))]
+        public int CarrierId { get; set; }
+        public Carrier Carrier { get; set; }
     } 
 }
