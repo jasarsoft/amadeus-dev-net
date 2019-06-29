@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Jasarsoft.AmadeusDev.Data.Flights;
+using Jasarsoft.AmadeusDev.Data.Flight;
 
 namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
-    public interface IAircraftEquipmentRepository : IRepository<AircraftEquipment, int>
+    public interface IAircraftRepository : IRepository<Aircraft, int>
     {
     }
 }

@@ -44,7 +44,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         void Remove(TPk id);
         void Remove(TEntity entity);        
         void RemoveRange(IEnumerable<TEntity> entities);        
-        
         //get
         IEnumerable<TEntity> GetRange(int start, int take);
         //sort and range

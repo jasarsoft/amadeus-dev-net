@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Jasarsoft.AmadeusDev.Data.Airports;
+using Jasarsoft.AmadeusDev.Data.Flight;
 
 namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
-    public interface ICollectionLinksRepository : IRepository<CollectionLinks, int>
+    public interface IFlightOperationRepository : IRepository<FlightOperation, int>
     {
     }
 }
