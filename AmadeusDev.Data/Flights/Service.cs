@@ -13,7 +13,7 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
 
         public ICollection<Segment> Segments { get; set; }
 
-
+       
         [ForeignKey(nameof(OfferItem))]
         public int OfferItemId { get; set; }
         public OfferItem OfferItem { get; set; }

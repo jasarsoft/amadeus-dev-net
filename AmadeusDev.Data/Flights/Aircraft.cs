@@ -11,7 +11,6 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int AircraftId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Code { get; set; }
         public string Name { get; set; }
     }

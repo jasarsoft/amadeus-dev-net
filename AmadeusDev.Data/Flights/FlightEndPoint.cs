@@ -11,7 +11,10 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int FlightEndPointId { get; set; }
 
-        public string IataCode { get; set; } //IATA airline codes
+        [ForeignKey(nameof(Location))]
+        public int LocationId { get; set; }
+        public Location Location { get; set; }
+
         public string Terminal { get; set; }  //terminal name / number
         public string At { get; set; }  //local date and time in ISO8601 YYYY-MM-ddThh:mm±hh:mm format, e.g. 2017-02-10T20:40:00+02:00
     }

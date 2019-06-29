@@ -11,7 +11,6 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int FlightOfferId { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; } //the resource identifier
         public string Type { get; set; } //the resource name
 
