@@ -19,7 +19,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         {
             var query = entity.Include(x => x.Departure)
                 .Include(x => x.Arrival)
-                .Include(x => x.Operating)
+                
                 .Include(x => x.Aircraft)
                 .Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
 
@@ -30,7 +30,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         {
             var query = entity.Include(x => x.Departure)
                 .Include(x => x.Arrival)
-                .Include(x => x.Operating)
+                //.Include(x => x.Operating)
                 .Include(x => x.Aircraft)
                 .Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
 
@@ -44,7 +44,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             var query = entity.Include(x => x.Aircraft)
                 .Include(x => x.Arrival)
                 .Include(x => x.Departure)
-                .Include(x => x.Operating)
+                //.Include(x => x.Operating)
                 .Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
 
             return query.ToList();
@@ -55,7 +55,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             var query = entity.Include(x => x.Aircraft)
                 .Include(x => x.Arrival)
                 .Include(x => x.Departure)
-                .Include(x => x.Operating)
+                //.Include(x => x.Operating)
                 .Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
 
             return await query.ToListAsync();
@@ -68,7 +68,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             var query = entity.Include(x => x.Aircraft)
                 .Include(x => x.Arrival)
                 .Include(x => x.Departure)
-                .Include(x => x.Operating)
+                //.Include(x => x.Operating)
                 .Where(x => x.Arrival.IataCode.ToLower().Contains(date.ToLower()));
 
             return query.ToList();

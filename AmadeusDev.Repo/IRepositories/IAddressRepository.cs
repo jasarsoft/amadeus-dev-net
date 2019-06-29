@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Jasarsoft.AmadeusDev.Data.Airport;
+using Jasarsoft.AmadeusDev.Data.Airports;
 
 namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {

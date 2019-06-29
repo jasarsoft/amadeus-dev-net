@@ -10,9 +10,9 @@ using Jasarsoft.AmadeusDev.Repo.IRepositories;
 
 namespace Jasarsoft.AmadeusDev.Repo.Repositories
 {
-    public class DefaultsRepository : Repository<Defaults, int>, IDefaultsRepository
+    public class DictionaryRepository : Repository<Dictionary, int>, IDictionaryRepository
     {
-        public DefaultsRepository(AmadeusDevContext context) : base(context) { }
+        public DictionaryRepository(AmadeusDevContext context) : base (context) { }
 
 
     }

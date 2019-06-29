@@ -10,9 +10,9 @@ using Jasarsoft.AmadeusDev.Repo.IRepositories;
 
 namespace Jasarsoft.AmadeusDev.Repo.Repositories
 {
-    public class IssueSourceRepository : Repository<IssueSource, int>, IIssueSourceRepository
+    public class AircraftRepository : Repository<Aircraft, int>, IAircraftRepository
     {
-        public IssueSourceRepository(AmadeusDevContext context) : base(context) { }
+        public AircraftRepository(AmadeusDevContext context) : base(context) { }
 
 
     }

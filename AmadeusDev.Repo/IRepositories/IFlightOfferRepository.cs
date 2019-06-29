@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Jasarsoft.AmadeusDev.Data.Flight;
+using Jasarsoft.AmadeusDev.Data.Flights;
 
 namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IFlightOfferRepository : IRepository<FlightOffer, int>
     {
-        IEnumerable<FlightOffer> GetByFlightOffersId(int flightOfferId);
+        IEnumerable<FlightOffer> GetByFlightId(int flightId);
     }
 }
