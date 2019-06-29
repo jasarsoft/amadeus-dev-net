@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-using Jasarsoft.AmadeusDev.Data.Flight;
-using Jasarsoft.AmadeusDev.Data.Airport;
+using Jasarsoft.AmadeusDev.Data.Flights;
+using Jasarsoft.AmadeusDev.Data.Airports;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +24,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Context
         public virtual DbSet<FlightEndPoint> FlightEndPoints { get; set; }
         public virtual DbSet<FlightOffer> FlightOffer { get; set; }
         public virtual DbSet<FlightOperation> FlightOperations { get; set; }
-        public virtual DbSet<Flights> Flights { get; set; }
+        public virtual DbSet<Flight> Flights { get; set; }
         public virtual DbSet<FlightSegment> FlightSegments { get; set; }
         public virtual DbSet<FlightStop> FlightStops { get; set; }
         public virtual DbSet<OfferItem> OfferItems { get; set; }
