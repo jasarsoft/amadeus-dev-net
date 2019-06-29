@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Flight
+namespace Jasarsoft.AmadeusDev.Data.Flights
 {
     [Table("FlightStops", Schema = "Flight")]
     public class FlightStop

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Airport
+namespace Jasarsoft.AmadeusDev.Data.Airports
 {
     [Table("Addresses", Schema = "Airport")]
     public class Address

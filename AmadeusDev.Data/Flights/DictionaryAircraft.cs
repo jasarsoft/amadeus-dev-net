@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Flight
+namespace Jasarsoft.AmadeusDev.Data.Flights
 {
-    [Table("DictionaryCarriers", Schema = "Flight")]
-    public class DictionaryCarrier
+    [Table("DictionaryAircrafts", Schema = "Flight")]
+    public class DictionaryAircraft
     {
         [Key, Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -14,6 +14,6 @@ namespace Jasarsoft.AmadeusDev.Data.Flight
 
         [Key, Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int CarrierId { get; set; }
+        public int AircraftId { get; set; }
     }
 }
