@@ -9,11 +9,11 @@ using Jasarsoft.AmadeusDev.Service.IService;
 
 namespace Jasarsoft.AmadeusDev.Service.Service
 {
-    public class IssueSourceService : IIssueSourceService
+    public class DictionaryCarrierService : IDictionaryCarrierService
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public IssueSourceService(IUnitOfWork unitOfWork)
+        public DictionaryCarrierService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

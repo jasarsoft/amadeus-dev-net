@@ -9,15 +9,15 @@ using Jasarsoft.AmadeusDev.Service.IService;
 
 namespace Jasarsoft.AmadeusDev.Service.Service
 {
-    public class SelfService : ISelfService
+    public class DictionaryService : IDictionaryService
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public SelfService(IUnitOfWork unitOfWork)
+        public DictionaryService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-
+        
     }
 }

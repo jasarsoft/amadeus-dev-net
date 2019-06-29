@@ -13,17 +13,17 @@ using static Jasarsoft.AmadeusDev.Repo.Helper.Enumerations;
 
 namespace Jasarsoft.AmadeusDev.Service.Service
 {
-    public class FlightOffersService : IFlightOffersService
+    public class FlightService : IFlightService
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public FlightOffersService(IUnitOfWork unitOfWork)
+        public FlightService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
 
-        public FlightOffers ResponseFromServer(string departure, string arrival)
+        public Flights ResponseFromServer(string departure, string arrival)
         {
             string uri = String.Format("https://test.api.amadeus.com/v1/shopping/flight-offers?origin=NYC&destination=MAD&departureDate=2019-08-01");
 
@@ -33,7 +33,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             System.Diagnostics.Debug.WriteLine("\nRESPONSE FROM SERVER: GET");
             System.Diagnostics.Debug.WriteLine(get);
 #endif
-            return JsonConvert.DeserializeObject<FlightOffers>(get);
+            return JsonConvert.DeserializeObject<Flights>(get);
         }
 
         public int GetNumberOfFlights()
@@ -42,13 +42,13 @@ namespace Jasarsoft.AmadeusDev.Service.Service
         }
 
 
-        public void InsertFlight(FlightOffers model)
+        public void InsertFlight(Flights model)
         {
             if (model == null) throw new ArgumentNullException();
             unitOfWork.FlightOffers.InsertFlights(model);
         }
 
-        public async Task<int> InsertFlightsAsync(FlightOffers model)
+        public async Task<int> InsertFlightsAsync(Flights model)
         {
             if (model == null) throw new ArgumentNullException();
             return await unitOfWork.FlightOffers.InsertFlightsAsync(model);
@@ -63,7 +63,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
 
             foreach (var item in flightOffers)
             {
-                var flightOffer = unitOfWork.FlightOffer.GetByFlightOffersId(item.FlightOffersId);
+                var flightOffer = unitOfWork.FlightOffer.GetByFlightId(item.FlightOffersId);
                 foreach (var fo in flightOffer)
                 {
                     var offerItem = unitOfWork.OfferItems.GetByFlightOfferId(fo.FlightOfferId);

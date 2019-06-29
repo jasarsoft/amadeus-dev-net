@@ -9,11 +9,11 @@ using Jasarsoft.AmadeusDev.Service.IService;
 
 namespace Jasarsoft.AmadeusDev.Service.Service
 {
-    public class CollectionLinksService : ICollectionLinksService
+    public class OperationService : IOperationService
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public CollectionLinksService(IUnitOfWork unitOfWork)
+        public OperationService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

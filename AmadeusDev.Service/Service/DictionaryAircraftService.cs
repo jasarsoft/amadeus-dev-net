@@ -9,11 +9,11 @@ using Jasarsoft.AmadeusDev.Service.IService;
 
 namespace Jasarsoft.AmadeusDev.Service.Service
 {
-    public class AircraftEquipmentService : IAircraftEquipmentService
+    public class DictionaryAircraftService : IDictionaryAircraftService
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public AircraftEquipmentService(IUnitOfWork unitOfWork)
+        public DictionaryAircraftService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

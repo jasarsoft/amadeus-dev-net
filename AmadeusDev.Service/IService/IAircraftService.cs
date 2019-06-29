@@ -2,11 +2,11 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Jasarsoft.AmadeusDev.Data.Airports;
+using Jasarsoft.AmadeusDev.Data.Flights;
 
 namespace Jasarsoft.AmadeusDev.Service.IService
 {
-    public interface ICollectionLinksService
+    public interface IAircraftService
     {
     }
 }

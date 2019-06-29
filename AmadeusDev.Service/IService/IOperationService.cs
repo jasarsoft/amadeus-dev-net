@@ -6,7 +6,7 @@ using Jasarsoft.AmadeusDev.Data.Flights;
 
 namespace Jasarsoft.AmadeusDev.Service.IService
 {
-    public interface IAircraftEquipmentService
+    public interface IOperationService
     {
     }
 }

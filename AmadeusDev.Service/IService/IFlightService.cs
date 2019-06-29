@@ -7,13 +7,13 @@ using Jasarsoft.AmadeusDev.Data.Flights;
 
 namespace Jasarsoft.AmadeusDev.Service.IService
 {
-    public interface IFlightOffersService
+    public interface IFlightService
     {
-        FlightOffers ResponseFromServer(string departure, string arrival);
+        Flights ResponseFromServer(string departure, string arrival);
 
         int GetNumberOfFlights();
-        void InsertFlight(FlightOffers model);
-        Task<int> InsertFlightsAsync(FlightOffers model);
+        void InsertFlight(Flights model);
+        Task<int> InsertFlightsAsync(Flights model);
 
         IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string departure, string arrival, string date);
     }
