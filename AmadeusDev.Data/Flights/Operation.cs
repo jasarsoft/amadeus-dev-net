@@ -5,11 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Flights
 {
-    [Table("FlightOperations", Schema = "Flight")]
-    public class FlightOperation
+    [Table("Operations", Schema = "Flight")]
+    public class Operation
     {
         [Key]
-        public int FlightOperationId { get; set; }
+        public int OperationId { get; set; }
 
         public string Number { get; set; }
 

@@ -30,9 +30,9 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         public int AircraftId { get; set; }
         public Aircraft Aircraft { get; set; }
 
-        [ForeignKey(nameof(FlightOperation))]
-        public int FlightOperationId { get; set; }
-        public FlightOperation FlightOperation { get; set; }
+        [ForeignKey(nameof(Operation))]
+        public int OperationId { get; set; }
+        public Operation Operation { get; set; }
 
         public ICollection<FlightStop> Stops { get; set; }  //information regarding the different stops composing the flight segment.E.g.technical stop, change of gauge...
     }
