@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Flights
+namespace Jasarsoft.AmadeusDev.Data.Flight
 {
-    [Table("OfferItem", Schema = "Flights")]
+    [Table("OfferItems", Schema = "Flight")]
     public class OfferItem
     {
         [Key]
@@ -33,8 +33,9 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         public int? PricePerSeniorId { get; set; }
         public virtual Price PricePerSenior { get; set; }
 
+
         [ForeignKey(nameof(FlightOffer))]
-        public int? FlightOfferId { get; set; }
-        public virtual FlightOffer FlightOffer { get; set; }
+        public int FlightOfferId { get; set; }
+        public FlightOffer FlightOffer { get; set; }
     }
 }

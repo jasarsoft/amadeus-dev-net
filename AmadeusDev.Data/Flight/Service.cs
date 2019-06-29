@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Flights
+namespace Jasarsoft.AmadeusDev.Data.Flight
 {
-    [Table("Service", Schema = "Flights")]
+    [Table("Services", Schema = "Flight")]
     public class Service
     {
         [Key]
         public int ServiceId { get; set; }
 
-        [ForeignKey(nameof(OfferItem))]
-        public int? OfferItemId { get; set; }
-        public virtual OfferItem OfferItem { get; set; }
-
         public ICollection<Segment> Segments { get; set; }
+
+
+        [ForeignKey(nameof(OfferItem))]
+        public int OfferItemId { get; set; }
+        public OfferItem OfferItem { get; set; }
     }
 }

@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Flights
+namespace Jasarsoft.AmadeusDev.Data.Flight
 {
-    [Table("FlightOffer", Schema = "Flights")]
+    [Table("FlightOffer", Schema = "Flight")]
     public class FlightOffer
     {
         [Key]
         public int FlightOfferId { get; set; }
 
-        [ForeignKey(nameof(FlightOffers))]
-        public int? FlightOffersId { get; set; }
-        public virtual FlightOffers FlightOffers { get; set; }
-
-        public string Type { get; set; } //the resource name
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string Id { get; set; } //the resource identifier
-
+        public string Type { get; set; } //the resource name
+        
         public ICollection<OfferItem> OfferItems { get; set; }
     }
 }

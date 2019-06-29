@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Flights
+namespace Jasarsoft.AmadeusDev.Data.Flight
 {
-    [Table("PricingDetail", Schema = "Flights")]
+    [Table("PricingDetails", Schema = "Flight")]
     public class PricingDetail
     {
         [Key]

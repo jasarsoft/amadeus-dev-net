@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Jasarsoft.AmadeusDev.Data.Airports
+namespace Jasarsoft.AmadeusDev.Data.Airport
 {
-    [Table("Address", Schema = "Airports")]
+    [Table("Addresses", Schema = "Airport")]
     public class Address
     {
         [Key]
