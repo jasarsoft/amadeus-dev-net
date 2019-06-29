@@ -26,5 +26,9 @@ namespace Jasarsoft.AmadeusDev.Data.Airport
         [ForeignKey(nameof(Address))]
         public int? AddressId { get; set; }
         virtual public Address Address { get; set; }
+
+        [ForeignKey(nameof(Distance))]
+        public int? DistanceId { get; set; }
+        public virtual Distance Distance { get; set; }
     }
 }
