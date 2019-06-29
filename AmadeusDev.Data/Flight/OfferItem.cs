@@ -14,8 +14,8 @@ namespace Jasarsoft.AmadeusDev.Data.Flight
         public ICollection<Service> Services { get; set; } 
 
         [ForeignKey(nameof(Price))]
-        public int? PriceId { get; set; }
-        public virtual Price Price { get; set; }
+        public int PriceId { get; set; }
+        public Price Price { get; set; }
 
         [ForeignKey(nameof(PricePerAdult))]
         public int? PricePerAdultId { get; set; }

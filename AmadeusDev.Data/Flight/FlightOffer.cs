@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jasarsoft.AmadeusDev.Data.Flight
 {
-    [Table("FlightOffer", Schema = "Flight")]
+    [Table("FlightOffers", Schema = "Flight")]
     public class FlightOffer
     {
         [Key]
