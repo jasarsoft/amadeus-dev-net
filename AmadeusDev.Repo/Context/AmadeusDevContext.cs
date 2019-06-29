@@ -23,7 +23,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Context
         public virtual DbSet<DictionaryLocation> DictionaryLocations { get; set; }
         public virtual DbSet<FlightEndPoint> FlightEndPoints { get; set; }
         public virtual DbSet<FlightOffer> FlightOffer { get; set; }
-        public virtual DbSet<FlightOperation> FlightOperations { get; set; }
+        public virtual DbSet<Operation> FlightOperations { get; set; }
         public virtual DbSet<Flight> Flights { get; set; }
         public virtual DbSet<FlightSegment> FlightSegments { get; set; }
         public virtual DbSet<FlightStop> FlightStops { get; set; }
