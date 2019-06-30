@@ -4,14 +4,16 @@ using Jasarsoft.AmadeusDev.Repo.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AmadeusDev.Repo.Migrations
 {
     [DbContext(typeof(AmadeusDevContext))]
-    partial class AmadeusDevContextModelSnapshot : ModelSnapshot
+    [Migration("20190630122952_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
