@@ -8,5 +8,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface ICurrencyRepository : IRepository<Currency, int>
     {
+        int Insert(KeyValuePair<string, string> model);
     }
 }
