@@ -8,5 +8,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface ICarrierRepository : IRepository<Carrier, int>
     {
+        int Insert(KeyValuePair<string, string> model);
     }
 }
