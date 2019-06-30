@@ -11,5 +11,9 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         //IEnumerable<Location> GetLocationsByName(string keyword);
 
         //void Insert(Models.Airports.Location model);
+
+        int Insert(KeyValuePair<string, string> model);
+        Location FindByCode(string code);
+        Location FindByCode(Location location);
     }
 }

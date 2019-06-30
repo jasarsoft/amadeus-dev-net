@@ -28,7 +28,9 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         Name = model.Value,
                     };
 
-                    if (!base.Contains(aircraft))
+                    var result = FindByCode(aircraft);
+
+                    if (result == null)
                     {
                         context.Add(aircraft);
                         context.SaveChanges();
@@ -36,7 +38,7 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         return aircraft.AircraftId;
                     }
 
-                    return 0;
+                    return result.AircraftId;
                 }
                 catch (Exception e)
                 {
@@ -44,6 +46,16 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                     throw new DbUpdateException("Insert Aircraft", e);
                 }
             }
+        }
+
+        public Aircraft FindByCode(string code)
+        {
+            return base.Where(x => x.Code == code).First();
+        }
+
+        public Aircraft FindByCode(Aircraft aircraft)
+        {
+            return base.Where(x => x.Code == aircraft.Code).First();
         }
     }
 }

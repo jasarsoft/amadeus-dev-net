@@ -9,5 +9,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     public interface ICarrierRepository : IRepository<Carrier, int>
     {
         int Insert(KeyValuePair<string, string> model);
+        Carrier FindByCode(string code);
+        Carrier FindByCode(Carrier carrier);
     }
 }

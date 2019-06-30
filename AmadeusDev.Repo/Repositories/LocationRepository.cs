@@ -16,7 +16,49 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
     {
         public LocationRepository(AmadeusDevContext context) : base(context) { }
 
-        
+
+        public int Insert(KeyValuePair<string, string> model)
+        {
+            using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    Location location = new Location
+                    {
+                        Code = model.Key,
+                        Name = model.Value,
+                    };
+
+                    var result = FindByCode(location);
+
+                    if (result == null)
+                    {
+                        context.Add(location);
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return location.LocationId;
+                    }
+
+                    return result.LocationId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Location", e);
+                }
+            }
+        }
+
+        public Location FindByCode(string code)
+        {
+            return base.Where(x => x.Code == code).First();
+        }
+
+        public Location FindByCode(Location location)
+        {
+            return base.Where(x => x.Code == location.Code).First();
+        }
+
         //public IEnumerable<Location> GetLocationsByName(string keyword)
         //{
         //    var query = entity.Where(x => x.Name.ToLower().Contains(keyword));
