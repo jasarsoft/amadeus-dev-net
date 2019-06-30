@@ -50,12 +50,12 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
         public Carrier FindByCode(string code)
         {
-            return base.Where(x => x.Code == code).First();
+            return base.Where(x => x.Code == code).FirstOrDefault();
         }
 
         public Carrier FindByCode(Carrier carrier)
         {
-            return base.Where(x => x.Code == carrier.Code).First();
+            return base.Where(x => x.Code == carrier.Code).FirstOrDefault();
         }
     }
 }

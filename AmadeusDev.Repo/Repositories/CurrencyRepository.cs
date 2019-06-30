@@ -50,12 +50,12 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
         public Currency FindByCode(Currency currency)
         {
-            return base.Where(x => x.Code == currency.Code).First();
+            return base.Where(x => x.Code == currency.Code).FirstOrDefault();
         }
 
         public Currency FindByCode(string code)
         {
-            return base.Where(x => x.Code == code).First();
+            return base.Where(x => x.Code == code).FirstOrDefault();
         }
     }
 }

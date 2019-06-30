@@ -51,12 +51,12 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
         public Location FindByCode(string code)
         {
-            return base.Where(x => x.Code == code).First();
+            return base.Where(x => x.Code == code).FirstOrDefault();
         }
 
         public Location FindByCode(Location location)
         {
-            return base.Where(x => x.Code == location.Code).First();
+            return base.Where(x => x.Code == location.Code).FirstOrDefault();
         }
 
         //public IEnumerable<Location> GetLocationsByName(string keyword)

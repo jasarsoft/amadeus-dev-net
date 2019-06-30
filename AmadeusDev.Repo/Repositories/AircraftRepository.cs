@@ -50,12 +50,12 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
         public Aircraft FindByCode(string code)
         {
-            return base.Where(x => x.Code == code).First();
+            return base.Where(x => x.Code == code).FirstOrDefault();
         }
 
         public Aircraft FindByCode(Aircraft aircraft)
         {
-            return base.Where(x => x.Code == aircraft.Code).First();
+            return base.Where(x => x.Code == aircraft.Code).FirstOrDefault();
         }
     }
 }
