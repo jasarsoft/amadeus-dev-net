@@ -10,9 +10,9 @@ using Jasarsoft.AmadeusDev.Repo.IRepositories;
 
 namespace Jasarsoft.AmadeusDev.Repo.Repositories
 {
-    public class DictionaryCurrencyRepository : Repository<DictionaryCurrency, int>, IDictionaryCurrencyRepository
+    public class CurrencyRepository : Repository<Currency, int>, ICurrencyRepository
     {
-        public DictionaryCurrencyRepository(AmadeusDevContext context) : base(context) { }
+        public CurrencyRepository(AmadeusDevContext context) : base(context) { }
 
 
     }

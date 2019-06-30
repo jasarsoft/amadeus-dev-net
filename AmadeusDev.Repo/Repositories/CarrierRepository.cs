@@ -10,9 +10,9 @@ using Jasarsoft.AmadeusDev.Repo.IRepositories;
 
 namespace Jasarsoft.AmadeusDev.Repo.Repositories
 {
-    public class DictionaryCarrierRepository : Repository<DictionaryCarrier, int>, IDictionaryCarrierRepository
+    public class CarrierRepository : Repository<Carrier, int>, ICarrierRepository
     {
-        public DictionaryCarrierRepository(AmadeusDevContext context) : base(context) { }
+        public CarrierRepository(AmadeusDevContext context) : base(context) { }
 
 
     }

@@ -8,16 +8,14 @@ namespace Jasarsoft.AmadeusDev.Repo
     public interface IUnitOfWork : IDisposable
     {
         IAircraftRepository Aircrafts { get; }
-        IDictionaryAircraftRepository DictionaryAircrafts { get; }
-        IDictionaryCarrierRepository DictionaryCarriers { get; }
-        IDictionaryCurrencyRepository DictionaryCurrencies { get; }
-        IDictionaryLocationRepository DictionaryLocations { get; }
-        IDictionaryRepository Dictionaries { get; }
+        ICarrierRepository Carriers { get; }
+        ICurrencyRepository Currencies { get; }
         IFlightEndPointRepository FlightEndPoints { get; }
         IFlightOfferRepository FlightOffers { get; }
         IFlightRepository Flights { get; }
         IFlightSegmentRepository FlightSegments { get; }
         IFlightStopRepository FlightStops { get; }
+        ILocationRepository Locations { get; }
         IOfferItemRepository OfferItems { get; }
         IOperationRepository Operations { get; }
         IPriceRepository Prices { get; }
@@ -26,7 +24,6 @@ namespace Jasarsoft.AmadeusDev.Repo
         IServiceRepository Services { get; }
 
         IAddressRepository Addresses { get; }
-        IDistanceRepository Distances { get; }
-        ILocationRepository Locations { get; }
+        IDistanceRepository Distances { get; }        
     }
 }

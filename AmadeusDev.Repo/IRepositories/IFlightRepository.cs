@@ -10,7 +10,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IFlightRepository : IRepository<Flight, int>
     {
-        void InsertFlights(Flight model);
+        void Insert(Models.Flights.Flight model);
         Task<int> InsertFlightsAsync(Flight model);
        
         IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departure, string arrival, string date);

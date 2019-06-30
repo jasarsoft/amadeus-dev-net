@@ -21,7 +21,8 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public override IEnumerable<Flight> SortAndGetRange<TKey>(int start, int take, Expression<Func<Flight, TKey>> predicate, OrderBy order)
         {
             return order == OrderBy.ASC
-                ? entity.Include(x => x.Dictionary)
+                ? entity.Include(x => x.Data.Select(f => f.FlightId == x.FlightId))
+                        .Include(x => x.Dictionary)
                             .ThenInclude(d => d.DictionaryAircrafts)
                         .Include(x => x.Dictionary)
                             .ThenInclude(d => d.DictionaryCarriers)
@@ -62,17 +63,17 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
             return query.Select(x => new FlightDTO
             {
-                Departure = x.DictionariesId.ToString(),
+                Departure = x.DictionaryId.ToString(),
             });
         }
 
-        public void InsertFlights(Flight model)
+        public void Insert(Models.Flights.Flight model)
         {
             using (IDbContextTransaction transaction = context.Database.BeginTransaction())
             {
                 try
                 {
-                    Flight flightOffers = new Flight();
+                    Flight flight = model;
                     
                     //Meta meta = new Meta();
                     //if (model.Meta != null)

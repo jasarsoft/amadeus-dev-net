@@ -21,20 +21,11 @@ namespace Jasarsoft.AmadeusDev.Repo
         private IAircraftRepository aircraftRepository;
         public IAircraftRepository Aircrafts=> aircraftRepository ?? (aircraftRepository = serviceProvider.GetService<IAircraftRepository>());
 
-        private IDictionaryAircraftRepository dictionaryAirfraftRepository;
-        public IDictionaryAircraftRepository DictionaryAircrafts => dictionaryAirfraftRepository ?? (dictionaryAirfraftRepository = serviceProvider.GetService<IDictionaryAircraftRepository>());
+        private ICarrierRepository carrierRepository;
+        public ICarrierRepository Carriers => carrierRepository ?? (carrierRepository = serviceProvider.GetService<ICarrierRepository>());
 
-        private IDictionaryCarrierRepository dictionaryCarrierRepository;
-        public IDictionaryCarrierRepository DictionaryCarriers => dictionaryCarrierRepository ?? (dictionaryCarrierRepository = serviceProvider.GetService<IDictionaryCarrierRepository>());
-
-        private IDictionaryCurrencyRepository dictionaryCurrencyRepository;
-        public IDictionaryCurrencyRepository DictionaryCurrencies => dictionaryCurrencyRepository ?? (dictionaryCurrencyRepository = serviceProvider.GetService<IDictionaryCurrencyRepository>());
-
-        private IDictionaryLocationRepository dictionaryLocationRepository;
-        public IDictionaryLocationRepository DictionaryLocations => dictionaryLocationRepository ?? (dictionaryLocationRepository = serviceProvider.GetService<IDictionaryLocationRepository>());
-
-        private IDictionaryRepository dictionaryRepository;
-        public IDictionaryRepository Dictionaries => dictionaryRepository ?? (dictionaryRepository = serviceProvider.GetService<IDictionaryRepository>());
+        private ICurrencyRepository currencyRepository;
+        public ICurrencyRepository Currencies => currencyRepository ?? (currencyRepository = serviceProvider.GetService<ICurrencyRepository>());
 
         private IFlightEndPointRepository flightEndPointRepository;
         public IFlightEndPointRepository FlightEndPoints => flightEndPointRepository ?? (flightEndPointRepository = serviceProvider.GetService<IFlightEndPointRepository>());
@@ -49,7 +40,10 @@ namespace Jasarsoft.AmadeusDev.Repo
         public IFlightSegmentRepository FlightSegments => flightSegmentRepository ?? (flightSegmentRepository = serviceProvider.GetService<IFlightSegmentRepository>());
 
         private IFlightStopRepository flightStopRepository;
-        public IFlightStopRepository FlightStops => flightStopRepository ?? (flightStopRepository = serviceProvider.GetService<IFlightStopRepository>());        
+        public IFlightStopRepository FlightStops => flightStopRepository ?? (flightStopRepository = serviceProvider.GetService<IFlightStopRepository>());
+
+        private ILocationRepository locationRepository;
+        public ILocationRepository Locations => locationRepository ?? (locationRepository = serviceProvider.GetService<ILocationRepository>());
 
         private IOfferItemRepository offerItemRepository;
         public IOfferItemRepository OfferItems => offerItemRepository ?? (offerItemRepository = serviceProvider.GetService<IOfferItemRepository>());
@@ -76,9 +70,6 @@ namespace Jasarsoft.AmadeusDev.Repo
         private IDistanceRepository distanceRepository;
         public IDistanceRepository Distances => distanceRepository ?? (distanceRepository = serviceProvider.GetService<IDistanceRepository>());
         
-        private ILocationRepository locationRepository;
-        public ILocationRepository Locations => locationRepository ?? (locationRepository = serviceProvider.GetService<ILocationRepository>());
-
 
         public void Dispose()
         {

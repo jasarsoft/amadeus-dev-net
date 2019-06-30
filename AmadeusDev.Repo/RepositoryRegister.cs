@@ -11,16 +11,14 @@ namespace Jasarsoft.AmadeusDev.Repo
             service.AddTransient<IUnitOfWork, UnitOfWork>();
 
             service.AddTransient<IAircraftRepository, AircraftRepository>();
-            service.AddTransient<IDictionaryAircraftRepository, DictionaryAircraftRepository>();
-            service.AddTransient<IDictionaryCarrierRepository, DictionaryCarrierRepository>();
-            service.AddTransient<IDictionaryCurrencyRepository, DictionaryCurrencyRepository>();
-            service.AddTransient<IDictionaryLocationRepository, DictionaryLocationRepository>();
-            service.AddTransient<IDictionaryRepository, DictionaryRepository>();            
+            service.AddTransient<ICarrierRepository, CarrierRepository>();
+            service.AddTransient<ICurrencyRepository, CurrencyRepository>();
             service.AddTransient<IFlightEndPointRepository, FlightEndPointRepository>();
             service.AddTransient<IFlightOfferRepository, FlightOfferRepository>();
             service.AddTransient<IFlightRepository, FlightRepository>();
             service.AddTransient<IFlightSegmentRepository, FlightSegmentRepository>();
-            service.AddTransient<IFlightStopRepository, FlightStopRepository>();            
+            service.AddTransient<IFlightStopRepository, FlightStopRepository>();
+            service.AddTransient<ILocationRepository, LocationRepository>();
             service.AddTransient<IOfferItemRepository, OfferItemRepository>();
             service.AddTransient<IOperationRepository, OperationRepository>();
             service.AddTransient<IPriceRepository, PriceRepository>();
@@ -30,7 +28,6 @@ namespace Jasarsoft.AmadeusDev.Repo
 
             service.AddTransient<IAddressRepository, AddressRepository>();
             service.AddTransient<IDistanceRepository, DistanceRepository>();
-            service.AddTransient<ILocationRepository, LocationRepository>();
         }
     }
 }
