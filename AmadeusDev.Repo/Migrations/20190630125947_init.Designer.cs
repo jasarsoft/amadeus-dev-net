@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmadeusDev.Repo.Migrations
 {
     [DbContext(typeof(AmadeusDevContext))]
-    [Migration("20190630122952_init")]
+    [Migration("20190630125947_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,8 +224,6 @@ namespace AmadeusDev.Repo.Migrations
                     b.Property<string>("Code");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("Type");
 
                     b.HasKey("LocationId");
 

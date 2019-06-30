@@ -223,8 +223,6 @@ namespace AmadeusDev.Repo.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Type");
-
                     b.HasKey("LocationId");
 
                     b.HasIndex("Code")
