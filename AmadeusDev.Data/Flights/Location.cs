@@ -12,7 +12,6 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         public int LocationId { get; set; }
 
         public string Code { get; set; }
-        public string Type { get; set; }
         public string Name { get; set; }
     }
 }

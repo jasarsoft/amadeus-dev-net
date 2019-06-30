@@ -73,7 +73,6 @@ namespace Jasarsoft.AmadeusDev.Repo.Context
             modelBuilder.Entity<FlightOffer>()
                 .HasIndex(x => x.Id)
                 .IsUnique();
-            
         }
     }
 }
