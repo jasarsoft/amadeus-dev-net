@@ -11,8 +11,11 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
         [Key]
         public int FlightId { get; set; }
 
-        public string Origin { get; set; }
-        public string Destination { get; set; }
+        public int OriginId { get; set; }
+        public Location Origin { get; set; }
+
+        public int DestionationId { get; set; }
+        public Location Destination { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DepartureDate { get; set; }
