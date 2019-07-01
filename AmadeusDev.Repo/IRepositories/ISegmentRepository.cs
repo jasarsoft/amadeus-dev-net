@@ -9,5 +9,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     public interface ISegmentRepository : IRepository<Segment, int>
     {
         IEnumerable<Segment> GetByServiceId(int serviceId);
+        int Insert(Segment model);
     }
 }

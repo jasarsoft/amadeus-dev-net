@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Jasarsoft.AmadeusDev.Data.Flights;
 using Jasarsoft.AmadeusDev.Repo.Context;
 using Jasarsoft.AmadeusDev.Repo.IRepositories;
@@ -23,8 +24,8 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                     .ThenInclude(d => d.Arrival)
                 .Include(x => x.FlightSegment)
                     .ThenInclude(d => d.Departure)
-                .Include(x => x.FlightSegment)
-                    .ThenInclude(d => d.Operating)
+                //.Include(x => x.FlightSegment)
+                //    .ThenInclude(d => d.Operating)
                 .Include(x => x.PricingDetailPerAdult)
                 .Include(x => x.PricingDetailPerChild)
                 .Include(x => x.PricingDetailPerInfant)
@@ -32,6 +33,25 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 .Where(x => x.ServiceId == serviceId)
                 .AsNoTracking()
                 .ToList();
+        }
+
+        public int Insert(Segment model)
+        {
+            using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    context.Add(model);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return model.SegmentId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Segment", e);
+                }
+            }
         }
     }
 }
