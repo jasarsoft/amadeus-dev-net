@@ -18,344 +18,436 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public FlightRepository(AmadeusDevContext context) : base(context) { }
 
 
-        public override IEnumerable<Flight> SortAndGetRange<TKey>(int start, int take, Expression<Func<Flight, TKey>> predicate, OrderBy order)
-        {
-            return order == OrderBy.ASC
-                ? entity.Include(x => x.Data.Select(f => f.FlightId == x.FlightId))
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryAircrafts)
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryCarriers)
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryCurrencies)
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryLocations)
-                        .Skip(start).Take(take)
-                        .AsNoTracking()
-                        .OrderBy(predicate)
-                : entity.Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryAircrafts)
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryCarriers)
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryCurrencies)
-                        .Include(x => x.Dictionary)
-                            .ThenInclude(d => d.DictionaryLocations)
-                        .Skip(start).Take(take)
-                        .AsNoTracking()
-                        .OrderByDescending(predicate);
-        }
-
-        public IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departure, string arrival, string date)
-        {
-
-            var query = context.Flights
-                .Include(x => x.Dictionary)
-                    .ThenInclude(d => d.DictionaryAircrafts)
-                .Include(x => x.Dictionary)
-                    .ThenInclude(d => d.DictionaryCarriers)
-                .Include(x => x.Dictionary)
-                    .ThenInclude(d => d.DictionaryCurrencies)
-                .Include(x => x.Dictionary)
-                    .ThenInclude(d => d.DictionaryLocations)     
-                .Skip(start).Take(take)                
-                .AsQueryable();
-
-            return query.Select(x => new FlightDTO
-            {
-                Departure = x.DictionaryId.ToString(),
-            });
-        }
-
-        public void Insert(Models.Flights.Flight model)
+        public int Insert(Flight model)
         {
             using (IDbContextTransaction transaction = context.Database.BeginTransaction())
             {
                 try
                 {
-                    Flight flight = model;
-                    
-                    //Meta meta = new Meta();
-                    //if (model.Meta != null)
-                    //{
-                    //    meta.Currency = model.Meta.Currency;
-
-                    //    Links links = new Links();
-                    //    if (model.Meta.Links != null)
-                    //    {
-                    //        links.Self = model.Meta.Links.Self;
-
-                    //        context.Links.Add(links);
-                    //        meta.LinksId = links.LinkId;
-                    //    }
-
-                    //    Defaults defaults = new Defaults();
-                    //    if (model.Meta.Defaults != null)
-                    //    {
-                    //        defaults.Adults = model.Meta.Defaults.Adults;
-                    //        defaults.NonStop = model.Meta.Defaults.NonStop;
-
-                    //        context.Defaults.Add(defaults);
-                    //        meta.DefaultsId = defaults.DefaultId;
-                    //    }
-
-                    //    context.Metas.Add(meta);
-                    //    flightOffers.MetaId = meta.MetaId;
-                    //}
-
-                    //Dictionary dictionaries = new Dictionary();
-                    //if (model.Dictionary != null)
-                    //{
-                    //    DictionaryEntry aircraft = new DictionaryEntry();
-                    //    if (model.Dictionaries.Aircraft != null)
-                    //    {
-                    //        aircraft.Code = model.Dictionaries.Aircraft.Code;
-
-                    //        context.DictionaryEntries.Add(aircraft);
-                    //        dictionaries.AircraftId = aircraft.DictionaryEntryId;
-                    //    }
-
-                    //    DictionaryEntry carriers = new DictionaryEntry();
-                    //    if (model.Dictionaries.Carriers != null)
-                    //    {
-                    //        carriers.Code = model.Dictionaries.Carriers.Code;
-
-                    //        context.DictionaryEntries.Add(carriers);
-                    //        dictionaries.CarriersId = carriers.DictionaryEntryId;
-                    //    }
-
-                    //    DictionaryEntry currencies = new DictionaryEntry();
-                    //    if (model.Dictionaries.Currencies != null)
-                    //    {
-                    //        currencies.Code = model.Dictionaries.Currencies.Code;
-
-                    //        context.DictionaryEntries.Add(currencies);
-                    //        dictionaries.CurrenciesId = currencies.DictionaryEntryId;
-                    //    }
-
-                    //    LocationEntry locations = new LocationEntry();
-                    //    if (model.Dictionaries.Locations != null)
-                    //    {
-                    //        locations.subType = model.Dictionaries.Locations.subType;
-                    //        locations.detailedName = model.Dictionaries.Locations.detailedName;
-
-                    //        context.LocationEntries.Add(locations);
-                    //        dictionaries.LocationsId = locations.LocationEntryId;
-                    //    }
-
-                    //    context.Dictionaries.Add(dictionaries);
-                    //    flightOffers.DictionariesId = dictionaries.DictionaryId;
-                    //}
-
-                    //context.FlightOffers.Add(flightOffers);
-
-                    //if (model.Data != null)
-                    //{
-                    //    foreach (var item in model.Data)
-                    //    {
-                    //        FlightOffer data = new FlightOffer();
-                    //        data.FlightOffersId = flightOffers.FlightOffersId;
-                    //        data.Id = item.Id;
-                    //        data.Type = item.Type;
-                    //        context.FlightOffer.Add(data);
-
-                            
-                    //        if (item.OfferItems != null)
-                    //        {
-                    //            foreach (var offer in item.OfferItems)
-                    //            {
-                    //                OfferItem offerItem = new OfferItem();
-                    //                offerItem.FlightOfferId = data.FlightOfferId;
-
-                    //                Price price = new Price();
-                    //                if (offer.Price != null)
-                    //                {
-                    //                    price.Total = offer.Price.Total;
-                    //                    price.TotalTaxes = offer.Price.TotalTaxes;
-
-                    //                    context.Prices.Add(price);
-                    //                    offerItem.PriceId = price.PriceId;
-                    //                }
-
-                    //                Price pricePerAdult = new Price();
-                    //                if (offer.PricePerAdult != null)
-                    //                {
-                    //                    pricePerAdult.Total = offer.PricePerAdult.Total;
-                    //                    pricePerAdult.TotalTaxes = offer.PricePerAdult.TotalTaxes;
-
-                    //                    context.Prices.Add(pricePerAdult);
-                    //                    offerItem.PricePerAdultId = pricePerAdult.PriceId;
-                    //                }
-
-                    //                Price pricePerInfant = new Price();
-                    //                if (offer.PricePerInfant != null)
-                    //                {
-                    //                    pricePerInfant.Total = offer.PricePerInfant.Total;
-                    //                    pricePerInfant.TotalTaxes = offer.PricePerInfant.TotalTaxes;
-
-                    //                    context.Prices.Add(pricePerInfant);
-                    //                    offerItem.PricePerInfantId = pricePerInfant.PriceId;
-                    //                }
-
-                    //                Price pricePerChild = new Price();
-                    //                if (offer.PricePerChild != null)
-                    //                {
-                    //                    pricePerChild.Total = offer.PricePerChild.Total;
-                    //                    pricePerChild.TotalTaxes = offer.PricePerChild.TotalTaxes;
-
-                    //                    context.Prices.Add(pricePerChild);
-                    //                    offerItem.PricePerChildId = pricePerChild.PriceId;
-                    //                }
-
-                    //                Price pricePerSenior = new Price();
-                    //                if (offer.PricePerSenior != null)
-                    //                {
-                    //                    pricePerSenior.Total = offer.PricePerSenior.Total;
-                    //                    pricePerSenior.TotalTaxes = offer.PricePerSenior.TotalTaxes;
-
-                    //                    context.Prices.Add(pricePerSenior);
-                    //                    offerItem.PricePerSeniorId = pricePerSenior.PriceId;
-                    //                }
-
-                    //                context.OfferItems.Add(offerItem);
-
-                    //                if (offer.Services != null)
-                    //                {                                        
-                    //                    foreach (var s in offer.Services)
-                    //                    {
-                    //                        Service service = new Service();
-                    //                        service.OfferItemId = offerItem.OfferItemId;
-                    //                        context.Services.Add(service);
-
-                    //                        if (s.Segments != null)
-                    //                        {
-                    //                            foreach (var seg in s.Segments)
-                    //                            {
-                    //                                Segment segment = new Segment();
-                    //                                segment.ServiceId = service.ServiceId;
-
-                    //                                FlightSegment flightSegment = new FlightSegment();
-                    //                                if (seg.FlightSegment != null)
-                    //                                {
-                    //                                    FlightEndPoint departure = new FlightEndPoint();
-                    //                                    if (seg.FlightSegment.Departure != null)
-                    //                                    {
-                    //                                        departure.At = seg.FlightSegment.Departure.At;
-                    //                                        departure.IataCode = seg.FlightSegment.Departure.IataCode;
-                    //                                        departure.Terminal = seg.FlightSegment.Departure.Terminal;
-
-                    //                                        context.FlightEndPoints.Add(departure);
-                    //                                        flightSegment.DepartureId = departure.FlightEndPointId;
-                    //                                    }
-
-                    //                                    FlightEndPoint arrival = new FlightEndPoint();
-                    //                                    if (seg.FlightSegment.Arrival != null)
-                    //                                    {
-                    //                                        arrival.At = seg.FlightSegment.Arrival.At;
-                    //                                        arrival.IataCode = seg.FlightSegment.Arrival.IataCode;
-                    //                                        arrival.Terminal = seg.FlightSegment.Arrival.Terminal;
-
-                    //                                        context.FlightEndPoints.Add(arrival);
-                    //                                        flightSegment.ArrivalId = arrival.FlightEndPointId;
-                    //                                    }
-
-                    //                                    AircraftEquipment aircraft = new AircraftEquipment();
-                    //                                    if (seg.FlightSegment.Aircraft != null)
-                    //                                    {
-                    //                                        aircraft.Code = seg.FlightSegment.Aircraft.Code;
-
-                    //                                        context.AircraftEquipments.Add(aircraft);
-                    //                                        flightSegment.AircraftId = aircraft.AircraftEquipmentId;
-                    //                                    }
-
-                    //                                    OperatingFlight operating = new OperatingFlight();
-                    //                                    if (seg.FlightSegment.Operating != null)
-                    //                                    {
-                    //                                        operating.CarrierCode = seg.FlightSegment.Operating.CarrierCode;
-                    //                                        operating.Number = seg.FlightSegment.Operating.Number;
-
-                    //                                        context.OperatingFlights.Add(operating);
-                    //                                        flightSegment.OperatingId = operating.OperatingFlightId;
-                    //                                    }
-
-                    //                                    flightSegment.Duration = seg.FlightSegment.Duration;
-                    //                                    flightSegment.CarrierCode = seg.FlightSegment.CarrierCode;
-                    //                                    flightSegment.Number = seg.FlightSegment.Number;
-
-                    //                                    context.FlightSegments.Add(flightSegment);
-                    //                                    segment.FlightSegmentId = flightSegment.FlightSegmentId;
-                                                        
-                    //                                    if (seg.FlightSegment.Stops != null)
-                    //                                    {
-                    //                                        foreach (var stopItem in seg.FlightSegment.Stops)
-                    //                                        {
-                    //                                            FlightStop stop = new FlightStop();                                                                
-                    //                                            stop.ArrivalAt = stopItem.ArrivalAt;
-                    //                                            stop.DepartureAt = stopItem.DepartureAt;
-                    //                                            stop.Duration = stopItem.Duration;
-                    //                                            stop.IataCode = stopItem.IataCode;
-                                                                
-                    //                                            AircraftEquipment newAircraft = new AircraftEquipment();
-                    //                                            if (stopItem.NewAircraft != null)
-                    //                                            {
-                    //                                                newAircraft.Code = stopItem.NewAircraft.Code;
-
-                    //                                                context.AircraftEquipments.Add(newAircraft);
-                    //                                                stop.NewAircraftId = newAircraft.AircraftEquipmentId;
-                    //                                            }
-
-                    //                                            stop.FlightSegmentId = flightSegment.FlightSegmentId;
-                    //                                            context.FlightStops.Add(stop);
-                    //                                        }
-                    //                                    }
-                    //                                }
-                    //                            }
-                    //                        }
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
-
-
-                    //if (model.Warnings != null)
-                    //{
-                    //    foreach (var item in model.Warnings)
-                    //    {
-                    //        Issue issue = new Issue();
-                    //        issue.Code = item.Code;
-                    //        issue.Detail = item.Detail;
-                    //        issue.FlightOffersId = flightOffers.FlightOffersId;
-                    //        issue.Status = item.Status;
-                    //        issue.Title = item.Title;
-
-                    //        IssueSource issueSource = new IssueSource();
-                    //        if (item.Source != null)
-                    //        {
-                    //            issueSource.Example = item.Source.Example;
-                    //            issueSource.Parameter = item.Source.Parameter;
-                    //            issueSource.Pointer = item.Source.Pointer;
-
-                    //            context.IssueSources.Add(issueSource);
-                    //            issue.SourceId = issueSource.IssueSourceId;
-                    //        }
-
-                    //        context.Issues.Add(issue);
-                    //    }
-                    //}
-
+                    context.Add(model);
                     context.SaveChanges();
                     transaction.Commit();
+                    return model.FlightId;
                 }
                 catch (Exception e)
                 {
                     transaction.Rollback();
-                    throw new DbUpdateException("Insert Flights", e);
+                    throw new DbUpdateException("Insert Flight", e);
                 }
             }
         }
+
+        public Flight Find(string origin, string destination, DateTime date, string currency)
+        {
+            return entity.Include(x => x.Currency)
+                .Where(x => x.Currency.Code == currency && x.Destination == destination && x.Origin == origin && x.DepartureDate == date)
+                .FirstOrDefault();
+        }
+
+        public override IEnumerable<Flight> SortAndGetRange<TKey>(int start, int take, Expression<Func<Flight, TKey>> predicate, OrderBy order)
+        {
+            var r = entity.Include(x => x.Currency);
+                    //.ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                    //    .ThenInclude(x => x.Price);
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.PricePerAdult)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.PricePerChild)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.PricePerInfant)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.PricePerSenior)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
+                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
+                //                .ThenInclude(x => x.FlightSegment)
+                //                    .ThenInclude(x => x.Aircraft);
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
+                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
+                //                .ThenInclude(x => x.FlightSegment)
+                //                    .ThenInclude(x => x.Arrival)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
+                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
+                //                .ThenInclude(x => x.FlightSegment)
+                //                    .ThenInclude(x => x.Carrier)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
+                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
+                //                .ThenInclude(x => x.FlightSegment)
+                //                    .ThenInclude(x => x.Departure)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
+                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
+                //                .ThenInclude(x => x.FlightSegment)
+                //                    .ThenInclude(x => x.Operation)
+                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
+                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
+                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
+                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
+                //                .ThenInclude(x => x.PricingDetailPerAdult);
+                                    
+
+
+
+
+
+            return order == OrderBy.ASC
+                ? entity.Include(x => x.Currency)
+                    //.Include(x => x.Data.Select(s => s.FlightId == x.FlightId))
+
+                    .Include(x => x.Data.Where(w => w.FlightId == x.FlightId))
+                        .ThenInclude(x => x.OfferItems.Where(w => w.FlightOfferId == x.FlightOfferId))
+                            .ThenInclude(x => x.Price)
+                : entity.Include(x => x.Currency)
+                    //.Include(x => x.Data.Select(s => s.FlightId == x.FlightId))
+
+                    .Include(x => x.Data.Where(w => w.FlightId == x.FlightId))
+                        .ThenInclude(x => x.OfferItems.Where(w => w.FlightOfferId == x.FlightOfferId))
+                            .ThenInclude(x => x.Price);
+
+
+            //return order == OrderBy.ASC
+            //    ? entity.Include(x => x.Data.Select(f => f.FlightId == x.FlightId))
+
+            //            .Skip(start).Take(take)
+            //            .AsNoTracking()
+            //            .OrderBy(predicate)
+            //    : entity.Include(x => x.Dictionary)
+            //                .ThenInclude(d => d.DictionaryAircrafts)
+            //            .Include(x => x.Dictionary)
+            //                .ThenInclude(d => d.DictionaryCarriers)
+            //            .Include(x => x.Dictionary)
+            //                .ThenInclude(d => d.DictionaryCurrencies)
+            //            .Include(x => x.Dictionary)
+            //                .ThenInclude(d => d.DictionaryLocations)
+            //            .Skip(start).Take(take)
+            //            .AsNoTracking()
+            //            .OrderByDescending(predicate);
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departure, string arrival, string date)
+        {
+
+            //var query = context.Flights
+            //    .Include(x => x.Dictionary)
+            //        .ThenInclude(d => d.DictionaryAircrafts)
+            //    .Include(x => x.Dictionary)
+            //        .ThenInclude(d => d.DictionaryCarriers)
+            //    .Include(x => x.Dictionary)
+            //        .ThenInclude(d => d.DictionaryCurrencies)
+            //    .Include(x => x.Dictionary)
+            //        .ThenInclude(d => d.DictionaryLocations)     
+            //    .Skip(start).Take(take)                
+            //    .AsQueryable();
+
+            //return query.Select(x => new FlightDTO
+            //{
+            //    Departure = x.DictionaryId.ToString(),
+            //});
+            throw new NotImplementedException();
+        }
+
+        //public void Insert(Models.Flights.Flight model)
+        //{
+        //    using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            Flight flight = model;
+                    
+        //            //Meta meta = new Meta();
+        //            //if (model.Meta != null)
+        //            //{
+        //            //    meta.Currency = model.Meta.Currency;
+
+        //            //    Links links = new Links();
+        //            //    if (model.Meta.Links != null)
+        //            //    {
+        //            //        links.Self = model.Meta.Links.Self;
+
+        //            //        context.Links.Add(links);
+        //            //        meta.LinksId = links.LinkId;
+        //            //    }
+
+        //            //    Defaults defaults = new Defaults();
+        //            //    if (model.Meta.Defaults != null)
+        //            //    {
+        //            //        defaults.Adults = model.Meta.Defaults.Adults;
+        //            //        defaults.NonStop = model.Meta.Defaults.NonStop;
+
+        //            //        context.Defaults.Add(defaults);
+        //            //        meta.DefaultsId = defaults.DefaultId;
+        //            //    }
+
+        //            //    context.Metas.Add(meta);
+        //            //    flightOffers.MetaId = meta.MetaId;
+        //            //}
+
+        //            //Dictionary dictionaries = new Dictionary();
+        //            //if (model.Dictionary != null)
+        //            //{
+        //            //    DictionaryEntry aircraft = new DictionaryEntry();
+        //            //    if (model.Dictionaries.Aircraft != null)
+        //            //    {
+        //            //        aircraft.Code = model.Dictionaries.Aircraft.Code;
+
+        //            //        context.DictionaryEntries.Add(aircraft);
+        //            //        dictionaries.AircraftId = aircraft.DictionaryEntryId;
+        //            //    }
+
+        //            //    DictionaryEntry carriers = new DictionaryEntry();
+        //            //    if (model.Dictionaries.Carriers != null)
+        //            //    {
+        //            //        carriers.Code = model.Dictionaries.Carriers.Code;
+
+        //            //        context.DictionaryEntries.Add(carriers);
+        //            //        dictionaries.CarriersId = carriers.DictionaryEntryId;
+        //            //    }
+
+        //            //    DictionaryEntry currencies = new DictionaryEntry();
+        //            //    if (model.Dictionaries.Currencies != null)
+        //            //    {
+        //            //        currencies.Code = model.Dictionaries.Currencies.Code;
+
+        //            //        context.DictionaryEntries.Add(currencies);
+        //            //        dictionaries.CurrenciesId = currencies.DictionaryEntryId;
+        //            //    }
+
+        //            //    LocationEntry locations = new LocationEntry();
+        //            //    if (model.Dictionaries.Locations != null)
+        //            //    {
+        //            //        locations.subType = model.Dictionaries.Locations.subType;
+        //            //        locations.detailedName = model.Dictionaries.Locations.detailedName;
+
+        //            //        context.LocationEntries.Add(locations);
+        //            //        dictionaries.LocationsId = locations.LocationEntryId;
+        //            //    }
+
+        //            //    context.Dictionaries.Add(dictionaries);
+        //            //    flightOffers.DictionariesId = dictionaries.DictionaryId;
+        //            //}
+
+        //            //context.FlightOffers.Add(flightOffers);
+
+        //            //if (model.Data != null)
+        //            //{
+        //            //    foreach (var item in model.Data)
+        //            //    {
+        //            //        FlightOffer data = new FlightOffer();
+        //            //        data.FlightOffersId = flightOffers.FlightOffersId;
+        //            //        data.Id = item.Id;
+        //            //        data.Type = item.Type;
+        //            //        context.FlightOffer.Add(data);
+
+                            
+        //            //        if (item.OfferItems != null)
+        //            //        {
+        //            //            foreach (var offer in item.OfferItems)
+        //            //            {
+        //            //                OfferItem offerItem = new OfferItem();
+        //            //                offerItem.FlightOfferId = data.FlightOfferId;
+
+        //            //                Price price = new Price();
+        //            //                if (offer.Price != null)
+        //            //                {
+        //            //                    price.Total = offer.Price.Total;
+        //            //                    price.TotalTaxes = offer.Price.TotalTaxes;
+
+        //            //                    context.Prices.Add(price);
+        //            //                    offerItem.PriceId = price.PriceId;
+        //            //                }
+
+        //            //                Price pricePerAdult = new Price();
+        //            //                if (offer.PricePerAdult != null)
+        //            //                {
+        //            //                    pricePerAdult.Total = offer.PricePerAdult.Total;
+        //            //                    pricePerAdult.TotalTaxes = offer.PricePerAdult.TotalTaxes;
+
+        //            //                    context.Prices.Add(pricePerAdult);
+        //            //                    offerItem.PricePerAdultId = pricePerAdult.PriceId;
+        //            //                }
+
+        //            //                Price pricePerInfant = new Price();
+        //            //                if (offer.PricePerInfant != null)
+        //            //                {
+        //            //                    pricePerInfant.Total = offer.PricePerInfant.Total;
+        //            //                    pricePerInfant.TotalTaxes = offer.PricePerInfant.TotalTaxes;
+
+        //            //                    context.Prices.Add(pricePerInfant);
+        //            //                    offerItem.PricePerInfantId = pricePerInfant.PriceId;
+        //            //                }
+
+        //            //                Price pricePerChild = new Price();
+        //            //                if (offer.PricePerChild != null)
+        //            //                {
+        //            //                    pricePerChild.Total = offer.PricePerChild.Total;
+        //            //                    pricePerChild.TotalTaxes = offer.PricePerChild.TotalTaxes;
+
+        //            //                    context.Prices.Add(pricePerChild);
+        //            //                    offerItem.PricePerChildId = pricePerChild.PriceId;
+        //            //                }
+
+        //            //                Price pricePerSenior = new Price();
+        //            //                if (offer.PricePerSenior != null)
+        //            //                {
+        //            //                    pricePerSenior.Total = offer.PricePerSenior.Total;
+        //            //                    pricePerSenior.TotalTaxes = offer.PricePerSenior.TotalTaxes;
+
+        //            //                    context.Prices.Add(pricePerSenior);
+        //            //                    offerItem.PricePerSeniorId = pricePerSenior.PriceId;
+        //            //                }
+
+        //            //                context.OfferItems.Add(offerItem);
+
+        //            //                if (offer.Services != null)
+        //            //                {                                        
+        //            //                    foreach (var s in offer.Services)
+        //            //                    {
+        //            //                        Service service = new Service();
+        //            //                        service.OfferItemId = offerItem.OfferItemId;
+        //            //                        context.Services.Add(service);
+
+        //            //                        if (s.Segments != null)
+        //            //                        {
+        //            //                            foreach (var seg in s.Segments)
+        //            //                            {
+        //            //                                Segment segment = new Segment();
+        //            //                                segment.ServiceId = service.ServiceId;
+
+        //            //                                FlightSegment flightSegment = new FlightSegment();
+        //            //                                if (seg.FlightSegment != null)
+        //            //                                {
+        //            //                                    FlightEndPoint departure = new FlightEndPoint();
+        //            //                                    if (seg.FlightSegment.Departure != null)
+        //            //                                    {
+        //            //                                        departure.At = seg.FlightSegment.Departure.At;
+        //            //                                        departure.IataCode = seg.FlightSegment.Departure.IataCode;
+        //            //                                        departure.Terminal = seg.FlightSegment.Departure.Terminal;
+
+        //            //                                        context.FlightEndPoints.Add(departure);
+        //            //                                        flightSegment.DepartureId = departure.FlightEndPointId;
+        //            //                                    }
+
+        //            //                                    FlightEndPoint arrival = new FlightEndPoint();
+        //            //                                    if (seg.FlightSegment.Arrival != null)
+        //            //                                    {
+        //            //                                        arrival.At = seg.FlightSegment.Arrival.At;
+        //            //                                        arrival.IataCode = seg.FlightSegment.Arrival.IataCode;
+        //            //                                        arrival.Terminal = seg.FlightSegment.Arrival.Terminal;
+
+        //            //                                        context.FlightEndPoints.Add(arrival);
+        //            //                                        flightSegment.ArrivalId = arrival.FlightEndPointId;
+        //            //                                    }
+
+        //            //                                    AircraftEquipment aircraft = new AircraftEquipment();
+        //            //                                    if (seg.FlightSegment.Aircraft != null)
+        //            //                                    {
+        //            //                                        aircraft.Code = seg.FlightSegment.Aircraft.Code;
+
+        //            //                                        context.AircraftEquipments.Add(aircraft);
+        //            //                                        flightSegment.AircraftId = aircraft.AircraftEquipmentId;
+        //            //                                    }
+
+        //            //                                    OperatingFlight operating = new OperatingFlight();
+        //            //                                    if (seg.FlightSegment.Operating != null)
+        //            //                                    {
+        //            //                                        operating.CarrierCode = seg.FlightSegment.Operating.CarrierCode;
+        //            //                                        operating.Number = seg.FlightSegment.Operating.Number;
+
+        //            //                                        context.OperatingFlights.Add(operating);
+        //            //                                        flightSegment.OperatingId = operating.OperatingFlightId;
+        //            //                                    }
+
+        //            //                                    flightSegment.Duration = seg.FlightSegment.Duration;
+        //            //                                    flightSegment.CarrierCode = seg.FlightSegment.CarrierCode;
+        //            //                                    flightSegment.Number = seg.FlightSegment.Number;
+
+        //            //                                    context.FlightSegments.Add(flightSegment);
+        //            //                                    segment.FlightSegmentId = flightSegment.FlightSegmentId;
+                                                        
+        //            //                                    if (seg.FlightSegment.Stops != null)
+        //            //                                    {
+        //            //                                        foreach (var stopItem in seg.FlightSegment.Stops)
+        //            //                                        {
+        //            //                                            FlightStop stop = new FlightStop();                                                                
+        //            //                                            stop.ArrivalAt = stopItem.ArrivalAt;
+        //            //                                            stop.DepartureAt = stopItem.DepartureAt;
+        //            //                                            stop.Duration = stopItem.Duration;
+        //            //                                            stop.IataCode = stopItem.IataCode;
+                                                                
+        //            //                                            AircraftEquipment newAircraft = new AircraftEquipment();
+        //            //                                            if (stopItem.NewAircraft != null)
+        //            //                                            {
+        //            //                                                newAircraft.Code = stopItem.NewAircraft.Code;
+
+        //            //                                                context.AircraftEquipments.Add(newAircraft);
+        //            //                                                stop.NewAircraftId = newAircraft.AircraftEquipmentId;
+        //            //                                            }
+
+        //            //                                            stop.FlightSegmentId = flightSegment.FlightSegmentId;
+        //            //                                            context.FlightStops.Add(stop);
+        //            //                                        }
+        //            //                                    }
+        //            //                                }
+        //            //                            }
+        //            //                        }
+        //            //                    }
+        //            //                }
+        //            //            }
+        //            //        }
+
+        //            //    }
+        //            //}
+
+
+        //            //if (model.Warnings != null)
+        //            //{
+        //            //    foreach (var item in model.Warnings)
+        //            //    {
+        //            //        Issue issue = new Issue();
+        //            //        issue.Code = item.Code;
+        //            //        issue.Detail = item.Detail;
+        //            //        issue.FlightOffersId = flightOffers.FlightOffersId;
+        //            //        issue.Status = item.Status;
+        //            //        issue.Title = item.Title;
+
+        //            //        IssueSource issueSource = new IssueSource();
+        //            //        if (item.Source != null)
+        //            //        {
+        //            //            issueSource.Example = item.Source.Example;
+        //            //            issueSource.Parameter = item.Source.Parameter;
+        //            //            issueSource.Pointer = item.Source.Pointer;
+
+        //            //            context.IssueSources.Add(issueSource);
+        //            //            issue.SourceId = issueSource.IssueSourceId;
+        //            //        }
+
+        //            //        context.Issues.Add(issue);
+        //            //    }
+        //            //}
+
+        //            context.SaveChanges();
+        //            transaction.Commit();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            transaction.Rollback();
+        //            throw new DbUpdateException("Insert Flights", e);
+        //        }
+        //    }
+        //}
 
         public async Task<int> InsertFlightsAsync(Flight model)
         {
