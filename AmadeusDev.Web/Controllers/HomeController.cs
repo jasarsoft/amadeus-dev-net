@@ -14,13 +14,13 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISuccessService successService;
-        private readonly IFlightOffersService flightOffersService;
+        //private readonly ISuccessService successService;
+        private readonly IFlightService flightService;
 
-        public HomeController(IFlightOffersService flightOffersService, ISuccessService successService)
+        public HomeController(IFlightService flightOffersService/*, ISuccessService successService*/)
         {
-            this.successService = successService;
-            this.flightOffersService = flightOffersService;
+            //this.successService = successService;
+            this.flightService = flightOffersService;
         }
 
         public IActionResult Index()
@@ -42,30 +42,31 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
         [HttpPost]
         public DataTable<FlightDTO> GetFlights(DataTableOptions pagination)
         {
-            if (pagination.Columns[1].Search.Value != null)
+            if (pagination.Columns[1].Search.Value == null)
             {
-                //var result = successService.ResponseFromServer(pagination.Columns[1].Search.Value, 15);
-                //successService.InsertAsync(result);
-
-                var result = flightOffersService.ResponseFromServer("a", "A");
-                flightOffersService.InsertFlight(result);
+                return new DataTable<FlightDTO>
+                {
+                    Draw = pagination.Draw,
+                    RecordsTotal = 0,
+                    RecordsFiltered = 0,
+                    Data = new List<FlightDTO>()
+                };
             }
-            
 
-            var totalRecords = flightOffersService.GetNumberOfFlights();
+            var totalRecords = flightService.GetNumberOfFlights("NYC", "MAD", "2019-08-01");
 
             return new DataTable<FlightDTO>
             {
                 Draw = pagination.Draw,
                 RecordsTotal = totalRecords,
                 RecordsFiltered = totalRecords,
-                Data = flightOffersService.GetFlights(pagination.Start,
+                Data = flightService.GetFlights(pagination.Start,
                                                       pagination.Length,
                                                       pagination.Order[0].Dir,
                                                       pagination.Columns[pagination.Order[0].Column].Name,
-                                                      pagination.Columns[1].Search.Value,
-                                                      pagination.Columns[2].Search.Value,
-                                                      pagination.Columns[2].Search.Value)
+                                                      "NYC",
+                                                      "MAD", //pagination.Columns[2].Search.Value,
+                                                      "2019-08-01")
             };
         }
     }

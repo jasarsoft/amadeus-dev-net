@@ -68,8 +68,8 @@
                             <th class="text-left">Odlazak</th>
                             <th class="text-left">Datum</th>
                             <th class="text-left">Presjednje</th>
-                            <th class="text-left">Putnici</th>
-                            <th class="text-left">Valuta</th>
+                            <th class="text-left" title="Putnici title">Putnici</th>
+                            @*<th class="text-left">Valuta</th>*@
                             <th class="text-left">Cijena</th>
                             <th class="text-center">Akcija</th>
                         </tr>
@@ -106,14 +106,14 @@
                 columns: [
                     { 'data': '#' },
                     { 'data': 'departure' },
-                    //{ 'data': 'arrival' },
-                    //{ 'data': 'departureTime' },
+                    { 'data': 'arrival' },
+                    { 'data': 'departureTime' },
                     //{ 'data': 'arrivalTime' },
-                    //{ 'data': 'departureTransfer' },
+                    { 'data': 'departureTransfer' },
                     //{ 'data': 'arrivalTransfer' },
-                    //{ 'data': 'passanger' },
+                    { 'data': 'passanger' },
                     //{ 'data': 'currency' },
-                    //{ 'data': 'price' },
+                    { 'data': 'price' },
                     { 'data': 'actions' }
                 ],
                 columnDefs: [
@@ -132,48 +132,48 @@
                         className: "align-middle text-left"
 
                     },
-                    //{
-                    //    targets: 2,
-                    //    name: "Arrival",
-                    //    className: "align-middle text-left"
+                    {
+                        targets: 2,
+                        name: "Arrival",
+                        className: "align-middle text-left"
 
-                    //},
-                    //{
-                    //    targets: 3,
-                    //    name: "DepartureTime",
-                    //    className: "align-middle text-left"
+                    },
+                    {
+                        targets: 3,
+                        name: "DepartureTime",
+                        className: "align-middle text-left"
 
-                    //},
-                    //{
-                    //    targets: 4,
-                    //    name: "DepartureTransfer",
-                    //    className: "align-middle text-left"
+                    },
+                    {
+                        targets: 4,
+                        name: "DepartureTransfer",
+                        className: "align-middle text-left"
 
-                    //},
+                    },
                     //{
                     //    targets: 5,
                     //    name: "ArrivalTransfer",
                     //    className: "align-middle text-left"
 
                     //},
+                    {
+                        targets: 5,
+                        name: "Passanger",
+                        className: "align-middle text-left"
+
+                    },
                     //{
                     //    targets: 6,
-                    //    name: "Passanger",
-                    //    className: "align-middle text-left"
-
-                    //},
-                    //{
-                    //    targets: 7,
                     //    name: "Currency",
                     //    className: "align-middle text-left"
 
                     //},
-                    //{
-                    //    targets: 8,
-                    //    name: "Price",
-                    //    className: "align-middle text-left"
+                    {
+                        targets: 6,
+                        name: "Price",
+                        className: "align-middle text-left"
 
-                    //},
+                    },
                     {
                         targets: -1,
                         name: "Actions",
