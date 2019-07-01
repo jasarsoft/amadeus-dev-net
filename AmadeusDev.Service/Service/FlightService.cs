@@ -295,7 +295,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
                 flight = unitOfWork.Flights.Find(flightId);
             }
 
-            var flightOffers = unitOfWork.FlightOffers.GetByFlightId(flight.FlightId);
+            var flightOffers = unitOfWork.FlightOffers.SortAndGetRange(flight.FlightId, start, take, x => x.FlightId, orderBy);
             foreach (var flightOffer in flightOffers)
             {
                 var dto = new FlightDTO();

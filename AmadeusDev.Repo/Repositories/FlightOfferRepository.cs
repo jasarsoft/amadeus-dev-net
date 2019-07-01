@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Jasarsoft.AmadeusDev.Data.Flights;
 using Jasarsoft.AmadeusDev.Repo.Context;
 using Jasarsoft.AmadeusDev.Repo.IRepositories;
+using static Jasarsoft.AmadeusDev.Repo.Helper.Enumerations;
 
 namespace Jasarsoft.AmadeusDev.Repo.Repositories
 {
@@ -38,6 +39,34 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                     throw new DbUpdateException("Insert FlightOffer", e);
                 }
             }
+        }
+
+        public override IEnumerable<FlightOffer> SortAndGetRange<TKey>(int start, int take, Expression<Func<FlightOffer, TKey>> predicate, OrderBy order)
+        {
+            return order == OrderBy.ASC
+                ? entity.AsNoTracking()
+                    .OrderBy(predicate)
+                    .Skip(start).Take(take)
+                    .ToList()
+                : entity.AsNoTracking()
+                    .OrderByDescending(predicate)
+                    .Skip(start).Take(take)
+                    .ToList();
+        }
+
+        public IEnumerable<FlightOffer> SortAndGetRange<TKey>(int flightId, int start, int take, Expression<Func<FlightOffer, TKey>> predicate, OrderBy order)
+        {
+            return order == OrderBy.ASC
+                ? entity.AsNoTracking()
+                    .Where(x => x.FlightId == flightId)
+                    .OrderBy(predicate)
+                    .Skip(start).Take(take)
+                    .ToList()
+                : entity.AsNoTracking()
+                    .Where(x => x.FlightId == flightId)
+                    .OrderByDescending(predicate)
+                    .Skip(start).Take(take)
+                    .ToList();
         }
     }
 }
