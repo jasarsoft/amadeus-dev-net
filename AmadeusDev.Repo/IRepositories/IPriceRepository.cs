@@ -8,5 +8,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IPriceRepository : IRepository<Price, int>
     {
+        int Insert(Price model);
     }
 }
