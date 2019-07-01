@@ -9,6 +9,6 @@ namespace Jasarsoft.AmadeusDev.Service.IService
 {
     public interface ILocationService
     {
-        void Insert(Repo.Models.Airports.Success model);
+        //void Insert(Repo.Models.Airports.Success model);
     }
 }

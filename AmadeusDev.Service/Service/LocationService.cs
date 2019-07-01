@@ -19,19 +19,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             this.unitOfWork = unitOfWork;
         }
 
-        public void Insert(Repo.Models.Airports.Success model)
-        {
-            if (model == null || model.Data == null) throw new ArgumentNullException();
-            //foreach (var item in model.Data)
-            //{
-            //    if (item.Address == null || item.Analytics.Travelers == null || item.Distance == null || item.GeoCode == null || item.Self == null)
-            //        throw new ArgumentNullException();
-            //}
+        
 
-            foreach (var item in model.Data)
-            {
-                unitOfWork.Locations.Insert(item);
-            }
-        }
     }
 }
