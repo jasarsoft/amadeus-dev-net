@@ -9,5 +9,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     public interface IServiceRepository : IRepository<Service, int>
     {
         IEnumerable<Service> GetByOfferItemId(int offerItemId);
+        int Insert(Service model);
     }
 }
