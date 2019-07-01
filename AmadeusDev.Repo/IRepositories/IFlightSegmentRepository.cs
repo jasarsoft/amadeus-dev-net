@@ -14,5 +14,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 
         Task<IEnumerable<FlightSegment>> GetByDepartureByIataAsync(string code);
         Task<IEnumerable<FlightSegment>> GetByArrivalIataAsync(string code);
+        int Insert(FlightSegment model);
     }
 }

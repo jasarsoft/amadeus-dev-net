@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Jasarsoft.AmadeusDev.Data.Flights;
 using Jasarsoft.AmadeusDev.Repo.Context;
 using Jasarsoft.AmadeusDev.Repo.IRepositories;
@@ -14,14 +15,34 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
     {
         public FlightSegmentRepository(AmadeusDevContext context) : base(context) { }
 
+
+        public int Insert(FlightSegment model)
+        {
+            using (IDbContextTransaction transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    context.Add(model);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return model.FlightSegmentId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert FlightSegment", e);
+                }
+            }
+        }
+
         #region Get Departure
         public IEnumerable<FlightSegment> GetByDepartureByIata(string code)
         {
             var query = entity.Include(x => x.Departure)
                 .Include(x => x.Arrival)
-                
-                .Include(x => x.Aircraft)
-                .Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
+
+                .Include(x => x.Aircraft);
+                //.Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
 
             return query.ToList();
         }
@@ -31,8 +52,8 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             var query = entity.Include(x => x.Departure)
                 .Include(x => x.Arrival)
                 //.Include(x => x.Operating)
-                .Include(x => x.Aircraft)
-                .Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
+                .Include(x => x.Aircraft);
+                //.Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
 
             return await query.ToListAsync();
         }
@@ -43,9 +64,9 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         {
             var query = entity.Include(x => x.Aircraft)
                 .Include(x => x.Arrival)
-                .Include(x => x.Departure)
+                .Include(x => x.Departure);
                 //.Include(x => x.Operating)
-                .Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
+                //.Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
 
             return query.ToList();
         }
@@ -54,9 +75,9 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         {
             var query = entity.Include(x => x.Aircraft)
                 .Include(x => x.Arrival)
-                .Include(x => x.Departure)
+                .Include(x => x.Departure);
                 //.Include(x => x.Operating)
-                .Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
+                //.Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
 
             return await query.ToListAsync();
         }
@@ -67,9 +88,9 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         {
             var query = entity.Include(x => x.Aircraft)
                 .Include(x => x.Arrival)
-                .Include(x => x.Departure)
+                .Include(x => x.Departure);
                 //.Include(x => x.Operating)
-                .Where(x => x.Arrival.IataCode.ToLower().Contains(date.ToLower()));
+                //.Where(x => x.Arrival.IataCode.ToLower().Contains(date.ToLower()));
 
             return query.ToList();
         }
