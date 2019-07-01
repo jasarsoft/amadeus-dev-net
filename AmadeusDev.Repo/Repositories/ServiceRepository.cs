@@ -15,12 +15,9 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
     {
         public ServiceRepository(AmadeusDevContext context) : base(context) { }
 
-        public IEnumerable<Service> GetByOfferItemId(int offerItemId)
-        {
-            var query = entity.Where(x => x.OfferItemId == offerItemId);
 
-            return query.ToList();
-        }
+        public IEnumerable<Service> GetByOfferItemId(int offerItemId) => entity.Where(x => x.OfferItemId == offerItemId).ToList();
+        
 
         public int Insert(Service model)
         {
