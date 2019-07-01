@@ -8,5 +8,6 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IFlightEndPointRepository : IRepository<FlightEndPoint, int>
     {
+        int Insert(FlightEndPoint model);
     }
 }
