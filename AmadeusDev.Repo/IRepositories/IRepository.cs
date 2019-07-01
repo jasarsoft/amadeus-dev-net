@@ -26,6 +26,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         //find
         TEntity Find(TPk id);
         TEntity Find(Expression<Func<TEntity, bool>> predicate);
+        TEntity Find(Expression<Func<TEntity, string>> predicate);
         Task<TEntity> FindAsync(params object[] param);
         //single or default
         TEntity SingleOrDefault();
@@ -49,5 +50,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         //sort and range
         IEnumerable<TEntity> SortAndGetRange<TKey>(int start, int take, Expression<Func<TEntity, TKey>> predicate, OrderBy order);
         Task<IEnumerable<TEntity>> SortAndGetRangeAsync<TKey>(int start, int take, Expression<Func<TEntity, TKey>> predicate, OrderBy order);
+        //contains
+        bool Contains(TEntity entity);
     }
 }

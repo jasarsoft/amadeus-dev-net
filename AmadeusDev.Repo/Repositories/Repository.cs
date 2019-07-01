@@ -93,6 +93,11 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             return entity.Find(predicate);
         }
 
+        virtual public TEntity Find(Expression<Func<TEntity, string>> predicate)
+        {
+            return entity.Find(predicate);
+        }
+
         virtual public async Task<TEntity> FindAsync(params object[] param)
         {
             return await entity.FindAsync(param);
@@ -190,5 +195,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             return order == OrderBy.ASC ? await entity.OrderBy(predicate).Skip(start).Take(take).ToListAsync() : await entity.OrderByDescending(predicate).Skip(start).Take(take).ToListAsync();
         }
         #endregion
+
+        virtual public bool Contains(TEntity model)
+        {
+            return entity.Contains(model);
+        }
     }
 }
