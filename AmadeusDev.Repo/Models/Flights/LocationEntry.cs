@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Jasarsoft.AmadeusDev.Repo.Models.Flights.Flights
+namespace Jasarsoft.AmadeusDev.Repo.Models.Flights
 {
     public class LocationEntry
     {        
