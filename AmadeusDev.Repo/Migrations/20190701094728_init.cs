@@ -126,6 +126,32 @@ namespace AmadeusDev.Repo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Flights",
+                schema: "Flight",
+                columns: table => new
+                {
+                    FlightId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Origin = table.Column<string>(nullable: true),
+                    Destination = table.Column<string>(nullable: true),
+                    DepartureDate = table.Column<DateTime>(nullable: false),
+                    ReturnDate = table.Column<DateTime>(nullable: false),
+                    CurrencyId = table.Column<int>(nullable: false),
+                    Link = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Flights", x => x.FlightId);
+                    table.ForeignKey(
+                        name: "FK_Flights_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalSchema: "Flight",
+                        principalTable: "Currencies",
+                        principalColumn: "CurrencyId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FlightEndPoints",
                 schema: "Flight",
                 columns: table => new
@@ -149,43 +175,25 @@ namespace AmadeusDev.Repo.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Flights",
+                name: "FlightOffers",
                 schema: "Flight",
                 columns: table => new
                 {
-                    FlightId = table.Column<int>(nullable: false)
+                    FlightOfferId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OriginId = table.Column<int>(nullable: false),
-                    DestionationId = table.Column<int>(nullable: false),
-                    DestinationLocationId = table.Column<int>(nullable: true),
-                    DepartureDate = table.Column<DateTime>(nullable: false),
-                    ReturnDate = table.Column<DateTime>(nullable: false),
-                    CurrencyId = table.Column<int>(nullable: false),
-                    Link = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    FlightId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Flights", x => x.FlightId);
+                    table.PrimaryKey("PK_FlightOffers", x => x.FlightOfferId);
                     table.ForeignKey(
-                        name: "FK_Flights_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
+                        name: "FK_FlightOffers_Flights_FlightId",
+                        column: x => x.FlightId,
                         principalSchema: "Flight",
-                        principalTable: "Currencies",
-                        principalColumn: "CurrencyId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Flights_Locations_DestinationLocationId",
-                        column: x => x.DestinationLocationId,
-                        principalSchema: "Flight",
-                        principalTable: "Locations",
-                        principalColumn: "LocationId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Flights_Locations_OriginId",
-                        column: x => x.OriginId,
-                        principalSchema: "Flight",
-                        principalTable: "Locations",
-                        principalColumn: "LocationId",
+                        principalTable: "Flights",
+                        principalColumn: "FlightId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -241,69 +249,6 @@ namespace AmadeusDev.Repo.Migrations
                         principalSchema: "Flight",
                         principalTable: "Operations",
                         principalColumn: "OperationId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FlightOffers",
-                schema: "Flight",
-                columns: table => new
-                {
-                    FlightOfferId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Id = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    FlightId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FlightOffers", x => x.FlightOfferId);
-                    table.ForeignKey(
-                        name: "FK_FlightOffers_Flights_FlightId",
-                        column: x => x.FlightId,
-                        principalSchema: "Flight",
-                        principalTable: "Flights",
-                        principalColumn: "FlightId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FlightStops",
-                schema: "Flight",
-                columns: table => new
-                {
-                    FlightStopId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CarrierId = table.Column<int>(nullable: false),
-                    AircraftId = table.Column<int>(nullable: false),
-                    Duration = table.Column<string>(nullable: true),
-                    ArrivalAt = table.Column<string>(nullable: true),
-                    DepartureAt = table.Column<string>(nullable: true),
-                    FlightSegmentId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FlightStops", x => x.FlightStopId);
-                    table.ForeignKey(
-                        name: "FK_FlightStops_Aircrafts_AircraftId",
-                        column: x => x.AircraftId,
-                        principalSchema: "Flight",
-                        principalTable: "Aircrafts",
-                        principalColumn: "AircraftId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_FlightStops_Carriers_CarrierId",
-                        column: x => x.CarrierId,
-                        principalSchema: "Flight",
-                        principalTable: "Carriers",
-                        principalColumn: "CarrierId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_FlightStops_FlightSegments_FlightSegmentId",
-                        column: x => x.FlightSegmentId,
-                        principalSchema: "Flight",
-                        principalTable: "FlightSegments",
-                        principalColumn: "FlightSegmentId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -365,6 +310,46 @@ namespace AmadeusDev.Repo.Migrations
                         principalSchema: "Flight",
                         principalTable: "Prices",
                         principalColumn: "PriceId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlightStops",
+                schema: "Flight",
+                columns: table => new
+                {
+                    FlightStopId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CarrierId = table.Column<int>(nullable: false),
+                    AircraftId = table.Column<int>(nullable: false),
+                    Duration = table.Column<string>(nullable: true),
+                    ArrivalAt = table.Column<string>(nullable: true),
+                    DepartureAt = table.Column<string>(nullable: true),
+                    FlightSegmentId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlightStops", x => x.FlightStopId);
+                    table.ForeignKey(
+                        name: "FK_FlightStops_Aircrafts_AircraftId",
+                        column: x => x.AircraftId,
+                        principalSchema: "Flight",
+                        principalTable: "Aircrafts",
+                        principalColumn: "AircraftId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlightStops_Carriers_CarrierId",
+                        column: x => x.CarrierId,
+                        principalSchema: "Flight",
+                        principalTable: "Carriers",
+                        principalColumn: "CarrierId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FlightStops_FlightSegments_FlightSegmentId",
+                        column: x => x.FlightSegmentId,
+                        principalSchema: "Flight",
+                        principalTable: "FlightSegments",
+                        principalColumn: "FlightSegmentId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -499,18 +484,6 @@ namespace AmadeusDev.Repo.Migrations
                 schema: "Flight",
                 table: "Flights",
                 column: "CurrencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Flights_DestinationLocationId",
-                schema: "Flight",
-                table: "Flights",
-                column: "DestinationLocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Flights_OriginId",
-                schema: "Flight",
-                table: "Flights",
-                column: "OriginId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FlightSegments_AircraftId",
@@ -692,6 +665,10 @@ namespace AmadeusDev.Repo.Migrations
                 schema: "Flight");
 
             migrationBuilder.DropTable(
+                name: "Locations",
+                schema: "Flight");
+
+            migrationBuilder.DropTable(
                 name: "Carriers",
                 schema: "Flight");
 
@@ -709,10 +686,6 @@ namespace AmadeusDev.Repo.Migrations
 
             migrationBuilder.DropTable(
                 name: "Currencies",
-                schema: "Flight");
-
-            migrationBuilder.DropTable(
-                name: "Locations",
                 schema: "Flight");
         }
     }

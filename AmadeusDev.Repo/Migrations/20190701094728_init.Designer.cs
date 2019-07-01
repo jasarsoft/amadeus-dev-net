@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmadeusDev.Repo.Migrations
 {
     [DbContext(typeof(AmadeusDevContext))]
-    [Migration("20190630125947_init")]
+    [Migration("20190701094728_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,23 +88,17 @@ namespace AmadeusDev.Repo.Migrations
 
                     b.Property<DateTime>("DepartureDate");
 
-                    b.Property<int?>("DestinationLocationId");
-
-                    b.Property<int>("DestionationId");
+                    b.Property<string>("Destination");
 
                     b.Property<string>("Link");
 
-                    b.Property<int>("OriginId");
+                    b.Property<string>("Origin");
 
                     b.Property<DateTime>("ReturnDate");
 
                     b.HasKey("FlightId");
 
                     b.HasIndex("CurrencyId");
-
-                    b.HasIndex("DestinationLocationId");
-
-                    b.HasIndex("OriginId");
 
                     b.ToTable("Flights","Flight");
                 });
@@ -375,15 +369,6 @@ namespace AmadeusDev.Repo.Migrations
                     b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.Location", "Destination")
-                        .WithMany()
-                        .HasForeignKey("DestinationLocationId");
-
-                    b.HasOne("Jasarsoft.AmadeusDev.Data.Flights.Location", "Origin")
-                        .WithMany()
-                        .HasForeignKey("OriginId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
