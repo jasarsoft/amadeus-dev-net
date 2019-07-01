@@ -16,12 +16,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public FlightOfferRepository(AmadeusDevContext context) : base(context) { }
 
 
-        public IEnumerable<FlightOffer> GetByFlightId(int flightId)
-        {
-            var query = entity.Where(x => x.FlightId == flightId);
-
-            return query.ToList();
-        }
+        public FlightOffer GetById(string id) => entity.Where(x => x.Id == id).FirstOrDefault();
+        
+        public IEnumerable<FlightOffer> GetByFlightId(int flightId) => entity.Where(x => x.FlightId == flightId).ToList();
+        
 
         public int Insert(FlightOffer model)
         {
@@ -29,17 +27,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             {
                 try
                 {
-                    var result = GetById(model.Id);
-
-                    if (result == null)
-                    {
-                        context.Add(model);
-                        context.SaveChanges();
-                        transaction.Commit();
-                        return model.FlightOfferId;
-                    }
-
-                    return result.FlightOfferId;
+                    context.Add(model);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return model.FlightOfferId;
                 }
                 catch (Exception e)
                 {
@@ -47,11 +38,6 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                     throw new DbUpdateException("Insert FlightOffer", e);
                 }
             }
-        }
-
-        public FlightOffer GetById(string id)
-        {
-            return entity.Where(x => x.Id == id).FirstOrDefault();
         }
     }
 }
