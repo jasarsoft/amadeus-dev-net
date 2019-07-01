@@ -26,8 +26,8 @@ namespace Jasarsoft.AmadeusDev.Repo
             service.AddTransient<ISegmentRepository, SegmentRepository>();
             service.AddTransient<IServiceRepository, ServiceRepository>();
 
-            service.AddTransient<IAddressRepository, AddressRepository>();
-            service.AddTransient<IDistanceRepository, DistanceRepository>();
+            //service.AddTransient<IAddressRepository, AddressRepository>();
+            //service.AddTransient<IDistanceRepository, DistanceRepository>();
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Jasarsoft.AmadeusDev.Repo
         ISegmentRepository Segments { get; }
         IServiceRepository Services { get; }
 
-        IAddressRepository Addresses { get; }
-        IDistanceRepository Distances { get; }        
+        //IAddressRepository Addresses { get; }
+        //IDistanceRepository Distances { get; }        
     }
 }

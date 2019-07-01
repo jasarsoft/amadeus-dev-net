@@ -64,11 +64,11 @@ namespace Jasarsoft.AmadeusDev.Repo
         public IServiceRepository Services => serviceRepository ?? (serviceRepository = serviceProvider.GetService<IServiceRepository>());
 
 
-        private IAddressRepository addressRepository;
-        public IAddressRepository Addresses => addressRepository ?? (addressRepository = serviceProvider.GetService<IAddressRepository>());
+        //private IAddressRepository addressRepository;
+        //public IAddressRepository Addresses => addressRepository ?? (addressRepository = serviceProvider.GetService<IAddressRepository>());
 
-        private IDistanceRepository distanceRepository;
-        public IDistanceRepository Distances => distanceRepository ?? (distanceRepository = serviceProvider.GetService<IDistanceRepository>());
+        //private IDistanceRepository distanceRepository;
+        //public IDistanceRepository Distances => distanceRepository ?? (distanceRepository = serviceProvider.GetService<IDistanceRepository>());
         
 
         public void Dispose()
