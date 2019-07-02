@@ -19,5 +19,14 @@ namespace Jasarsoft.AmadeusDev.Service.IService
         Repo.Models.Flights.Flight Response(string origin, string destination, string departureDate, string returnDate = null,  string currency = Default.CURRENCY, int adults = Default.ADULTS);
 
         IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
+
+
+        Task<int> GetNumberOfFlightsAsync(string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
+
+        Task<int> InsertAsync(Repo.Models.Flights.Flight model, string origin, string destionation, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
+
+        Task<Repo.Models.Flights.Flight> ResponseAsync(string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
+
+        Task<IEnumerable<FlightDTO>> GetFlightsAsync(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
     }
 }
