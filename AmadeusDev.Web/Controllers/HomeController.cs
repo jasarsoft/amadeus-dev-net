@@ -57,8 +57,11 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
                 };
             }
 
+            origin = origin.ToUpper();
+            destination = destination.ToUpper();
+
             var returnDate = pagination.Columns[5].Search.Value;
-            var currency = pagination.Columns[3].Search.Value ?? Default.CURRENCY;
+            var currency = (pagination.Columns[3].Search.Value ?? Default.CURRENCY).ToUpper();
             var adults = Convert.ToInt32(pagination.Columns[6].Search.Value ?? Default.ADULTS.ToString());
 
             var totalRecords = flightService.GetNumberOfFlights(origin, destination, departureDate, returnDate, currency, adults);

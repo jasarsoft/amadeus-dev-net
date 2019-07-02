@@ -328,12 +328,13 @@ namespace Jasarsoft.AmadeusDev.Service.Service
 
             var depDate = DateTime.Parse(departureDate);
             var retDate = DateTime.Parse(returnDate ?? DateTime.MinValue.ToString());
-
-            var flight = unitOfWork.Flights.Find(origin, destination, depDate, retDate, currency, adults);
+            
+            var flight = unitOfWork.Flights.Find(origin, destination, depDate, retDate = depDate < retDate ? retDate : DateTime.MinValue, currency, adults);
             if (flight == null)
             {
-                var model = Response(origin, destination, departureDate, returnDate, currency, adults);
-                var flightId = Insert(model, origin, destination, departureDate, returnDate, currency, adults);
+                var model = Response(origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                if (model.Warnings != null) return null;
+                var flightId = Insert(model, origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
                 flight = unitOfWork.Flights.Find(flightId);
             }
 

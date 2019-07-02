@@ -81,14 +81,15 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th class="text-left" title="Polazni aerodrom"          >Polazak</th>
-                            <th class="text-left" title="Datum i vrijeme polaska"   >Datum polaska</th>
-                            <th class="text-left" title="Dolazni aerodrom"          >Dolazak</th>
-                            <th class="text-left" title="Datum i vrijeme dolaska"   >Datum vracanja</th>
-                            <th class="text-left" title="Broj presjedanja"          >Premjestaj</th>
-                            <th class="text-left" title="Broj mjesta za putnike"    >Mjesta</th>
-                            <th class="text-left" title="Cijena i valuta"           >Cijena</th>
-                            <th class="text-center" title="Dodatne akcije"          >Akcija</th>
+                            <th class="text-left" title="Polazni aerodrom">Polazak</th>
+                            <th class="text-left" title="Datum i vrijeme polaska">Datum</th>
+                            <th class="text-left" title="Broj presjedanja">Pre.</th>
+                            <th class="text-left" title="Dolazni aerodrom">Povratak</th>
+                            <th class="text-left" title="Datum i vrijeme dolaska">Datum</th>
+                            <th class="text-left" title="Broj presjedanja">Pre.</th>
+                            <th class="text-left" title="Broj mjesta za putnike">Mjesta</th>
+                            <th class="text-left" title="Cijena i valuta">Cijena</th>
+                            <th class="text-center" title="Dodatne akcije">Akcija</th>
                         </tr>
                     </thead>
                 </table>
@@ -127,10 +128,10 @@
                     { 'data': '#' },
                     { 'data': 'departure' },
                     { 'data': 'departureTime' },
+                    { 'data': 'departureTransfer' },
                     { 'data': 'arrival' },                    
                     { 'data': 'arrivalTime' },
-                    { 'data': 'departureTransfer' },
-                    //{ 'data': 'arrivalTransfer' },
+                    { 'data': 'arrivalTransfer' },
                     { 'data': 'adults' },
                     { 'data': 'price' },
                     { 'data': 'actions' }
@@ -148,54 +149,56 @@
                     {
                         targets: 1,
                         name: "Departure",
+                        orderable: false,
                         className: "align-middle text-left"
 
                     },
                     {
                         targets: 2,
                         name: "DepartureTime",
+                        orderable: false,
                         className: "align-middle text-left"
 
                     },
                     {
                         targets: 3,
-                        name: "Arrival",
+                        name: "DepartureTransfer",
+                        orderable: false,
                         className: "align-middle text-left"
 
                     },
                     {
                         targets: 4,
+                        name: "Arrival",
+                        orderable: false,
+                        className: "align-middle text-left"
+
+                    },
+                    {
+                        targets: 5,
                         name: "ArrivalTime",
+                        orderable: false,
                         className: "align-middle text-left"
 
                     },                    
                     {
-                        targets: 5,
-                        name: "DepartureTransfer",
-                        className: "align-middle text-left"
-
-                    },
-                    //{
-                    //    targets: 5,
-                    //    name: "ArrivalTransfer",
-                    //    className: "align-middle text-left"
-
-                    //},
-                    {
                         targets: 6,
-                        name: "Adults",
+                        name: "ArrivalTransfer",
+                        orderable: false,
                         className: "align-middle text-left"
 
                     },
-                    //{
-                    //    targets: 6,
-                    //    name: "Currency",
-                    //    className: "align-middle text-left"
-
-                    //},
                     {
                         targets: 7,
+                        name: "Adults",
+                        orderable: false,
+                        className: "align-middle text-left"
+
+                    },
+                    {
+                        targets: 8,
                         name: "Price",
+                        orderable: false,
                         className: "align-middle text-left"
 
                     },
@@ -271,17 +274,17 @@
         $("#date-departure-search").daterangepicker({
             singleDatePicker: true,
             //startDate: new Date(),
-            //locale: {
-            //    format: 'YYYY-MM-DD',
-            //    useCurrent: true
-            //}
+            locale: {
+                format: 'YYYY-MM-DD',
+                useCurrent: true
+            }
         });
-        $("#date-arrival-search").datepicker({
-            //singleDatePicker: true,
+        $("#date-arrival-search").daterangepicker({
+            singleDatePicker: true,
             ////startDate: new Date(),
-            //locale: {
-            //    format: 'YYYY-MM-DD',
-            //}
+            locale: {
+                format: 'YYYY-MM-DD',
+            }
         });
     });
 </script>
