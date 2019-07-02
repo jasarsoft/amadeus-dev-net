@@ -16,7 +16,7 @@ namespace Jasarsoft.AmadeusDev.Service.IService
 
         int Insert(Repo.Models.Flights.Flight model, string origin, string destionation, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
 
-        Repo.Models.Flights.Flight Response(string origin, string destination, string departureDate, string currency = null, string returnDate = null, int adults = 0);
+        Repo.Models.Flights.Flight Response(string origin, string destination, string departureDate, string returnDate = null,  string currency = Default.CURRENCY, int adults = Default.ADULTS);
 
         IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
     }

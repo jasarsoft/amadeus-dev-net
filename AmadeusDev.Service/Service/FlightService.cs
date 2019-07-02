@@ -24,7 +24,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
         }
 
 
-        public Repo.Models.Flights.Flight Response(string origin, string destination, string departureDate, string currency = null, string returnDate = null, int adults = 1)
+        public Repo.Models.Flights.Flight Response(string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
         {
             string uri = "https://test.api.amadeus.com/v1/shopping/flight-offers?";
             uri += String.Format("origin={0}&destination={1}&departureDate={2}", origin, destination, departureDate);
@@ -332,7 +332,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             var flight = unitOfWork.Flights.Find(origin, destination, depDate, retDate, currency, adults);
             if (flight == null)
             {
-                var model = Response(origin, destination, departureDate);
+                var model = Response(origin, destination, departureDate, returnDate, currency, adults);
                 var flightId = Insert(model, origin, destination, departureDate, returnDate, currency, adults);
                 flight = unitOfWork.Flights.Find(flightId);
             }
@@ -349,15 +349,41 @@ namespace Jasarsoft.AmadeusDev.Service.Service
                 {
                     dto.Price = Convert.ToDouble(offerItem.Price.Total, System.Globalization.CultureInfo.InvariantCulture).ToString() + " " + dto.Currency;
 
-                    var services = unitOfWork.Services.GetByOfferItemId(offerItem.OfferItemId);
-                    foreach (var service in services)
+                    var services = unitOfWork.Services.GetByOfferItemId(offerItem.OfferItemId).ToList();
+                    if (services.Count > 1) //kad imamo unesen i return date
                     {
-                        var segments = unitOfWork.Segments.GetByServiceId(service.ServiceId).ToList();
-                        dto.Arrival = segments[segments.Count - 1].FlightSegment.Arrival.Location.Name;
-                        dto.ArrivalTime = DateTime.Parse(segments[segments.Count - 1].FlightSegment.Arrival.At).ToString("U");
-                        dto.DepartureTransfer = segments.Count - 1;
-                        dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
-                        dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                        for (int i = 0; i < services.Count; i++)
+                        {
+                            var segments = unitOfWork.Segments.GetByServiceId(services[i].ServiceId).ToList();
+                            if (i == 0)
+                            {
+                                dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
+                                dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                                dto.DepartureTransfer = segments.Count - 1;
+                            }
+
+                            if (i == 1)
+                            {
+                                dto.Arrival = segments[0].FlightSegment.Departure.Location.Name;
+                                dto.ArrivalTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                                dto.ArrivalTransfer = segments.Count - 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var service in services)
+                        {
+                            var segments = unitOfWork.Segments.GetByServiceId(service.ServiceId).ToList();
+
+                            dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
+                            dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                            dto.DepartureTransfer = segments.Count - 1;
+
+                            dto.Arrival = segments[segments.Count - 1].FlightSegment.Arrival.Location.Name;
+                            dto.ArrivalTime = DateTime.Parse(segments[segments.Count - 1].FlightSegment.Arrival.At).ToString("U");
+                            dto.ArrivalTransfer = -1; //obzirom da nema povratka ovaj podatak ce se koristit na frontendu za promjenu strukture u tabell
+                        }
                     }
                 }
 

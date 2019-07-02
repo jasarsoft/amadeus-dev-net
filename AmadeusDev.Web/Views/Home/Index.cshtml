@@ -29,22 +29,21 @@
                     <div class="row m--margin-bottom-20">
                         <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                             <label for="departure-search">Polazni aerodrom: *</label>
-                            <input type="text" name="departure" class="form-control m-input" placeholder="Polazni aerodrom (IATA)" data-col-index="1" id="departure-search" />
-                            <span id="departure-error" class="m-form__help"></span>
+                            <input minlength="3" maxlength="3" required pattern="[A-Za-z]{3}" type="text" name="departure" class="form-control m-input" placeholder="Polazni aerodrom (IATA)" data-col-index="1" id="departure-search" />                            
                         </div>
                         <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                             <label>Dolazni aerodrom: *</label>
-                            <input type="text" name="arrival" class="form-control m-input" placeholder="Odredisni aerodrom (IATA)" data-col-index="2" id="arrival-search" />
+                            <input minlength="3" maxlength="3" required pattern="[A-Za-z]{3}" type="text" name="arrival" class="form-control m-input" placeholder="Odredisni aerodrom (IATA)" data-col-index="2" id="arrival-search" />
                         </div>
                         <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
-                            <label>Valuta cijena: </label>
-                            <input type="text" name="currency" class="form-control m-input" placeholder="Valuta za cijene (EUR, USD...)" data-col-index="3" id="currency-search" />
+                            <label>Valuta cijene: </label>
+                            <input minlength="3" maxlength="3" pattern="[A-Za-z]{3}" value="EUR" type="text" name="currency" class="form-control m-input" placeholder="Valuta za cijene (EUR, USD...)" data-col-index="3" id="currency-search" />
                         </div>
                     </div>
                     <div class="row m--margin-bottom-20">
                         <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                             <label>Datum polaska: *</label>
-                            <input type="text" name="datedeparture" class="form-control m-input" placeholder="Datum polaska" data-col-index="4" id="date-departure-search" />
+                            <input required type="text" name="datedeparture" class="form-control m-input" placeholder="Datum polaska" data-col-index="4" id="date-departure-search" />
                         </div>
                         <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                             <label>Datum dolaska:</label>
@@ -52,7 +51,7 @@
                         </div>
                         <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
                             <label>Broj putnika:</label>
-                            <input type="text" name="passanger" class="form-control m-input" placeholder="Broj putnika (735)" data-col-index="6" id="adults-search" />
+                            <input pattern="[1-9]{1}" type="text" name="adults" class="form-control m-input" placeholder="Broj putnika (735)" data-col-index="6" id="adults-search" />
                         </div>
                     </div>
                 </form>
@@ -220,6 +219,7 @@
     }
     $(document).ready(function () {
         DataTable.init();
+        //$("#form-search").validate();
         $("#form-search").validate({
             rules: {
                 departure: {
@@ -230,6 +230,10 @@
                 },
                 datedeparture: {
                     required: true
+                },
+                adults: {
+                    digits: true,
+                    range: [1, 9]
                 }
             },
             messages: {
@@ -241,6 +245,9 @@
                 },
                 datedeparture: {
                     required: 'Potrebno je odabrati datum'
+                },
+                adults: {
+                    required: 'Unesite broj putnika od 1-9'
                 }
             },
         });
@@ -263,18 +270,18 @@
         });
         $("#date-departure-search").daterangepicker({
             singleDatePicker: true,
-            startDate: new Date(),
-            locale: {
-                format: 'YYYY-MM-DD',
-                useCurrent: true
-            }
-        });
-        $("#date-arrival-search").daterangepicker({
-            singleDatePicker: true,
             //startDate: new Date(),
-            locale: {
-                format: 'YYYY-MM-DD',
-            }
+            //locale: {
+            //    format: 'YYYY-MM-DD',
+            //    useCurrent: true
+            //}
+        });
+        $("#date-arrival-search").datepicker({
+            //singleDatePicker: true,
+            ////startDate: new Date(),
+            //locale: {
+            //    format: 'YYYY-MM-DD',
+            //}
         });
     });
 </script>
