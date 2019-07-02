@@ -17,6 +17,16 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public FlightOfferRepository(AmadeusDevContext context) : base(context) { }
 
 
+        public int Count(int flightId)
+        {
+            return entity.Where(x => x.FlightId == flightId).Count();
+        }
+
+        public async Task<int> CountAsync(int flightId)
+        {
+            return await entity.Where(x => x.FlightId == flightId).CountAsync();
+        }
+
         public FlightOffer GetById(string id) => entity.Where(x => x.Id == id).FirstOrDefault();
 
         public async Task<FlightOffer> GetByIdAsync(string id) => await entity.Where(x => x.Id == id).FirstOrDefaultAsync();

@@ -9,6 +9,9 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IFlightOfferRepository : IRepository<FlightOffer, int>
     {
+        int Count(int flightId);
+        Task<int> CountAsync(int flightId);
+
         FlightOffer GetById(string id);
         IEnumerable<FlightOffer> GetByFlightId(int flightId);
 

@@ -623,9 +623,9 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             var flight = unitOfWork.Flights.Find(origin, destination, depDate, retDate = depDate < retDate ? retDate : DateTime.MinValue, currency, adults);
             if (flight == null)
             {
-                var model = Response(origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                var model = Response(origin, destination, departureDate, returnDate = depDate < retDate ? returnDate : null, currency, adults);
                 if (model.Warnings != null) return null;
-                var flightId = Insert(model, origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                var flightId = Insert(model, origin, destination, departureDate, returnDate = depDate < retDate ? returnDate : null, currency, adults);
                 flight = unitOfWork.Flights.Find(flightId);
             }
 
@@ -685,6 +685,79 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             return flights;  
         }
 
+        public Tuple<int, IEnumerable<FlightDTO>> GetFlightsTuple(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
+        {
+            List<FlightDTO> flights = new List<FlightDTO>();
+            OrderBy orderBy = (OrderBy)Enum.Parse(typeof(OrderBy), order.ToUpper());
+
+            var depDate = DateTime.Parse(departureDate);
+            var retDate = DateTime.Parse(returnDate ?? DateTime.MinValue.ToString());
+
+            var flight = unitOfWork.Flights.Find(origin, destination, depDate, retDate = depDate < retDate ? retDate : DateTime.MinValue, currency, adults);
+            if (flight == null)
+            {
+                var model = Response(origin, destination, departureDate, returnDate = depDate < retDate ? returnDate : null, currency, adults);
+                if (model.Warnings != null) return null;
+                var flightId = Insert(model, origin, destination, departureDate, returnDate = depDate < retDate ? returnDate : null, currency, adults);
+                flight = unitOfWork.Flights.Find(flightId);
+            }
+
+            var flightOffers = unitOfWork.FlightOffers.SortAndGetRange(flight.FlightId, start, take, x => x.FlightId, orderBy);
+            foreach (var flightOffer in flightOffers)
+            {
+                var dto = new FlightDTO();
+                dto.Adults = flight.Adults;
+                dto.Currency = flight.Currency.Code;
+
+                var offerItems = unitOfWork.OfferItems.GetByFlightOfferId(flightOffer.FlightOfferId);
+                foreach (var offerItem in offerItems)
+                {
+                    dto.Price = Convert.ToDouble(offerItem.Price.Total, System.Globalization.CultureInfo.InvariantCulture).ToString() + " " + dto.Currency;
+
+                    var services = unitOfWork.Services.GetByOfferItemId(offerItem.OfferItemId).ToList();
+                    if (services.Count > 1) //kad imamo unesen i return date
+                    {
+                        for (int i = 0; i < services.Count; i++)
+                        {
+                            var segments = unitOfWork.Segments.GetByServiceId(services[i].ServiceId).ToList();
+                            if (i == 0)
+                            {
+                                dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
+                                dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                                dto.DepartureTransfer = segments.Count - 1;
+                            }
+
+                            if (i == 1)
+                            {
+                                dto.Arrival = segments[0].FlightSegment.Departure.Location.Name;
+                                dto.ArrivalTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                                dto.ArrivalTransfer = segments.Count - 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var service in services)
+                        {
+                            var segments = unitOfWork.Segments.GetByServiceId(service.ServiceId).ToList();
+
+                            dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
+                            dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                            dto.DepartureTransfer = segments.Count - 1;
+
+                            dto.Arrival = segments[segments.Count - 1].FlightSegment.Arrival.Location.Name;
+                            dto.ArrivalTime = DateTime.Parse(segments[segments.Count - 1].FlightSegment.Arrival.At).ToString("U");
+                            dto.ArrivalTransfer = -1; //obzirom da nema povratka ovaj podatak ce se koristit na frontendu 
+                        }
+                    }
+                }
+
+                flights.Add(dto);
+            }
+
+            return new Tuple<int, IEnumerable<FlightDTO>>(unitOfWork.FlightOffers.Count(flight.FlightId), flights);
+        }
+
         public async Task<IEnumerable<FlightDTO>> GetFlightsAsync(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
         {
             List<FlightDTO> flights = new List<FlightDTO>();
@@ -696,9 +769,9 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             var flight = await unitOfWork.Flights.FindAsync(origin, destination, depDate, retDate = depDate < retDate ? retDate : DateTime.MinValue, currency, adults);
             if (flight == null)
             {
-                var model = await ResponseAsync(origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                var model = await ResponseAsync(origin, destination, departureDate, returnDate = depDate < retDate ? returnDate : null, currency, adults);
                 if (model.Warnings != null) return null;
-                var flightId = await InsertAsync(model, origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                var flightId = await InsertAsync(model, origin, destination, departureDate, returnDate = depDate < retDate ? returnDate : null, currency, adults);
                 flight = await unitOfWork.Flights.FindAsync(flightId);
             }
 

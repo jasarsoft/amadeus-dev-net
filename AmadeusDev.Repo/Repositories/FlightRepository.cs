@@ -93,5 +93,31 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                     && x.Adults == adults)
                 .FirstOrDefaultAsync();
         }
+
+        public Tuple<int, Flight> GetFlights(string origin, string destination, DateTime departureDate, DateTime returnDate, string currency, int adults)
+        {
+            return new Tuple<int, Flight>(1, entity.AsNoTracking()
+                    .Include(x => x.Currency)
+                    .Where(x => x.Origin == origin
+                        && x.Destination == destination
+                        && x.DepartureDate == departureDate
+                        && x.ReturnDate == returnDate
+                        && x.Currency.Code == currency
+                        && x.Adults == adults)
+                    .FirstOrDefault());
+        }
+
+        public async Task<Tuple<int, Flight>> GetFlightsAsync(string origin, string destination, DateTime departureDate, DateTime returnDate, string currency, int adults)
+        {
+            return new Tuple<int, Flight>(1, await entity.AsNoTracking()
+                    .Include(x => x.Currency)
+                    .Where(x => x.Origin == origin
+                        && x.Destination == destination
+                        && x.DepartureDate == departureDate
+                        && x.ReturnDate == returnDate
+                        && x.Currency.Code == currency
+                        && x.Adults == adults)
+                    .FirstOrDefaultAsync());
+        }
     }
 }

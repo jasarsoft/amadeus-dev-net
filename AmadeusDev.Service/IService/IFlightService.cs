@@ -20,6 +20,8 @@ namespace Jasarsoft.AmadeusDev.Service.IService
 
         IEnumerable<FlightDTO> GetFlights(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
 
+        Tuple<int, IEnumerable<FlightDTO>> GetFlightsTuple(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
+
 
         Task<int> GetNumberOfFlightsAsync(string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
 

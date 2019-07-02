@@ -111,7 +111,7 @@
                 deferRender: true,
                 pagingType: "full_numbers",
                 ajax: {
-                    url: '/Home/GetFlightsAsync',
+                    url: '/Home/GetFlightsTuple',
                     type: "post",
                     dataType: "json",
                     async: true,
@@ -258,6 +258,7 @@
 
         $("#m_search").on('click', function () {
             if ($('#form-search').valid()) {
+                $("#datatable").DataTable().rows().remove().draw();
                 $("#datatable").DataTable().ajax.reload();
             }
         });
@@ -274,15 +275,20 @@
         });
         $("#date-departure-search").daterangepicker({
             singleDatePicker: true,
-            //startDate: new Date(),
+            startDate: new Date(),
             locale: {
                 format: 'YYYY-MM-DD',
                 useCurrent: true
             }
         });
+
+        var date = new Date();
+        date.setHours(24);
+        date.setHours(24);
+        date.setHours(24);
         $("#date-arrival-search").daterangepicker({
             singleDatePicker: true,
-            ////startDate: new Date(),
+            startDate: date,
             locale: {
                 format: 'YYYY-MM-DD',
             }
