@@ -45,7 +45,23 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             return JsonConvert.DeserializeObject<Repo.Models.Flights.Flight>(get);
         }
 
-        
+        public async Task<Repo.Models.Flights.Flight> ResponseAsync(string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
+        {
+            string uri = "https://test.api.amadeus.com/v1/shopping/flight-offers?";
+            uri += String.Format("origin={0}&destination={1}&departureDate={2}", origin, destination, departureDate);
+            if (!String.IsNullOrEmpty(returnDate))
+                uri += String.Format("&returnDate={0}", returnDate);
+            if (!String.IsNullOrEmpty(currency))
+                uri += String.Format("&currency={0}", currency);
+            if (adults != 1)
+                uri += String.Format("&adults={0}", adults);
+
+            string get = await Server.GetAsync(uri, Server.GetToken());
+
+            return JsonConvert.DeserializeObject<Repo.Models.Flights.Flight>(get);
+        }
+
+
         public int Insert(Repo.Models.Flights.Flight model, string origin, string destionation, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
         {
             if (model == null || String.IsNullOrEmpty(origin) || String.IsNullOrEmpty(destionation) || String.IsNullOrEmpty(departureDate))
@@ -301,7 +317,262 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             return flight.FlightId;
         }
 
-        public int GetNumberOfFlights(string origin, string destination, string departureDate, 
+        public async Task<int> InsertAsync(Repo.Models.Flights.Flight model, string origin, string destionation, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
+        {
+            if (model == null || String.IsNullOrEmpty(origin) || String.IsNullOrEmpty(destionation) || String.IsNullOrEmpty(departureDate))
+                throw new ArgumentNullException();
+
+            if (model.Data == null || model.Dictionaries == null || model.Meta == null)
+                throw new NullReferenceException();
+
+            if (model.Dictionaries.Currencies != null)
+            {
+                foreach (var item in model.Dictionaries.Currencies)
+                {
+                    if (unitOfWork.Currencies.FindByCode(item.Key) == null)
+                    {
+                        await unitOfWork.Currencies.InsertAsync(item);
+                    }
+                }
+            }
+
+            if (model.Dictionaries.Aircraft != null)
+            {
+                foreach (var item in model.Dictionaries.Aircraft)
+                {
+                    if (unitOfWork.Aircrafts.FindByCode(item.Key) == null)
+                    {
+                        await unitOfWork.Aircrafts.InsertAsync(item);
+                    }
+                }
+            }
+
+            if (model.Dictionaries.Carriers != null)
+            {
+                foreach (var item in model.Dictionaries.Carriers)
+                {
+                    if (unitOfWork.Carriers.FindByCode(item.Key) == null)
+                    {
+                        await unitOfWork.Carriers.InsertAsync(item);
+                    }
+                }
+            }
+
+            if (model.Dictionaries.Locations != null)
+            {
+                foreach (var item in model.Dictionaries.Locations)
+                {
+                    if (unitOfWork.Locations.FindByCode(item.Key) == null)
+                    {
+                        await unitOfWork.Locations.InsertAsync(new KeyValuePair<string, string>(item.Key, item.Value.detailedName));
+                    }
+                }
+            }
+
+
+            Flight flight = new Flight()
+            {
+                Adults = adults,
+                CurrencyId = unitOfWork.Currencies.FindByCode(model.Meta.Currency).CurrencyId,
+                Origin = origin,
+                Destination = destionation,
+                DepartureDate = DateTime.Parse(departureDate),
+                ReturnDate = DateTime.Parse(returnDate ?? DateTime.MinValue.ToString()),
+                Link = model.Meta.Links.Self,
+            };
+
+            flight.FlightId = await unitOfWork.Flights.InsertAsync(flight);
+
+            try
+            {
+                foreach (var item in model.Data)
+                {
+                    FlightOffer flightOffer = new FlightOffer
+                    {
+                        Id = item.Id,
+                        Type = item.Type,
+                        FlightId = flight.FlightId,
+                    };
+
+                    var flightOfferId = await unitOfWork.FlightOffers.InsertAsync(flightOffer);
+                    foreach (var offer in item.OfferItems)
+                    {
+                        OfferItem offerItem = new OfferItem();
+                        offerItem.FlightOfferId = flightOfferId;
+
+                        Price price = new Price
+                        {
+                            Total = offer.Price.Total,
+                            TotalTaxes = offer.Price.TotalTaxes,
+                        };
+                        offerItem.PriceId = await unitOfWork.Prices.InsertAsync(price);
+
+                        if (offer.PricePerAdult != null)
+                        {
+                            Price adult = new Price
+                            {
+                                Total = offer.PricePerAdult.Total,
+                                TotalTaxes = offer.PricePerAdult.TotalTaxes,
+                            };
+                            offerItem.PricePerAdultId = await unitOfWork.Prices.InsertAsync(adult);
+                        }
+
+                        if (offer.PricePerChild != null)
+                        {
+                            Price child = new Price
+                            {
+                                Total = offer.PricePerChild.Total,
+                                TotalTaxes = offer.PricePerChild.TotalTaxes,
+                            };
+                            offerItem.PricePerChildId = await unitOfWork.Prices.InsertAsync(child);
+                        }
+
+                        if (offer.PricePerInfant != null)
+                        {
+                            Price infant = new Price
+                            {
+                                Total = offer.PricePerInfant.Total,
+                                TotalTaxes = offer.PricePerInfant.TotalTaxes,
+                            };
+                            offerItem.PricePerInfantId = await unitOfWork.Prices.InsertAsync(infant);
+                        }
+
+                        if (offer.PricePerSenior != null)
+                        {
+                            Price senior = new Price
+                            {
+                                Total = offer.PricePerSenior.Total,
+                                TotalTaxes = offer.PricePerSenior.TotalTaxes,
+                            };
+                            offerItem.PricePerSeniorId = await unitOfWork.Prices.InsertAsync(senior);
+                        }
+
+                        var offerItemId = await unitOfWork.OfferItems.InsertAsync(offerItem);
+                        foreach (var ser in offer.Services)
+                        {
+                            Data.Flights.Service service = new Data.Flights.Service();
+                            service.OfferItemId = offerItemId;
+
+                            var serviceId = await unitOfWork.Services.InsertAsync(service);
+                            if (ser.Segments != null)
+                            {
+                                foreach (var seg in ser.Segments)
+                                {
+                                    Segment segment = new Segment();
+                                    segment.ServiceId = serviceId;
+
+                                    FlightSegment flightSegment = new FlightSegment();
+                                    flightSegment.AircraftId = (await unitOfWork.Aircrafts.FindByCodeAsync(seg.FlightSegment.Aircraft.Code)).AircraftId;
+
+                                    FlightEndPoint arrival = new FlightEndPoint
+                                    {
+                                        At = seg.FlightSegment.Arrival.At,
+                                        LocationId = (await unitOfWork.Locations.FindByCodeAsync(seg.FlightSegment.Arrival.IataCode)).LocationId,
+                                        Terminal = seg.FlightSegment.Arrival.Terminal,
+                                    };
+                                    flightSegment.ArrivalId = await unitOfWork.FlightEndPoints.InsertAsync(arrival);
+                                    flightSegment.CarrierId = (await unitOfWork.Carriers.FindByCodeAsync(seg.FlightSegment.CarrierCode)).CarrierId;
+
+                                    FlightEndPoint departure = new FlightEndPoint
+                                    {
+                                        At = seg.FlightSegment.Departure.At,
+                                        LocationId = (await unitOfWork.Locations.FindByCodeAsync(seg.FlightSegment.Departure.IataCode)).LocationId,
+                                        Terminal = seg.FlightSegment.Departure.Terminal,
+                                    };
+                                    flightSegment.DepartureId = await unitOfWork.FlightEndPoints.InsertAsync(departure);
+                                    flightSegment.Duration = seg.FlightSegment.Duration;
+                                    flightSegment.Number = seg.FlightSegment.Number;
+
+                                    Operation operation = new Operation
+                                    {
+                                        CarrierId = (await unitOfWork.Carriers.FindByCodeAsync(seg.FlightSegment.Operating.CarrierCode)).CarrierId,
+                                        Number = seg.FlightSegment.Operating.Number,
+                                    };
+                                    flightSegment.OperationId = await unitOfWork.Operations.InsertAsync(operation);
+
+                                    segment.FlightSegmentId = await unitOfWork.FlightSegments.InsertAsync(flightSegment);
+
+                                    if (seg.FlightSegment.Stops != null)
+                                    {
+                                        foreach (var stop in seg.FlightSegment.Stops)
+                                        {
+                                            FlightStop flightStop = new FlightStop
+                                            {
+                                                AircraftId = (await unitOfWork.Aircrafts.FindByCodeAsync(stop.NewAircraft.Code)).AircraftId,
+                                                ArrivalAt = stop.ArrivalAt,
+                                                CarrierId = (await unitOfWork.Carriers.FindByCodeAsync(stop.IataCode)).CarrierId,
+                                                DepartureAt = stop.DepartureAt,
+                                                Duration = stop.Duration,
+                                                FlightSegmentId = segment.FlightSegmentId,
+                                            };
+                                            await unitOfWork.FlightStops.InsertAsync(flightStop);
+                                        }
+                                    }
+
+                                    if (seg.PricingDetailPerAdult != null)
+                                    {
+                                        PricingDetail adult = new PricingDetail
+                                        {
+                                            Availability = seg.PricingDetailPerAdult.Availability,
+                                            FareBasis = seg.PricingDetailPerAdult.FareBasis,
+                                            FareClass = seg.PricingDetailPerAdult.FareClass,
+                                            TravelClass = seg.PricingDetailPerAdult.TravelClass,
+                                        };
+                                        segment.PricingDetailPerAdultId = await unitOfWork.PricingDetails.InsertAsync(adult);
+                                    }
+
+                                    if (seg.PricingDetailPerChild != null)
+                                    {
+                                        PricingDetail child = new PricingDetail
+                                        {
+                                            Availability = seg.PricingDetailPerChild.Availability,
+                                            FareBasis = seg.PricingDetailPerChild.FareBasis,
+                                            FareClass = seg.PricingDetailPerChild.FareClass,
+                                            TravelClass = seg.PricingDetailPerChild.TravelClass,
+                                        };
+                                        segment.PricingDetailPerChildId = await unitOfWork.PricingDetails.InsertAsync(child);
+                                    }
+
+                                    if (seg.PricingDetailPerInfant != null)
+                                    {
+                                        PricingDetail infant = new PricingDetail
+                                        {
+                                            Availability = seg.PricingDetailPerInfant.Availability,
+                                            FareBasis = seg.PricingDetailPerInfant.FareBasis,
+                                            FareClass = seg.PricingDetailPerInfant.FareClass,
+                                            TravelClass = seg.PricingDetailPerInfant.TravelClass,
+                                        };
+                                        segment.PricingDetailPerInfantId = await unitOfWork.PricingDetails.InsertAsync(infant);
+                                    }
+
+                                    if (seg.PricingDetailPerSenior != null)
+                                    {
+                                        PricingDetail senior = new PricingDetail
+                                        {
+                                            Availability = seg.PricingDetailPerSenior.Availability,
+                                            FareBasis = seg.PricingDetailPerSenior.FareBasis,
+                                            FareClass = seg.PricingDetailPerSenior.FareClass,
+                                            TravelClass = seg.PricingDetailPerSenior.TravelClass,
+                                        };
+                                        segment.PricingDetailPerSeniorId = await unitOfWork.PricingDetails.InsertAsync(senior);
+                                    }
+
+                                    var segmentId = await unitOfWork.Segments.InsertAsync(segment);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return flight.FlightId;
+        }
+
+        public int GetNumberOfFlights(string origin, string destination, string departureDate,
             string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
         {
             var result = 0;
@@ -315,6 +586,26 @@ namespace Jasarsoft.AmadeusDev.Service.Service
                 foreach (var flightOffer in flightOffers)
                 {
                     result += unitOfWork.OfferItems.GetByFlightOfferId(flightOffer.FlightOfferId).Count();
+                }
+            }
+
+            return result;
+        }
+
+        public async Task<int> GetNumberOfFlightsAsync(string origin, string destination, string departureDate, 
+            string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
+        {
+            var result = 0;
+            var depDate = DateTime.Parse(departureDate);
+            var retDate = DateTime.Parse(returnDate ?? DateTime.MinValue.ToString());
+
+            var flight = await unitOfWork.Flights.FindAsync(origin, destination, depDate, retDate, currency, adults);
+            if (flight != null)
+            {
+                var flightOffers = await unitOfWork.FlightOffers.GetByFlightIdAsync(flight.FlightId);
+                foreach (var flightOffer in flightOffers)
+                {
+                    result += (await unitOfWork.OfferItems.GetByFlightOfferIdAsync(flightOffer.FlightOfferId)).Count();
                 }
             }
 
@@ -383,7 +674,7 @@ namespace Jasarsoft.AmadeusDev.Service.Service
 
                             dto.Arrival = segments[segments.Count - 1].FlightSegment.Arrival.Location.Name;
                             dto.ArrivalTime = DateTime.Parse(segments[segments.Count - 1].FlightSegment.Arrival.At).ToString("U");
-                            dto.ArrivalTransfer = -1; //obzirom da nema povratka ovaj podatak ce se koristit na frontendu za promjenu strukture u tabell
+                            dto.ArrivalTransfer = -1; //obzirom da nema povratka ovaj podatak ce se koristit na frontendu 
                         }
                     }
                 }
@@ -392,6 +683,79 @@ namespace Jasarsoft.AmadeusDev.Service.Service
             }
 
             return flights;  
+        }
+
+        public async Task<IEnumerable<FlightDTO>> GetFlightsAsync(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS)
+        {
+            List<FlightDTO> flights = new List<FlightDTO>();
+            OrderBy orderBy = (OrderBy)Enum.Parse(typeof(OrderBy), order.ToUpper());
+
+            var depDate = DateTime.Parse(departureDate);
+            var retDate = DateTime.Parse(returnDate ?? DateTime.MinValue.ToString());
+
+            var flight = await unitOfWork.Flights.FindAsync(origin, destination, depDate, retDate = depDate < retDate ? retDate : DateTime.MinValue, currency, adults);
+            if (flight == null)
+            {
+                var model = await ResponseAsync(origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                if (model.Warnings != null) return null;
+                var flightId = await InsertAsync(model, origin, destination, departureDate, returnDate = depDate < retDate ? retDate.ToString() : null, currency, adults);
+                flight = await unitOfWork.Flights.FindAsync(flightId);
+            }
+
+            var flightOffers = await unitOfWork.FlightOffers.SortAndGetRangeAsync(flight.FlightId, start, take, x => x.FlightId, orderBy);
+            foreach (var flightOffer in flightOffers)
+            {
+                var dto = new FlightDTO();
+                dto.Adults = flight.Adults;
+                dto.Currency = flight.Currency.Code;
+
+                var offerItems = await unitOfWork.OfferItems.GetByFlightOfferIdAsync(flightOffer.FlightOfferId);
+                foreach (var offerItem in offerItems)
+                {
+                    dto.Price = Convert.ToDouble(offerItem.Price.Total, System.Globalization.CultureInfo.InvariantCulture).ToString() + " " + dto.Currency;
+
+                    var services = (await unitOfWork.Services.GetByOfferItemIdAsync(offerItem.OfferItemId)).ToList();
+                    if (services.Count > 1) //kad imamo unesen i return date
+                    {
+                        for (int i = 0; i < services.Count; i++)
+                        {
+                            var segments = (await unitOfWork.Segments.GetByServiceIdAsync(services[i].ServiceId)).ToList();
+                            if (i == 0)
+                            {
+                                dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
+                                dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                                dto.DepartureTransfer = segments.Count - 1;
+                            }
+
+                            if (i == 1)
+                            {
+                                dto.Arrival = segments[0].FlightSegment.Departure.Location.Name;
+                                dto.ArrivalTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                                dto.ArrivalTransfer = segments.Count - 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var service in services)
+                        {
+                            var segments = (await unitOfWork.Segments.GetByServiceIdAsync(service.ServiceId)).ToList();
+
+                            dto.Departure = segments[0].FlightSegment.Departure.Location.Name;
+                            dto.DepartureTime = DateTime.Parse(segments[0].FlightSegment.Departure.At).ToString("U");
+                            dto.DepartureTransfer = segments.Count - 1;
+
+                            dto.Arrival = segments[segments.Count - 1].FlightSegment.Arrival.Location.Name;
+                            dto.ArrivalTime = DateTime.Parse(segments[segments.Count - 1].FlightSegment.Arrival.At).ToString("U");
+                            dto.ArrivalTransfer = -1; //obzirom da nema povratka ovaj podatak ce se koristit na frontendu 
+                        }
+                    }
+                }
+
+                flights.Add(dto);
+            }
+
+            return flights;
         }
     }
 }
