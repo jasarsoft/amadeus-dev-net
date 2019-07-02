@@ -10,16 +10,14 @@ namespace Jasarsoft.AmadeusDev.Service
         public static void AddServices(this IServiceCollection services)
         {
             services.AddTransient<IAircraftService, AircraftService>();
-            services.AddTransient<IDictionaryAircraftService, DictionaryAircraftService>();
-            services.AddTransient<IDictionaryCarrierService, DictionaryCarrierService>();
-            services.AddTransient<IDictionaryCurrencyService, DictionaryCurrencyService>();
-            services.AddTransient<IDictionaryLocationService, DictionaryLocationService>();
-            services.AddTransient<IDictionaryService, DictionaryService>();            
+            services.AddTransient<ICarrierService, CarrierService>();
+            services.AddTransient<ICurrencyService, CurrencyService>();                     
             services.AddTransient<IFlightEndPointService, FlightEndPointService>();
             services.AddTransient<IFlightOfferService, FlightOfferService>();
             services.AddTransient<IFlightService, FlightService>();
             services.AddTransient<IFlightSegmentService, FlightSegmentService>();
             services.AddTransient<IFlightStopService, FlightStopService>();
+            services.AddTransient<ILocationService, LocationService>();
             services.AddTransient<IOfferItemService, OfferItemService>();
             services.AddTransient<IOperationService, OperationService>();
             services.AddTransient<IPriceService, PriceService>();
@@ -27,9 +25,8 @@ namespace Jasarsoft.AmadeusDev.Service
             services.AddTransient<ISegmentService, SegmentService>();
             services.AddTransient<IServiceService, ServiceService>();
 
-            services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IDistanceService, DistanceService>();
-            services.AddTransient<ILocationService, LocationService>();
+            //services.AddTransient<IAddressService, AddressService>();
+            //services.AddTransient<IDistanceService, DistanceService>();
         }
     }
 }
