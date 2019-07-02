@@ -42,6 +42,33 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 .ToList();
         }
 
+        public async Task<IEnumerable<Segment>> GetByServiceIdAsync(int serviceId)
+        {
+            return await entity.Include(x => x.FlightSegment)
+                    .ThenInclude(x => x.Aircraft)
+                .Include(x => x.FlightSegment)
+                    .ThenInclude(d => d.Arrival)
+                .Include(x => x.FlightSegment)
+                    .ThenInclude(d => d.Arrival)
+                        .ThenInclude(x => x.Location)
+                .Include(x => x.FlightSegment)
+                    .ThenInclude(d => d.Carrier)
+                .Include(x => x.FlightSegment)
+                    .ThenInclude(d => d.Departure)
+                .Include(x => x.FlightSegment)
+                    .ThenInclude(d => d.Departure)
+                        .ThenInclude(x => x.Location)
+                //.Include(x => x.FlightSegment)
+                //    .ThenInclude(d => d.Operation)
+                //.Include(x => x.PricingDetailPerAdult)
+                //.Include(x => x.PricingDetailPerChild)
+                //.Include(x => x.PricingDetailPerInfant)
+                //.Include(x => x.PricingDetailPerSenior)
+                .Where(x => x.ServiceId == serviceId)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public int Insert(Segment model)
         {
             using (IDbContextTransaction transaction = context.Database.BeginTransaction())
@@ -57,6 +84,25 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 {
                     transaction.Rollback();
                     throw new DbUpdateException("Insert Segment", e);
+                }
+            }
+        }
+
+        public async Task<int> InsertAsync(Segment model)
+        {
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await context.AddAsync(model);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return model.SegmentId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Segment Async", e);
                 }
             }
         }

@@ -14,5 +14,12 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 
         int Insert(FlightOffer model);
         IEnumerable<FlightOffer> SortAndGetRange<TKey>(int flightId, int start, int take, Expression<Func<FlightOffer, TKey>> predicate, OrderBy order);
+
+
+        Task<FlightOffer> GetByIdAsync(string id);
+        Task<IEnumerable<FlightOffer>> GetByFlightIdAsync(int flightId);
+
+        Task<int> InsertAsync(FlightOffer model);
+        Task<IEnumerable<FlightOffer>> SortAndGetRangeAsync<TKey>(int flightId, int start, int take, Expression<Func<FlightOffer, TKey>> predicate, OrderBy order);
     }
 }

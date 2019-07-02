@@ -9,5 +9,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     public interface IPricingDetailRepository : IRepository<PricingDetail, int>
     {
         int Insert(PricingDetail model);
+
+        Task<int> InsertAsync(PricingDetail model);
     }
 }

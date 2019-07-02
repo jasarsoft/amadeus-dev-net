@@ -8,12 +8,15 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface ILocationRepository : IRepository<Location, int>
     {
-        //IEnumerable<Location> GetLocationsByName(string keyword);
-
-        //void Insert(Models.Airports.Location model);
-
-        int Insert(KeyValuePair<string, string> model);
         Location FindByCode(string code);
         Location FindByCode(Location location);
+
+        int Insert(KeyValuePair<string, string> model);
+
+
+        Task<Location> FindByCodeAsync(string code);
+        Task<Location> FindByCodeAsync(Location location);
+
+        Task<int> InsertAsync(KeyValuePair<string, string> model);
     }
 }

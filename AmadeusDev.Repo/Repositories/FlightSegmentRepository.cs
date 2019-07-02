@@ -35,66 +35,23 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             }
         }
 
-        #region Get Departure
-        public IEnumerable<FlightSegment> GetByDepartureByIata(string code)
+        public async Task<int> InsertAsync(FlightSegment model)
         {
-            var query = entity.Include(x => x.Departure)
-                .Include(x => x.Arrival)
-
-                .Include(x => x.Aircraft);
-                //.Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
-
-            return query.ToList();
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await context.AddAsync(model);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return model.FlightSegmentId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert FlightSegment Async", e);
+                }
+            }
         }
-
-        public async Task<IEnumerable<FlightSegment>> GetByDepartureByIataAsync(string code)
-        {
-            var query = entity.Include(x => x.Departure)
-                .Include(x => x.Arrival)
-                //.Include(x => x.Operating)
-                .Include(x => x.Aircraft);
-                //.Where(x => x.Departure.IataCode.ToLower().Contains(code.ToLower()));
-
-            return await query.ToListAsync();
-        }
-        #endregion
-
-        #region Get Arrival
-        public IEnumerable<FlightSegment> GetByArrivalIata(string code)
-        {
-            var query = entity.Include(x => x.Aircraft)
-                .Include(x => x.Arrival)
-                .Include(x => x.Departure);
-                //.Include(x => x.Operating)
-                //.Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
-
-            return query.ToList();
-        }
-
-        public async Task<IEnumerable<FlightSegment>> GetByArrivalIataAsync(string code)
-        {
-            var query = entity.Include(x => x.Aircraft)
-                .Include(x => x.Arrival)
-                .Include(x => x.Departure);
-                //.Include(x => x.Operating)
-                //.Where(x => x.Arrival.IataCode.ToLower().Contains(code.ToLower()));
-
-            return await query.ToListAsync();
-        }
-        #endregion
-
-        #region Get by Date
-        public IEnumerable<FlightSegment> GetFlightSegmentsByDate(string date)
-        {
-            var query = entity.Include(x => x.Aircraft)
-                .Include(x => x.Arrival)
-                .Include(x => x.Departure);
-                //.Include(x => x.Operating)
-                //.Where(x => x.Arrival.IataCode.ToLower().Contains(date.ToLower()));
-
-            return query.ToList();
-        }
-        #endregion
-
     }
 }

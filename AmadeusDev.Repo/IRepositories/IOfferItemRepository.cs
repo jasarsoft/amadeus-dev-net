@@ -10,5 +10,8 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     {
         IEnumerable<OfferItem> GetByFlightOfferId(int flightOfferId);
         int Insert(OfferItem model);
+
+        Task<IEnumerable<OfferItem>> GetByFlightOfferIdAsync(int flightOfferId);
+        Task<int> InsertAsync(OfferItem model);
     }
 }

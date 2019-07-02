@@ -27,6 +27,17 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 .ToList();
         }
 
+        public async Task<IEnumerable<OfferItem>> GetByFlightOfferIdAsync(int flightOfferId)
+        {
+            return await entity.Include(x => x.Price)
+                .Include(x => x.PricePerAdult)
+                .Include(x => x.PricePerChild)
+                .Include(x => x.PricePerInfant)
+                .Include(x => x.PricePerSenior)
+                .Where(x => x.FlightOfferId == flightOfferId)
+                .ToListAsync();
+        }
+
         public int Insert(OfferItem model)
         {
             using (IDbContextTransaction transaction = context.Database.BeginTransaction())
@@ -42,6 +53,25 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 {
                     transaction.Rollback();
                     throw new DbUpdateException("Insert OfferItem", e);
+                }
+            }
+        }
+
+        public async Task<int> InsertAsync(OfferItem model)
+        {
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await context.AddAsync(model);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return model.OfferItemId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert OfferItem Async", e);
                 }
             }
         }

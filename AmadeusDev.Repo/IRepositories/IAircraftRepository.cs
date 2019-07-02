@@ -8,8 +8,14 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface IAircraftRepository : IRepository<Aircraft, int>
     {
-        int Insert(KeyValuePair<string, string> model);
         Aircraft FindByCode(string code);
         Aircraft FindByCode(Aircraft aircraft);
+
+        int Insert(KeyValuePair<string, string> model);
+
+        Task<Aircraft> FindByCodeAsync(string code);
+        Task<Aircraft> FindByCodeAsync(Aircraft aircraft);
+
+        Task<int> InsertAsync(KeyValuePair<string, string> model);
     }
 }

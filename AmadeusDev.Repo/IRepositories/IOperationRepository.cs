@@ -9,5 +9,7 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     public interface IOperationRepository : IRepository<Operation, int>
     {
         int Insert(Operation model);
+
+        Task<int> InsertAsync(Operation model);
     }
 }

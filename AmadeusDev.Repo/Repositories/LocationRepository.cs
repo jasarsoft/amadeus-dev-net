@@ -17,6 +17,26 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public LocationRepository(AmadeusDevContext context) : base(context) { }
 
 
+        public Location FindByCode(string code)
+        {
+            return entity.Where(x => x.Code == code).FirstOrDefault();
+        }
+
+        public async Task<Location> FindByCodeAsync(string code)
+        {
+            return await entity.Where(x => x.Code == code).FirstOrDefaultAsync();
+        }
+
+        public Location FindByCode(Location location)
+        {
+            return entity.Where(x => x.Code == location.Code).FirstOrDefault();
+        }
+
+        public async Task<Location> FindByCodeAsync(Location location)
+        {
+            return await entity.Where(x => x.Code == location.Code).FirstOrDefaultAsync();
+        }
+
         public int Insert(KeyValuePair<string, string> model)
         {
             using (IDbContextTransaction transaction = context.Database.BeginTransaction())
@@ -42,60 +62,29 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             }
         }
 
-        public Location FindByCode(string code)
+        public async Task<int> InsertAsync(KeyValuePair<string, string> model)
         {
-            return base.Where(x => x.Code == code).FirstOrDefault();
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    Location location = new Location
+                    {
+                        Code = model.Key,
+                        Name = model.Value,
+                    };
+
+                    await context.AddAsync(location);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return location.LocationId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Location Async", e);
+                }
+            }
         }
-
-        public Location FindByCode(Location location)
-        {
-            return base.Where(x => x.Code == location.Code).FirstOrDefault();
-        }
-
-        //public IEnumerable<Location> GetLocationsByName(string keyword)
-        //{
-        //    var query = entity.Where(x => x.Name.ToLower().Contains(keyword));
-
-        //    return query.ToList();
-        //}
-
-        //public override IEnumerable<Location> SortAndGetRange<TKey>(int start, int take, Expression<Func<Location, TKey>> predicate, Enumerations.OrderBy order)
-        //{
-        //    return order == Enumerations.OrderBy.ASC
-        //        ? entity.Include(x => x.Address)
-        //                .Include(x => x.Distance)
-        //                .OrderBy(predicate)
-        //                .Skip(start).Take(take)
-        //        : entity.Include(x => x.Address)
-        //                .Include(x => x.Distance)
-        //                .OrderByDescending(predicate)
-        //                .Skip(start).Take(take);
-        //}
-
-        //public void Insert(Models.Airports.Location model)
-        //{
-        //    using (IDbContextTransaction transaction = context.Database.BeginTransaction())
-        //    {
-        //        try
-        //        {
-        //            Location location = model;
-
-        //            context.Addresses.Add(location.Address);
-        //            location.AddressId = location.Address.AdressId;
-
-        //            context.Distances.Add(location.Distance);
-        //            location.DistanceId = location.Distance.DistanceId;
-
-        //            context.Locations.Add(location);
-        //            context.SaveChanges();
-        //            transaction.Commit();
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            transaction.Rollback();
-        //            throw new DbUpdateException("Insert Aircraft location", e);
-        //        }
-        //    }
-        //}
     }
 }

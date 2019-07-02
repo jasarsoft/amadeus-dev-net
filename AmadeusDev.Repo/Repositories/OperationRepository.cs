@@ -34,5 +34,24 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 }
             }
         }
+
+        public async Task<int> InsertAsync(Operation model)
+        {
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await context.AddAsync(model);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return model.OperationId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Operation Async", e);
+                }
+            }
+        }
     }
 }

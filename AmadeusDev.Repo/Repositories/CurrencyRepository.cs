@@ -16,6 +16,26 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
         public CurrencyRepository(AmadeusDevContext context) : base(context) { }
 
 
+        public Currency FindByCode(Currency currency)
+        {
+            return entity.Where(x => x.Code == currency.Code).FirstOrDefault();
+        }
+
+        public async Task<Currency> FindByCodeAsync(Currency currency)
+        {
+            return await entity.Where(x => x.Code == currency.Code).FirstOrDefaultAsync();
+        }
+
+        public Currency FindByCode(string code)
+        {
+            return entity.Where(x => x.Code == code).FirstOrDefault();
+        }
+
+        public async Task<Currency> FindByCodeAsync(string code)
+        {
+            return await entity.Where(x => x.Code == code).FirstOrDefaultAsync();
+        }
+
         public int Insert(KeyValuePair<string, string> model)
         {
             using (IDbContextTransaction transaction = context.Database.BeginTransaction())
@@ -41,14 +61,29 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
             }
         }
 
-        public Currency FindByCode(Currency currency)
+        public async Task<int> InsertAsync(KeyValuePair<string, string> model)
         {
-            return entity.Where(x => x.Code == currency.Code).FirstOrDefault();
-        }
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    Currency currency = new Currency
+                    {
+                        Code = model.Key,
+                        Name = model.Value,
+                    };
 
-        public Currency FindByCode(string code)
-        {
-            return entity.Where(x => x.Code == code).FirstOrDefault();
+                    await context.AddAsync(currency);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return currency.CurrencyId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Currency Async", e);
+                }
+            }
         }
     }
 }

@@ -10,5 +10,8 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
     {
         IEnumerable<Segment> GetByServiceId(int serviceId);
         int Insert(Segment model);
+
+        Task<IEnumerable<Segment>> GetByServiceIdAsync(int serviceId);
+        Task<int> InsertAsync(Segment model);
     }
 }

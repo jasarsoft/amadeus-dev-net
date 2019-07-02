@@ -8,8 +8,15 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
 {
     public interface ICurrencyRepository : IRepository<Currency, int>
     {
-        int Insert(KeyValuePair<string, string> model);
-        Currency FindByCode(Currency currency);
         Currency FindByCode(string code);
+        Currency FindByCode(Currency currency);
+
+        int Insert(KeyValuePair<string, string> model);
+
+        Task<Currency> FindByCodeAsync(string code);
+        Task<Currency> FindByCodeAsync(Currency currency);
+
+        Task<int> InsertAsync(KeyValuePair<string, string> model);
+
     }
 }

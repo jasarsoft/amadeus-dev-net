@@ -17,7 +17,8 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
 
         public IEnumerable<Service> GetByOfferItemId(int offerItemId) => entity.Where(x => x.OfferItemId == offerItemId).ToList();
-        
+
+        public async Task<IEnumerable<Service>> GetByOfferItemIdAsync(int offerItemId) => await entity.Where(x => x.OfferItemId == offerItemId).ToListAsync();
 
         public int Insert(Service model)
         {
@@ -34,6 +35,25 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 {
                     transaction.Rollback();
                     throw new DbUpdateException("Insert Service", e);
+                }
+            }
+        }
+
+        public async Task<int> InsertAsync(Service model)
+        {
+            using (IDbContextTransaction transaction = await context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    await context.AddAsync(model);
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                    return model.ServiceId;
+                }
+                catch (Exception e)
+                {
+                    transaction.Rollback();
+                    throw new DbUpdateException("Insert Service Async", e);
                 }
             }
         }
