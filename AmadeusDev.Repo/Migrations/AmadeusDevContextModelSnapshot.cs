@@ -82,6 +82,8 @@ namespace AmadeusDev.Repo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Adults");
+
                     b.Property<int>("CurrencyId");
 
                     b.Property<DateTime>("DepartureDate");

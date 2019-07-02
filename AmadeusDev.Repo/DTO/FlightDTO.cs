@@ -12,7 +12,7 @@ namespace Jasarsoft.AmadeusDev.Repo.DTO
         public string ArrivalTime { get; set; } // datum povratka
         public int DepartureTransfer { get; set; }// broj presjedanja u odlaznom putovanju 
         public int ArrivalTransfer { get; set; } // broj presjedanja u povratnom putovanju 
-        public int Passanger { get; set; } // broj putnika 
+        public int Adults { get; set; } // broj putnika 
         public string Currency { get; set; } // valuta
         public string Price { get; set; } // ukupna cijena 
     }

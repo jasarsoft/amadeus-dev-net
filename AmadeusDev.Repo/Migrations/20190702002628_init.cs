@@ -134,9 +134,10 @@ namespace AmadeusDev.Repo.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Origin = table.Column<string>(nullable: true),
                     Destination = table.Column<string>(nullable: true),
+                    Adults = table.Column<int>(nullable: false),
+                    CurrencyId = table.Column<int>(nullable: false),
                     DepartureDate = table.Column<DateTime>(nullable: false),
                     ReturnDate = table.Column<DateTime>(nullable: false),
-                    CurrencyId = table.Column<int>(nullable: false),
                     Link = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

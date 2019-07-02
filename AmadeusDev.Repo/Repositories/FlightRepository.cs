@@ -44,98 +44,18 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                 .FirstOrDefault();
         }
 
-        public override IEnumerable<Flight> SortAndGetRange<TKey>(int start, int take, Expression<Func<Flight, TKey>> predicate, OrderBy order)
+        public Flight Find(string origin, string destination, DateTime departureDate, DateTime returnDate, string currency, int adults)
         {
-            var r = entity.Include(x => x.Currency);
-                    //.ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                    //    .ThenInclude(x => x.Price);
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.PricePerAdult)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.PricePerChild)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.PricePerInfant)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.PricePerSenior)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
-                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
-                //                .ThenInclude(x => x.FlightSegment)
-                //                    .ThenInclude(x => x.Aircraft);
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
-                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
-                //                .ThenInclude(x => x.FlightSegment)
-                //                    .ThenInclude(x => x.Arrival)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
-                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
-                //                .ThenInclude(x => x.FlightSegment)
-                //                    .ThenInclude(x => x.Carrier)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
-                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
-                //                .ThenInclude(x => x.FlightSegment)
-                //                    .ThenInclude(x => x.Departure)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
-                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
-                //                .ThenInclude(x => x.FlightSegment)
-                //                    .ThenInclude(x => x.Operation)
-                //.Include(x => x.Data.Where(q => q.FlightId == x.FlightId))
-                //    .ThenInclude(x => x.OfferItems.Where(q => q.FlightOfferId == x.FlightOfferId))
-                //        .ThenInclude(x => x.Services.Where(q => q.OfferItemId == x.OfferItemId))
-                //            .ThenInclude(x => x.Segments.Where(q => q.ServiceId == x.ServiceId))
-                //                .ThenInclude(x => x.PricingDetailPerAdult);
-                                    
-
-
-
-
-
-            return order == OrderBy.ASC
-                ? entity.Include(x => x.Currency)
-                    //.Include(x => x.Data.Select(s => s.FlightId == x.FlightId))
-
-                    .Include(x => x.Data.Where(w => w.FlightId == x.FlightId))
-                        .ThenInclude(x => x.OfferItems.Where(w => w.FlightOfferId == x.FlightOfferId))
-                            .ThenInclude(x => x.Price)
-                : entity.Include(x => x.Currency)
-                    //.Include(x => x.Data.Select(s => s.FlightId == x.FlightId))
-
-                    .Include(x => x.Data.Where(w => w.FlightId == x.FlightId))
-                        .ThenInclude(x => x.OfferItems.Where(w => w.FlightOfferId == x.FlightOfferId))
-                            .ThenInclude(x => x.Price);
-
-
-            //return order == OrderBy.ASC
-            //    ? entity.Include(x => x.Data.Select(f => f.FlightId == x.FlightId))
-
-            //            .Skip(start).Take(take)
-            //            .AsNoTracking()
-            //            .OrderBy(predicate)
-            //    : entity.Include(x => x.Dictionary)
-            //                .ThenInclude(d => d.DictionaryAircrafts)
-            //            .Include(x => x.Dictionary)
-            //                .ThenInclude(d => d.DictionaryCarriers)
-            //            .Include(x => x.Dictionary)
-            //                .ThenInclude(d => d.DictionaryCurrencies)
-            //            .Include(x => x.Dictionary)
-            //                .ThenInclude(d => d.DictionaryLocations)
-            //            .Skip(start).Take(take)
-            //            .AsNoTracking()
-            //            .OrderByDescending(predicate);
-            throw new NotImplementedException();
+            return entity.Include(x => x.Currency)
+                .Where(x => x.Origin == origin 
+                    && x.Destination == destination 
+                    && x.DepartureDate == departureDate 
+                    && x.ReturnDate == returnDate
+                    && x.Currency.Code == currency
+                    && x.Adults == adults)
+                .FirstOrDefault();
         }
+
 
         public IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departure, string arrival, string date)
         {

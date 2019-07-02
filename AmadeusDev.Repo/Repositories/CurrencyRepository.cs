@@ -28,17 +28,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         Name = model.Value,
                     };
 
-                    var result = FindByCode(currency);
-
-                    if (result == null)
-                    {
-                        context.Add(currency);
-                        context.SaveChanges();
-                        transaction.Commit();
-                        return currency.CurrencyId;
-                    }
-
-                    return result.CurrencyId;
+                    context.Add(currency);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return currency.CurrencyId;
                 }
                 catch (Exception e)
                 {
@@ -50,12 +43,12 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
 
         public Currency FindByCode(Currency currency)
         {
-            return base.Where(x => x.Code == currency.Code).FirstOrDefault();
+            return entity.Where(x => x.Code == currency.Code).FirstOrDefault();
         }
 
         public Currency FindByCode(string code)
         {
-            return base.Where(x => x.Code == code).FirstOrDefault();
+            return entity.Where(x => x.Code == code).FirstOrDefault();
         }
     }
 }

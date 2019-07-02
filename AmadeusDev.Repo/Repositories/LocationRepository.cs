@@ -29,17 +29,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         Name = model.Value,
                     };
 
-                    var result = FindByCode(location);
-
-                    if (result == null)
-                    {
-                        context.Add(location);
-                        context.SaveChanges();
-                        transaction.Commit();
-                        return location.LocationId;
-                    }
-
-                    return result.LocationId;
+                    context.Add(location);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return location.LocationId;
                 }
                 catch (Exception e)
                 {

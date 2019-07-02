@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AmadeusDev.Repo.Migrations
 {
     [DbContext(typeof(AmadeusDevContext))]
-    [Migration("20190701094728_init")]
+    [Migration("20190702002628_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,8 @@ namespace AmadeusDev.Repo.Migrations
                     b.Property<int>("FlightId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Adults");
 
                     b.Property<int>("CurrencyId");
 

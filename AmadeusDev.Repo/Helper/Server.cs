@@ -53,16 +53,16 @@ namespace Jasarsoft.AmadeusDev.Repo.Helper
             request.Headers.Add("Authorization", String.Format("{0} {1}", token.Token_type, token.Access_token));
 
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                string data = reader.ReadToEnd();
+                using (Stream stream = response.GetResponseStream())
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string data = reader.ReadToEnd();
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine("\nRESPONSE FROM SERVER: GET");
-                System.Diagnostics.Debug.WriteLine(data);
+                        System.Diagnostics.Debug.WriteLine("\nRESPONSE FROM SERVER: GET");
+                        System.Diagnostics.Debug.WriteLine(data);
 #endif
-                return data; //return reader.ReadToEnd();
-            }
+                        return data; //return reader.ReadToEnd();
+                    }
         }
     }
 }

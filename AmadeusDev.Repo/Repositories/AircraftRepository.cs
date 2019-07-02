@@ -28,17 +28,10 @@ namespace Jasarsoft.AmadeusDev.Repo.Repositories
                         Name = model.Value,
                     };
 
-                    var result = FindByCode(aircraft);
-
-                    if (result == null)
-                    {
-                        context.Add(aircraft);
-                        context.SaveChanges();
-                        transaction.Commit();
-                        return aircraft.AircraftId;
-                    }
-
-                    return result.AircraftId;
+                    context.Add(aircraft);
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return aircraft.AircraftId;
                 }
                 catch (Exception e)
                 {

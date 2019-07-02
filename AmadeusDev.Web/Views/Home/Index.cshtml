@@ -25,20 +25,38 @@
                         <hr />
                     </div>
                 </div>
-                <div class="row m--margin-bottom-20">
-                    <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
-                        <label>Polazak</label>
-                        <input type="text" class="form-control m-input" placeholder="Polazni aerodrom" data-col-index="1" id="departure-search" />
+                <form id="form-search">
+                    <div class="row m--margin-bottom-20">
+                        <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                            <label for="departure-search">Polazni aerodrom: *</label>
+                            <input type="text" name="departure" class="form-control m-input" placeholder="Polazni aerodrom (IATA)" data-col-index="1" id="departure-search" />
+                            <span id="departure-error" class="m-form__help"></span>
+                        </div>
+                        <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                            <label>Dolazni aerodrom: *</label>
+                            <input type="text" name="arrival" class="form-control m-input" placeholder="Odredisni aerodrom (IATA)" data-col-index="2" id="arrival-search" />
+                        </div>
+                        <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                            <label>Valuta cijena: </label>
+                            <input type="text" name="currency" class="form-control m-input" placeholder="Valuta za cijene (EUR, USD...)" data-col-index="3" id="currency-search" />
+                        </div>
                     </div>
-                    <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
-                        <label>Odrediste</label>
-                        <input type="text" class="form-control m-input" placeholder="Odredisni aerodrom" data-col-index="2" id="arrival-search" />
+                    <div class="row m--margin-bottom-20">
+                        <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                            <label>Datum polaska: *</label>
+                            <input type="text" name="datedeparture" class="form-control m-input" placeholder="Datum polaska" data-col-index="4" id="date-departure-search" />
+                        </div>
+                        <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                            <label>Datum dolaska:</label>
+                            <input type="text" name="datearrival" class="form-control m-input" placeholder="Datum dolaska" data-col-index="5" id="date-arrival-search" />
+                        </div>
+                        <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
+                            <label>Broj putnika:</label>
+                            <input type="text" name="passanger" class="form-control m-input" placeholder="Broj putnika (735)" data-col-index="6" id="adults-search" />
+                        </div>
                     </div>
-                    <div class="col-lg-4 m--margin-bottom-10-tablet-and-mobile">
-                        <label>Datum</label>
-                        <input type="text" class="form-control m-input" placeholder="Datum polaska" data-col-index="3" id="date-search" />
-                    </div>
-                </div>
+                </form>
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <button class="btn btn-brand m-btn m-btn--icon pull-right" id="m_search">
@@ -64,14 +82,14 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th class="text-left">Polazak</th>
-                            <th class="text-left">Odlazak</th>
-                            <th class="text-left">Datum</th>
-                            <th class="text-left">Presjednje</th>
-                            <th class="text-left" title="Putnici title">Putnici</th>
-                            @*<th class="text-left">Valuta</th>*@
-                            <th class="text-left">Cijena</th>
-                            <th class="text-center">Akcija</th>
+                            <th class="text-left" title="Polazni aerodrom"          >Polazak</th>
+                            <th class="text-left" title="Datum i vrijeme polaska"   >Datum polaska</th>
+                            <th class="text-left" title="Dolazni aerodrom"          >Dolazak</th>
+                            <th class="text-left" title="Datum i vrijeme dolaska"   >Datum vracanja</th>
+                            <th class="text-left" title="Broj presjedanja"          >Premjestaj</th>
+                            <th class="text-left" title="Broj mjesta za putnike"    >Mjesta</th>
+                            <th class="text-left" title="Cijena i valuta"           >Cijena</th>
+                            <th class="text-center" title="Dodatne akcije"          >Akcija</th>
                         </tr>
                     </thead>
                 </table>
@@ -99,20 +117,22 @@
                     data: function (d) {
                         d.columns[1].search.value = $("#departure-search").val();
                         d.columns[2].search.value = $("#arrival-search").val();
-                        //d.columns[3].search.value = $("#date-search").val();
+                        d.columns[3].search.value = $("#currency-search").val();
+                        d.columns[4].search.value = $("#date-departure-search").val();
+                        d.columns[5].search.value = $("#date-arrival-search").val();
+                        d.columns[6].search.value = $("#adults-search").val();
                     }
                 },
                 order: [[1, "asc"]],
                 columns: [
                     { 'data': '#' },
                     { 'data': 'departure' },
-                    { 'data': 'arrival' },
                     { 'data': 'departureTime' },
-                    //{ 'data': 'arrivalTime' },
+                    { 'data': 'arrival' },                    
+                    { 'data': 'arrivalTime' },
                     { 'data': 'departureTransfer' },
                     //{ 'data': 'arrivalTransfer' },
-                    { 'data': 'passanger' },
-                    //{ 'data': 'currency' },
+                    { 'data': 'adults' },
                     { 'data': 'price' },
                     { 'data': 'actions' }
                 ],
@@ -134,18 +154,24 @@
                     },
                     {
                         targets: 2,
-                        name: "Arrival",
-                        className: "align-middle text-left"
-
-                    },
-                    {
-                        targets: 3,
                         name: "DepartureTime",
                         className: "align-middle text-left"
 
                     },
                     {
+                        targets: 3,
+                        name: "Arrival",
+                        className: "align-middle text-left"
+
+                    },
+                    {
                         targets: 4,
+                        name: "ArrivalTime",
+                        className: "align-middle text-left"
+
+                    },                    
+                    {
+                        targets: 5,
                         name: "DepartureTransfer",
                         className: "align-middle text-left"
 
@@ -157,8 +183,8 @@
 
                     //},
                     {
-                        targets: 5,
-                        name: "Passanger",
+                        targets: 6,
+                        name: "Adults",
                         className: "align-middle text-left"
 
                     },
@@ -169,7 +195,7 @@
 
                     //},
                     {
-                        targets: 6,
+                        targets: 7,
                         name: "Price",
                         className: "align-middle text-left"
 
@@ -181,7 +207,7 @@
                         orderable: false,
                         render: function (d, t, r, m) {
                             return `
-                                <a href="/Home/Details?id=${r.instructorID}" async: true, data-ajax-modal="true"  data-ajax-modal-destination="modal-lg" class="m-portlet__nav-link btn m-btn m-btn--hover-info m-btn--icon m-btn--icon-only" title="Detalji">
+                                <a href="/Home/Details?id=${r.flightId}" async: true, data-ajax-modal="true"  data-ajax-modal-destination="modal-lg" class="m-portlet__nav-link btn m-btn m-btn--hover-info m-btn--icon m-btn--icon-only" title="Detalji">
                                     <i class="la la-info-circle"></i>
                                 </a>
                                     `
@@ -194,15 +220,61 @@
     }
     $(document).ready(function () {
         DataTable.init();
-        $("#m_search").on('click', function () {
-            $("#datatable").DataTable().ajax.reload();
+        $("#form-search").validate({
+            rules: {
+                departure: {
+                    required: true,
+                },
+                arrival: {
+                    required: true
+                },
+                datedeparture: {
+                    required: true
+                }
+            },
+            messages: {
+                departure: {
+                    required: 'Potrebno je unijeti IATA kod'
+                },
+                arrival: {
+                    required: 'Potrebno je unijeti IATA kod'
+                },
+                datedeparture: {
+                    required: 'Potrebno je odabrati datum'
+                }
+            },
         });
+
+        $("#m_search").on('click', function () {
+            if ($('#form-search').valid()) {
+                $("#datatable").DataTable().ajax.reload();
+            }
+        });          
+       
         $("#m_reset").on('click', function () {
             $("input[type=text]").val('');
             $("#departure-search").val('').trigger('change');
             $("#arrival-search").val('').trigger('change');
-            $("#date-search").val('').trigger('change');
+            $("#currency-search").val('').trigger('change');
+            $("#date-departure-search").val('').trigger('change');
+            $("#date-arrival-search").val('').trigger('change');
+            $("#adults-search").val('').trigger('change');
             $("#m_search").trigger('click');
+        });
+        $("#date-departure-search").daterangepicker({
+            singleDatePicker: true,
+            startDate: new Date(),
+            locale: {
+                format: 'YYYY-MM-DD',
+                useCurrent: true
+            }
+        });
+        $("#date-arrival-search").daterangepicker({
+            singleDatePicker: true,
+            //startDate: new Date(),
+            locale: {
+                format: 'YYYY-MM-DD',
+            }
         });
     });
 </script>

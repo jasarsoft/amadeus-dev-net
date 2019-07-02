@@ -13,7 +13,8 @@ namespace Jasarsoft.AmadeusDev.Repo.IRepositories
         //void Insert(Models.Flights.Flight model);
         int Insert(Flight model);
         Task<int> InsertFlightsAsync(Flight model);
-        Flight Find(string origin, string destination, DateTime date, string currency);
+        Flight Find(string origin, string destination, DateTime departureDate, string currency);
+        Flight Find(string origin, string destination, DateTime departureDate, DateTime returnDate, string currency, int adults);
         IEnumerable<FlightDTO> GetFlights(int start, int take, OrderBy order, string column, string departure, string arrival, string date);
     }
 }

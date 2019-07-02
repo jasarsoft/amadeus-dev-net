@@ -42,7 +42,11 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
         [HttpPost]
         public DataTable<FlightDTO> GetFlights(DataTableOptions pagination)
         {
-            if (pagination.Columns[1].Search.Value == null)
+            var origin = pagination.Columns[1].Search.Value;
+            var destination = pagination.Columns[2].Search.Value;
+            var departureDate = pagination.Columns[4].Search.Value;
+                      
+            if (String.IsNullOrEmpty(origin) || String.IsNullOrEmpty(destination) || String.IsNullOrEmpty(departureDate))
             {
                 return new DataTable<FlightDTO>
                 {
@@ -53,7 +57,11 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
                 };
             }
 
-            var totalRecords = flightService.GetNumberOfFlights("NYC", "MAD", "2019-08-01");
+            var returnDate = pagination.Columns[5].Search.Value;
+            var currency = pagination.Columns[3].Search.Value ?? Default.CURRENCY;
+            var adults = Convert.ToInt32(pagination.Columns[6].Search.Value ?? Default.ADULTS.ToString());
+
+            var totalRecords = flightService.GetNumberOfFlights(origin, destination, departureDate, returnDate, currency, adults);
 
             return new DataTable<FlightDTO>
             {
@@ -64,9 +72,7 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
                                                       pagination.Length,
                                                       pagination.Order[0].Dir,
                                                       pagination.Columns[pagination.Order[0].Column].Name,
-                                                      "NYC",
-                                                      "MAD", //pagination.Columns[2].Search.Value,
-                                                      "2019-08-01")
+                                                      origin, destination, departureDate, returnDate, currency, adults)
             };
         }
     }

@@ -13,16 +13,17 @@ namespace Jasarsoft.AmadeusDev.Data.Flights
 
         public string Origin { get; set; }
         public string Destination { get; set; }
+        public int Adults { get; set; }
+
+        [ForeignKey(nameof(Currency))]
+        public int CurrencyId { get; set; }
+        public Currency Currency { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DepartureDate { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime ReturnDate { get; set; }
-
-        [ForeignKey(nameof(Currency))]
-        public int CurrencyId { get; set; }
-        public Currency Currency { get; set; }
 
         public string Link { get; set; }
         
