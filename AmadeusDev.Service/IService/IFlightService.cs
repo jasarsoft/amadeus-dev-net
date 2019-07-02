@@ -30,5 +30,7 @@ namespace Jasarsoft.AmadeusDev.Service.IService
         Task<Repo.Models.Flights.Flight> ResponseAsync(string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
 
         Task<IEnumerable<FlightDTO>> GetFlightsAsync(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
+
+        Task<Tuple<int, IEnumerable<FlightDTO>>> GetFlightsTupleAsync(int start, int take, string order, string column, string origin, string destination, string departureDate, string returnDate = null, string currency = Default.CURRENCY, int adults = Default.ADULTS);
     }
 }

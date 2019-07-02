@@ -104,9 +104,47 @@ namespace Jasarsoft.AmadeusDev.Web.Controllers
             var currency = (pagination.Columns[3].Search.Value ?? Default.CURRENCY).ToUpper();
             var adults = Convert.ToInt32(pagination.Columns[6].Search.Value ?? Default.ADULTS.ToString());
 
-            var totalRecords = flightService.GetNumberOfFlights(origin, destination, departureDate, returnDate, currency, adults);
-
             var flightTuple = flightService.GetFlightsTuple(pagination.Start,
+                pagination.Length,
+                pagination.Order[0].Dir,
+                pagination.Columns[pagination.Order[0].Column].Name,
+                origin, destination, departureDate, returnDate, currency, adults);
+
+            return new DataTable<FlightDTO>
+            {
+                Draw = pagination.Draw,
+                Data = flightTuple.Item2,
+                RecordsFiltered = flightTuple.Item1,
+                RecordsTotal = flightTuple.Item1,
+            };
+        }
+
+        [HttpPost]
+        public async Task<DataTable<FlightDTO>> GetFlightsTupleAsync(DataTableOptions pagination)
+        {
+            var origin = pagination.Columns[1].Search.Value;
+            var destination = pagination.Columns[2].Search.Value;
+            var departureDate = pagination.Columns[4].Search.Value;
+
+            if (String.IsNullOrEmpty(origin) || String.IsNullOrEmpty(destination) || String.IsNullOrEmpty(departureDate))
+            {
+                return new DataTable<FlightDTO>
+                {
+                    Draw = pagination.Draw,
+                    RecordsTotal = 0,
+                    RecordsFiltered = 0,
+                    Data = new List<FlightDTO>()
+                };
+            }
+
+            origin = origin.ToUpper();
+            destination = destination.ToUpper();
+
+            var returnDate = pagination.Columns[5].Search.Value;
+            var currency = (pagination.Columns[3].Search.Value ?? Default.CURRENCY).ToUpper();
+            var adults = Convert.ToInt32(pagination.Columns[6].Search.Value ?? Default.ADULTS.ToString());
+            
+            var flightTuple = await flightService.GetFlightsTupleAsync(pagination.Start,
                 pagination.Length,
                 pagination.Order[0].Dir,
                 pagination.Columns[pagination.Order[0].Column].Name,
