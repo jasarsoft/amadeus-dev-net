@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Jasarsoft.AmadeusDev.Repo;
+using Jasarsoft.AmadeusDev.Web.Helper;
 
 namespace Jasarsoft.AmadeusDev.Web
 {
@@ -41,16 +42,25 @@ namespace Jasarsoft.AmadeusDev.Web
                 options.Secure = CookieSecurePolicy.SameAsRequest;
                 options.ConsentCookie.IsEssential = true;
             });
-
-            services.AddDbContext<AmadeusDevContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Development")));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddRepositories();
-            services.AddServices();
+            services.AddDistributedMemoryCache();
             services.AddSession(o =>
             {
                 o.Cookie.IsEssential = true;
                 o.Cookie.HttpOnly = true;
             });
+            services.AddDbContext<AmadeusDevContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Development")));
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc()
+                .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) => factory.Create(typeof(Resource));
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<Resource>();
+            services.AddRepositories();
+            services.AddServices();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +80,8 @@ namespace Jasarsoft.AmadeusDev.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            // Localization 
+            app.UseLocalization();
             app.UseAuthentication();
 
             app.UseMvc(routes =>
